@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ProtectSimulation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtectSimulationDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CurrentDiff_Protection.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Distance_Protection.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Electric_Current.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Electric_Voltage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Operation_Case.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Phasor_Angle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Protection_Lib.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="res.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resistance_Impedance.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingValue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Static_Lib.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZeroSeq_Protection.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ProtectSimulation.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtectSimulationDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CurrentDiff_Protection.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Distance_Protection.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Electric_Current.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Electric_Voltage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main_bak.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Operation_Case.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Phasor_Angle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Protection_Lib.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="res.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Resistance_Impedance.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingValue.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Static_Lib.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ZeroSeq_Protection.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ProtectSimulation.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\ProtectSimulation.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\ProtectSimulation.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
