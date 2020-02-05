@@ -72,6 +72,29 @@ void CProtectSimulationDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT11, m_Edit_IBT);
 	DDX_Control(pDX, IDC_EDIT12, m_Edit_ICT);
 
+	//  DDX_Control(pDX, IDC_RADIO1, m_BK_OnSIde);
+	DDX_Control(pDX, IDC_RADIO3, m_BKB_OnSide);
+	DDX_Control(pDX, IDC_RADIO1, m_BKA_OnSide);
+	DDX_Control(pDX, IDC_RADIO5, m_BKC_OnSide);
+	DDX_Control(pDX, IDC_RADIO13, m_BK_OnSide);
+	DDX_Control(pDX, IDC_RADIO7, m_BKA_OffSide);
+	DDX_Control(pDX, IDC_RADIO9, m_BKB_OffSide);
+	DDX_Control(pDX, IDC_RADIO11, m_BKC_OffSide);
+	DDX_Control(pDX, IDC_RADIO15, m_BK_OffSide);
+	DDX_Control(pDX, IDC_EDIT14, m_UAV_OffSide);
+	DDX_Control(pDX, IDC_EDIT15, m_UBV_OffSide);
+	DDX_Control(pDX, IDC_EDIT16, m_UCV_OffSide);
+	DDX_Control(pDX, IDC_EDIT17, m_UAT_OffSide);
+	DDX_Control(pDX, IDC_EDIT18, m_UBT_OffSide);
+	DDX_Control(pDX, IDC_EDIT19, m_UCT_OffSide);
+	DDX_Control(pDX, IDC_EDIT20, m_IAV_OffSide);
+	DDX_Control(pDX, IDC_EDIT21, m_IBV_OffSide);
+	DDX_Control(pDX, IDC_EDIT22, m_ICV_OffSide);
+	DDX_Control(pDX, IDC_EDIT23, m_IAT_OffSide);
+	DDX_Control(pDX, IDC_EDIT24, m_IBT_OffSide);
+	DDX_Control(pDX, IDC_EDIT25, m_ICT_OffSide);
+	DDX_Control(pDX, IDC_EDIT_TEXT2, m_EditText2);
+	DDX_Control(pDX, IDC_EDIT_TEXT3, m_EditText3);
 }
 
 //void CProtectSimulationDlg::InitialDBB()
@@ -156,6 +179,12 @@ BEGIN_MESSAGE_MAP(CProtectSimulationDlg, CDialogEx)
 	ON_WM_NCHITTEST()
 	ON_BN_CLICKED(IDC_BUTTON2, &CProtectSimulationDlg::OnClickedButton2)
 	ON_COMMAND(ID_MENU_ZP, &CProtectSimulationDlg::OnMenuZp)
+	ON_COMMAND(ID_MENU_CPL, &CProtectSimulationDlg::OnMenuCpl)
+	ON_BN_CLICKED(IDC_RADIO13, &CProtectSimulationDlg::OnClickedRadio13)
+	ON_COMMAND(IDC_RADIO14, &CProtectSimulationDlg::OnRadio14)
+	ON_BN_CLICKED(IDC_RADIO15, &CProtectSimulationDlg::OnClickedRadio15)
+	ON_COMMAND(IDC_RADIO16, &CProtectSimulationDlg::OnRadio16)
+	ON_COMMAND(ID_MENU_CP, &CProtectSimulationDlg::OnMenuCp)
 END_MESSAGE_MAP()
 
 
@@ -219,7 +248,28 @@ BOOL CProtectSimulationDlg::OnInitDialog()
 	m_Edit_IAT.SetWindowTextW(_T("0"));
 	m_Edit_IBT.SetWindowTextW(_T("-120"));
 	m_Edit_ICT.SetWindowTextW(_T("120"));
+	m_UAV_OffSide.SetWindowTextW(_T("57.74"));
+	m_UBV_OffSide.SetWindowTextW(_T("57.74"));
+	m_UCV_OffSide.SetWindowTextW(_T("57.74"));
+	m_UAT_OffSide.SetWindowTextW(_T("0"));
+	m_UBT_OffSide.SetWindowTextW(_T("-120"));
+	m_UCT_OffSide.SetWindowTextW(_T("120"));
+	m_IAV_OffSide.SetWindowTextW(_T("0"));
+	m_IBV_OffSide.SetWindowTextW(_T("0"));
+	m_ICV_OffSide.SetWindowTextW(_T("0"));
+	m_IAT_OffSide.SetWindowTextW(_T("0"));
+	m_IBT_OffSide.SetWindowTextW(_T("-120"));
+	m_ICT_OffSide.SetWindowTextW(_T("120"));
 	m_ChooseProtect = -1;
+	((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO13))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO15))->SetCheck(TRUE);
+	UpdateData(FALSE);
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -292,6 +342,14 @@ void CProtectSimulationDlg::OnMenuDp()
 	CString strAdd = _T("切换至距离保护调试\r\n");
 	AppendText(IDC_EDIT_TEXT,strAdd);
 	FrameSwitch(m_ChooseProtect);
+	((CButton*)GetDlgItem(IDC_RADIO1))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO2))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO3))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO4))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO5))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO6))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO13))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO14))->EnableWindow(FALSE);
 }
 
 
@@ -305,8 +363,108 @@ void CProtectSimulationDlg::OnClickedButton1()
 		break;
 	}
 	case 0:
+	{
+		UpdateData(FALSE);
+		vector<Electric_Voltage> U_m;
+		vector<Electric_Current> I_m;
+		InputUData(U_m);
+		InputIData(I_m);
+		StartTime = clock();
+		CurrentDiff_Protection CP(U_m, I_m,1,GetBKState(IDC_RADIO13));
+		CP.CurrentDiffProtectionLoop();
+		AppendText(IDC_EDIT_TEXT, _T("本侧保护：\r\n"));
+		ProtectReport(CP.GetProtectAcionState(), IDC_EDIT_TEXT);
+		CString str;
+		if (CP.GetIsStart() == 1)
+		{
+			AppendText(IDC_EDIT_TEXT, _T("保护启动\r\n"));
+		}
+		AppendText(IDC_EDIT_TEXT, _T("差动保护动作：差动电流="));
+		str.Format(_T("%.3lf"), CP.GetI_Diff());
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("    制动电流="));
+		str.Format(_T("%.3lf"), CP.GetI_B());
+		AppendText(IDC_EDIT_TEXT, str);
+		if (CP.GetActionTime() != 0)
+		{
+			AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
+			CString strT;
+			strT.Format(_T("%.1lf"), CP.GetActionTime());
+			AppendText(IDC_EDIT_TEXT, strT);
+			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+		}
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
+	}
 		break;
 	case 1:
+	{
+		UpdateData(FALSE);
+		vector<Electric_Voltage> U_m;
+		vector<Electric_Current> I_m;
+		InputUData(U_m);
+		InputIData(I_m);
+		StartTime = clock();
+		CurrentDiff_Protection CP_OnSide(U_m, I_m, 0, GetBKState(IDC_RADIO13));
+		vector<Electric_Voltage> U_m_OffSide;
+		vector<Electric_Current> I_m_OffSide;
+		InputUData_OffSide(U_m_OffSide);
+		InputIData_OffSide(I_m_OffSide);
+		CurrentDiff_Protection CP_OffSide(U_m_OffSide, I_m_OffSide, 0, GetBKState(IDC_RADIO15));
+		CurrentDiffProtection(CP_OnSide, CP_OffSide);
+		AppendText(IDC_EDIT_TEXT2, _T("本侧保护：\r\n"));
+		AppendText(IDC_EDIT_TEXT3, _T("对侧保护：\r\n"));
+		ProtectReport(CP_OnSide.GetProtectAcionState(),IDC_EDIT_TEXT2);
+		ProtectReport(CP_OffSide.GetProtectAcionState(),IDC_EDIT_TEXT3);
+		CString str;
+		if (CP_OnSide.GetIsStart() == 1&&CP_OnSide.GetIsWeedBack()==1)
+		{
+			AppendText(IDC_EDIT_TEXT2, _T("保护弱馈启动\r\n"));
+		}
+		if (CP_OnSide.GetIsStart() == 1 && CP_OnSide.GetIsWeedBack() == 0)
+		{
+			AppendText(IDC_EDIT_TEXT2, _T("保护启动\r\n"));
+		}
+		if (CP_OffSide.GetIsStart() == 1 && CP_OffSide.GetIsWeedBack() == 1)
+		{
+			AppendText(IDC_EDIT_TEXT3, _T("保护弱馈启动\r\n"));
+		}
+		if (CP_OffSide.GetIsStart() == 1 && CP_OffSide.GetIsWeedBack() == 0)
+		{
+			AppendText(IDC_EDIT_TEXT3, _T("保护启动\r\n"));
+		}
+
+		AppendText(IDC_EDIT_TEXT2, _T("差动保护动作：差动电流="));
+		str.Format(_T("%.3lf"), CP_OnSide.GetI_Diff());
+		AppendText(IDC_EDIT_TEXT2, str);
+		AppendText(IDC_EDIT_TEXT2, _T("    制动电流="));
+		str.Format(_T("%.3lf"), CP_OnSide.GetI_B());
+		AppendText(IDC_EDIT_TEXT2, str);
+		if (CP_OnSide.GetActionTime() != 0)
+		{
+			AppendText(IDC_EDIT_TEXT2, _T("\r\n动作时间："));
+			CString strT;
+			strT.Format(_T("%.1lf"), CP_OnSide.GetActionTime());
+			AppendText(IDC_EDIT_TEXT2, strT);
+			AppendText(IDC_EDIT_TEXT2, _T("ms\r\n"));
+		}
+		AppendText(IDC_EDIT_TEXT2, _T("\r\n"));
+
+		AppendText(IDC_EDIT_TEXT3, _T("差动保护动作：差动电流="));
+		str.Format(_T("%.3lf"), CP_OffSide.GetI_Diff());
+		AppendText(IDC_EDIT_TEXT3, str);
+		AppendText(IDC_EDIT_TEXT3, _T("    制动电流="));
+		str.Format(_T("%.3lf"), CP_OffSide.GetI_B());
+		AppendText(IDC_EDIT_TEXT3, str);
+		if (CP_OffSide.GetActionTime() != 0)
+		{
+			AppendText(IDC_EDIT_TEXT3, _T("\r\n动作时间："));
+			CString strT;
+			strT.Format(_T("%.1lf"), min(CP_OnSide.GetActionTime(),CP_OffSide.GetActionTime()));
+			AppendText(IDC_EDIT_TEXT3, strT);
+			AppendText(IDC_EDIT_TEXT3, _T("ms\r\n"));
+		}
+		AppendText(IDC_EDIT_TEXT3, _T("\r\n"));
+	}
 		break;
 	case 2:
 	{
@@ -318,7 +476,7 @@ void CProtectSimulationDlg::OnClickedButton1()
 		Distance_Protection DP(U_m, I_m);
 		StartTime = clock();
 		DP.DistanceProtection();
-		ProtectReport(DP.GetProtectAcionState());
+		ProtectReport(DP.GetProtectAcionState(), IDC_EDIT_TEXT);
 		ProtectActionReport_DP(DP.GetWhich_Protection(),DP.GetZ_m().first.ReturnR(), DP.GetZ_m().first.ReturnX());
 		if (DP.GetActionTime() != 0)
 		{
@@ -341,7 +499,7 @@ void CProtectSimulationDlg::OnClickedButton1()
 		ZeroSeq_Protection ZP(U_m, I_m);
 		StartTime = clock();
 		ZP.ZeroSeqProtection();
-		ProtectReport(ZP.GetProtectAcionState());
+		ProtectReport(ZP.GetProtectAcionState(),IDC_EDIT_TEXT);
 		ProtectActionReport_ZP(ZP.GetWhich_Protection(), ZP.GetUZ(), ZP.GetIZ());
 		if (ZP.GetActionTime() != 0)
 		{
@@ -392,6 +550,19 @@ void CProtectSimulationDlg::FrameSwitch(int ChooseProtect)
 		GetDlgItem(IDC_EDIT23)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT24)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT25)->ShowWindow(TRUE);
+
+		GetDlgItem(IDC_STATIC_OFFSIDE)->ShowWindow(TRUE);
+		GetDlgItem(IDC_RADIO7)->ShowWindow(TRUE);
+		GetDlgItem(IDC_RADIO8)->ShowWindow(TRUE);
+		GetDlgItem(IDC_RADIO9)->ShowWindow(TRUE);
+		GetDlgItem(IDC_RADIO10)->ShowWindow(TRUE);
+		GetDlgItem(IDC_RADIO11)->ShowWindow(TRUE);
+		GetDlgItem(IDC_RADIO12)->ShowWindow(TRUE);
+		GetDlgItem(IDC_RADIO15)->ShowWindow(TRUE);
+		GetDlgItem(IDC_RADIO16)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_TEXT)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT_TEXT2)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_TEXT3)->ShowWindow(TRUE);
 	}
 	else
 	{
@@ -421,6 +592,19 @@ void CProtectSimulationDlg::FrameSwitch(int ChooseProtect)
 		GetDlgItem(IDC_EDIT23)->ShowWindow(FALSE);
 		GetDlgItem(IDC_EDIT24)->ShowWindow(FALSE);
 		GetDlgItem(IDC_EDIT25)->ShowWindow(FALSE);
+
+		GetDlgItem(IDC_STATIC_OFFSIDE)->ShowWindow(FALSE);
+		GetDlgItem(IDC_RADIO7)->ShowWindow(FALSE);
+		GetDlgItem(IDC_RADIO8)->ShowWindow(FALSE);
+		GetDlgItem(IDC_RADIO9)->ShowWindow(FALSE);
+		GetDlgItem(IDC_RADIO10)->ShowWindow(FALSE);
+		GetDlgItem(IDC_RADIO11)->ShowWindow(FALSE);
+		GetDlgItem(IDC_RADIO12)->ShowWindow(FALSE);
+		GetDlgItem(IDC_RADIO15)->ShowWindow(FALSE);
+		GetDlgItem(IDC_RADIO16)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT_TEXT)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_TEXT2)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT_TEXT3)->ShowWindow(FALSE);
 	}
 	// TODO: 在此处添加实现代码.
 }
@@ -436,39 +620,223 @@ void CProtectSimulationDlg::AppendText(int controlId, CString strAdd)
 
 
 // //输出报文
-void CProtectSimulationDlg::ProtectReport(int stat)
+void CProtectSimulationDlg::ProtectReport(int stat,int nID)
 {
 	switch (stat)
 	{
 	case ProtectAction_A:
-		AppendText(IDC_EDIT_TEXT, _T("A相故障\r\n保护跳A相\r\n"));
+		AppendText(nID, _T("A相故障\r\n保护跳A相\r\n"));
+		if (nID == IDC_EDIT_TEXT3)
+		{
+			((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO8))->SetCheck(TRUE);
+		}
+		else
+		{
+			((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+		}
 		break;
 	case ProtectAction_B:
-		AppendText(IDC_EDIT_TEXT, _T("B相故障\r\n保护跳B相\r\n"));
+		AppendText(nID, _T("B相故障\r\n保护跳B相\r\n"));
+		if (nID == IDC_EDIT_TEXT3)
+		{
+			((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO10))->SetCheck(TRUE);
+		}
+		else
+		{
+			((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO4))->SetCheck(TRUE);
+		}
 		break;
 	case ProtectAction_C:
-		AppendText(IDC_EDIT_TEXT, _T("C相故障\r\n保护跳C相\r\n"));
+		AppendText(nID, _T("C相故障\r\n保护跳C相\r\n"));
+		if (nID == IDC_EDIT_TEXT3)
+		{
+			((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(TRUE);
+		}
+		else
+		{
+			((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO6))->SetCheck(TRUE);
+		}
 		break;
 	case ProtectAction_AB:
-		AppendText(IDC_EDIT_TEXT, _T("AB相间故障\r\n保护三跳\r\n"));
+		AppendText(nID, _T("AB相间故障\r\n保护三跳\r\n"));
+		if (nID == IDC_EDIT_TEXT3)
+		{
+			((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO8))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO10))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO15))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO16))->SetCheck(TRUE);
+		}
+		else
+		{
+			((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO4))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO6))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO13))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO14))->SetCheck(TRUE);
+		}
 		break;
 	case ProtectAction_BC:
-		AppendText(IDC_EDIT_TEXT, _T("BC相间故障\r\n保护三跳\r\n"));
+		AppendText(nID, _T("BC相间故障\r\n保护三跳\r\n"));
+		if (nID == IDC_EDIT_TEXT3)
+		{
+			((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO8))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO10))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO15))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO16))->SetCheck(TRUE);
+		}
+		else
+		{
+			((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO4))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO6))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO13))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO14))->SetCheck(TRUE);
+		}
 		break;
 	case ProtectAction_CA:
-		AppendText(IDC_EDIT_TEXT, _T("AC相间故障\r\n保护三跳\r\n"));
+		AppendText(nID, _T("AC相间故障\r\n保护三跳\r\n"));
+		if (nID == IDC_EDIT_TEXT3)
+		{
+			((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO8))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO10))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO15))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO16))->SetCheck(TRUE);
+		}
+		else
+		{
+			((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO4))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO6))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO13))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO14))->SetCheck(TRUE);
+		}
 		break;
 	case ProtectAction_ABN:
-		AppendText(IDC_EDIT_TEXT, _T("AB相间短路接地故障\r\n保护三跳\r\n"));
+		AppendText(nID, _T("AB相间短路接地故障\r\n保护三跳\r\n"));
+		if (nID == IDC_EDIT_TEXT3)
+		{
+			((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO8))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO10))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO15))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO16))->SetCheck(TRUE);
+		}
+		else
+		{
+			((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO4))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO6))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO13))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO14))->SetCheck(TRUE);
+		}
 		break;
 	case ProtectAction_BCN:
-		AppendText(IDC_EDIT_TEXT, _T("BC相间短路接地故障\r\n保护三跳\r\n"));
+		AppendText(nID, _T("BC相间短路接地故障\r\n保护三跳\r\n"));
+		if (nID == IDC_EDIT_TEXT3)
+		{
+			((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO8))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO10))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO15))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO16))->SetCheck(TRUE);
+		}
+		else
+		{
+			((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO4))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO6))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO13))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO14))->SetCheck(TRUE);
+		}
 		break;
 	case ProtectAction_CAN:
-		AppendText(IDC_EDIT_TEXT, _T("AC相间短路接地故障\r\n保护三跳\r\n"));
+		AppendText(nID, _T("AC相间短路接地故障\r\n保护三跳\r\n"));
+		if (nID == IDC_EDIT_TEXT3)
+		{
+			((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO8))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO10))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO15))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO16))->SetCheck(TRUE);
+		}
+		else
+		{
+			((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO4))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO6))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO13))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO14))->SetCheck(TRUE);
+		}
 		break;
 	case ProtectAction_ABC:
-		AppendText(IDC_EDIT_TEXT, _T("ABC三相短路故障\r\n保护三跳\r\n"));
+		AppendText(nID, _T("ABC三相短路故障\r\n保护三跳\r\n"));
+		if (nID == IDC_EDIT_TEXT3)
+		{
+			((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO8))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO10))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO15))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO16))->SetCheck(TRUE);
+		}
+		else
+		{
+			((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO4))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO6))->SetCheck(TRUE);
+			((CButton*)GetDlgItem(IDC_RADIO13))->SetCheck(FALSE);
+			((CButton*)GetDlgItem(IDC_RADIO14))->SetCheck(TRUE);
+		}
 		break;
 	case ProtectNoAction:
 		AppendText(IDC_EDIT_TEXT, _T("无故障\r\n"));
@@ -638,6 +1006,48 @@ void CProtectSimulationDlg::ProtectActionReport_DP(ActionState Stat, double R, d
 void CProtectSimulationDlg::OnClickedButton2()
 {
 	m_EditText.SetWindowTextW(_T(""));
+	m_EditText2.SetWindowTextW(_T(""));
+	m_EditText3.SetWindowTextW(_T(""));
+	((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO4))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO6))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO13))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO14))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO8))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO10))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO15))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO16))->SetCheck(FALSE);
+	m_Edit_UAV.SetWindowTextW(_T("57.74"));
+	m_Edit_UBV.SetWindowTextW(_T("57.74"));
+	m_Edit_UCV.SetWindowTextW(_T("57.74"));
+	m_Edit_UAT.SetWindowTextW(_T("0"));
+	m_Edit_UBT.SetWindowTextW(_T("-120"));
+	m_Edit_UCT.SetWindowTextW(_T("120"));
+	m_Edit_IAV.SetWindowTextW(_T("0"));
+	m_Edit_IBV.SetWindowTextW(_T("0"));
+	m_Edit_ICV.SetWindowTextW(_T("0"));
+	m_Edit_IAT.SetWindowTextW(_T("0"));
+	m_Edit_IBT.SetWindowTextW(_T("-120"));
+	m_Edit_ICT.SetWindowTextW(_T("120"));
+	m_UAV_OffSide.SetWindowTextW(_T("57.74"));
+	m_UBV_OffSide.SetWindowTextW(_T("57.74"));
+	m_UCV_OffSide.SetWindowTextW(_T("57.74"));
+	m_UAT_OffSide.SetWindowTextW(_T("0"));
+	m_UBT_OffSide.SetWindowTextW(_T("-120"));
+	m_UCT_OffSide.SetWindowTextW(_T("120"));
+	m_IAV_OffSide.SetWindowTextW(_T("0"));
+	m_IBV_OffSide.SetWindowTextW(_T("0"));
+	m_ICV_OffSide.SetWindowTextW(_T("0"));
+	m_IAT_OffSide.SetWindowTextW(_T("0"));
+	m_IBT_OffSide.SetWindowTextW(_T("-120"));
+	m_ICT_OffSide.SetWindowTextW(_T("120"));
 	// TODO: 在此添加控件通知处理程序代码
 }
 
@@ -649,6 +1059,14 @@ void CProtectSimulationDlg::OnMenuZp()
 	CString strAdd = _T("切换至零序保护调试\r\n");
 	AppendText(IDC_EDIT_TEXT, strAdd);
 	FrameSwitch(m_ChooseProtect);
+	((CButton*)GetDlgItem(IDC_RADIO1))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO2))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO3))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO4))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO5))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO6))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO13))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO14))->EnableWindow(FALSE);
 	// TODO: 在此添加命令处理程序代码
 }
 
@@ -691,5 +1109,182 @@ void CProtectSimulationDlg::ProtectActionReport_ZP(ActionState stat, Electric_Vo
 	default:
 		break;
 	}
+	// TODO: 在此处添加实现代码.
+}
+
+
+void CProtectSimulationDlg::OnMenuCpl()
+{
+	m_ChooseProtect = 0;
+	m_EditText.SetWindowTextW(_T(""));
+	CString strAdd = _T("切换至光纤纵差保护(自环)调试\r\n");
+	AppendText(IDC_EDIT_TEXT, strAdd);
+	FrameSwitch(m_ChooseProtect);
+	((CButton*)GetDlgItem(IDC_RADIO1))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO2))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO3))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO4))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO5))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO6))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO13))->EnableWindow(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO14))->EnableWindow(FALSE);
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+//void CProtectSimulationDlg::OnRadio1()
+//{
+//	if (m_ChooseProtect==0|| m_ChooseProtect == 1)
+//	{
+//		m_Breaker_BenCe = 1;
+//	}
+//	// TODO: 在此添加命令处理程序代码
+//}
+
+
+//void CProtectSimulationDlg::OnRadio2()
+//{
+//	if (m_ChooseProtect == 0 || m_ChooseProtect == 1)
+//	{
+//		m_Breaker_BenCe = 0;
+//	}
+//	// TODO: 在此添加命令处理程序代码
+//}
+
+
+//void CProtectSimulationDlg::OnRadio3()
+//{
+//	if (m_ChooseProtect == 0 || m_ChooseProtect == 1)
+//	{
+//		m_Breaker_DuiCe = 1;
+//	}
+//	// TODO: 在此添加命令处理程序代码
+//}
+
+
+//void CProtectSimulationDlg::OnRadio4()
+//{
+//	if (m_ChooseProtect == 0 || m_ChooseProtect == 1)
+//	{
+//		m_Breaker_DuiCe = 0;
+//	}
+//	// TODO: 在此添加命令处理程序代码
+//}
+
+
+void CProtectSimulationDlg::OnClickedRadio13()
+{
+	((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO4))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO6))->SetCheck(FALSE);
+	UpdateData(FALSE);
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CProtectSimulationDlg::OnRadio14()
+{
+	((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO4))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO6))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO5))->SetCheck(FALSE);
+	UpdateData(FALSE);
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CProtectSimulationDlg::OnClickedRadio15()
+{
+	((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO8))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO10))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(FALSE);
+	UpdateData(FALSE);
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CProtectSimulationDlg::OnRadio16()
+{
+	((CButton*)GetDlgItem(IDC_RADIO8))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO10))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO9))->SetCheck(FALSE);
+	((CButton*)GetDlgItem(IDC_RADIO11))->SetCheck(FALSE);
+	UpdateData(FALSE);
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+int CProtectSimulationDlg::GetBKState(int BK)
+{
+	// TODO: 在此处添加实现代码.
+	if (((CButton*)GetDlgItem(BK))->GetCheck())
+		return 1;
+	return 0;
+}
+
+
+void CProtectSimulationDlg::OnMenuCp()
+{
+	m_ChooseProtect = 1;
+	m_EditText.SetWindowTextW(_T(""));
+	CString strAdd = _T("切换至光纤纵差保护(联调)调试\r\n");
+	AppendText(IDC_EDIT_TEXT, strAdd);
+	FrameSwitch(m_ChooseProtect);
+	((CButton*)GetDlgItem(IDC_RADIO1))->EnableWindow(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO2))->EnableWindow(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO3))->EnableWindow(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO4))->EnableWindow(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO5))->EnableWindow(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO6))->EnableWindow(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO13))->EnableWindow(TRUE);
+	((CButton*)GetDlgItem(IDC_RADIO14))->EnableWindow(TRUE);
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CProtectSimulationDlg::InputUData_OffSide(vector<Electric_Voltage>& U_m)
+{
+	CString U_A_V, U_A_T, U_B_V, U_B_T, U_C_V, U_C_T;
+	m_UAV_OffSide.GetWindowTextW(U_A_V);
+	m_UAT_OffSide.GetWindowTextW(U_A_T);
+	m_UBV_OffSide.GetWindowTextW(U_B_V);
+	m_UBT_OffSide.GetWindowTextW(U_B_T);
+	m_UCV_OffSide.GetWindowTextW(U_C_V);
+	m_UCT_OffSide.GetWindowTextW(U_C_T);
+	Electric_Voltage U_A(_ttof(U_A_V), _ttof(U_A_T));
+	Electric_Voltage U_B(_ttof(U_B_V), _ttof(U_B_T));
+	Electric_Voltage U_C(_ttof(U_C_V), _ttof(U_C_T));
+	U_m.push_back(U_A);
+	U_m.push_back(U_B);
+	U_m.push_back(U_C);
+	// TODO: 在此处添加实现代码.
+}
+
+
+void CProtectSimulationDlg::InputIData_OffSide(vector<Electric_Current>& I_m)
+{
+	CString I_A_V, I_A_T, I_B_V, I_B_T, I_C_V, I_C_T;
+	m_IAV_OffSide.GetWindowTextW(I_A_V);
+	m_IAT_OffSide.GetWindowTextW(I_A_T);
+	m_IBV_OffSide.GetWindowTextW(I_B_V);
+	m_IBT_OffSide.GetWindowTextW(I_B_T);
+	m_ICV_OffSide.GetWindowTextW(I_C_V);
+	m_ICT_OffSide.GetWindowTextW(I_C_T);
+	Electric_Current I_A(_ttof(I_A_V), _ttof(I_A_T));
+	Electric_Current I_B(_ttof(I_B_V), _ttof(I_B_T));
+	Electric_Current I_C(_ttof(I_C_V), _ttof(I_C_T));
+	I_m.push_back(I_A);
+	I_m.push_back(I_B);
+	I_m.push_back(I_C);
 	// TODO: 在此处添加实现代码.
 }

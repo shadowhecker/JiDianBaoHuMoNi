@@ -61,6 +61,25 @@
 #define IDC_STATIC24                    1051
 #define IDC_BUTTON1                     1052
 #define IDC_BUTTON2                     1053
+#define IDC_EDIT_TEXT2                  1054
+#define IDC_EDIT_TEXT3                  1055
+#define IDC_RADIO1                      1064
+#define IDC_RADIO13                     1065
+#define IDC_STATIC_OFFSIDE              1066
+#define IDC_RADIO2                      1070
+#define IDC_RADIO3                      1071
+#define IDC_RADIO4                      1072
+#define IDC_RADIO5                      1073
+#define IDC_RADIO6                      1074
+#define IDC_RADIO7                      1075
+#define IDC_RADIO8                      1076
+#define IDC_RADIO9                      1077
+#define IDC_RADIO10                     1078
+#define IDC_RADIO11                     1079
+#define IDC_RADIO12                     1080
+#define IDC_RADIO14                     1081
+#define IDC_RADIO15                     1082
+#define IDC_RADIO16                     1083
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -77,7 +96,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         32780
-#define _APS_NEXT_CONTROL_VALUE         1054
+#define _APS_NEXT_CONTROL_VALUE         1067
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -18,8 +18,12 @@ public:
 	CurrentDiff_Protection(vector<Electric_Voltage> U_m, vector<Electric_Current> I_m, int Loop, int Breaker);
 	friend void SyncCPStat(CurrentDiff_Protection& CP_m, CurrentDiff_Protection& CP_n);//同步双侧保护的状态量
 	friend void AllSideStart(CurrentDiff_Protection& CP_m, CurrentDiff_Protection& CP_n);//双侧的保护状态确认
-	friend vector<ActionState> CurrentDiffProtection(CurrentDiff_Protection& CP_m, CurrentDiff_Protection& CP_n);//差动保护联调算法
-	ActionState CurrentDiffProtectionLoop();//自环状态下
+	friend void CurrentDiffProtection(CurrentDiff_Protection& CP_m, CurrentDiff_Protection& CP_n);//差动保护联调算法
+	void CurrentDiffProtectionLoop();//自环状态下
+	ActionState GetProtectAcionState();
+	double GetActionTime();
+	int GetIsStart();
+	int GetIsWeedBack();
 private:
 	vector<Electric_Voltage> U_OnSide;//本侧电压
 	vector<Electric_Current> I_OnSide;//本侧电流
@@ -31,5 +35,7 @@ private:
 	int ReceiveActionSingle;//对侧发送至本侧允许信号
 	int SendActionSingleStat;//发送至对侧的允许信号
 	int IsStart;//本侧装置是否启动
+	int IsWeedBack;//判断本侧是否弱馈启动
+	ActionState ProtectActionState;
+	double ActionTime;
 };
-

@@ -40,6 +40,7 @@ int CurrentDiff_Protection::OtherProtectStart()//弱馈及远方召唤启动
 	if (BreakerStat==1&&IsStart==0&&WeekFeedBack(IsStart, ReceiveActionSingle, I_Diff_Ca, U_OnSide, I_OnSide) == 1) //|| RemoteCallStart(IsStart, ReceiveActionSingle, I_Diff_Ca, U_OnSide, I_OnSide) == 1)远方召唤暂且不模拟
 	{
 		IsStart = 1;
+		IsWeedBack = 1;
 		SendActionSingle();
 		return 1;
 	}
@@ -80,9 +81,10 @@ CurrentDiff_Protection::CurrentDiff_Protection(vector<Electric_Voltage> U_m, vec
 	int ReceiveActionSingle = 0;
 	int SendActionSingle = 0;
 	int IsStart = 0;
+	int IsWeedBack = 0;
 }
 
-ActionState CurrentDiff_Protection::CurrentDiffProtectionLoop()
+void CurrentDiff_Protection::CurrentDiffProtectionLoop()
 {
 	I_DB = Caculate_CurrentDiff(U_OnSide, I_OnSide, U_OnSide, I_OnSide);
 	SelfSideStart();
@@ -90,13 +92,42 @@ ActionState CurrentDiff_Protection::CurrentDiffProtectionLoop()
 	{
 		if (CurrentDiffAlgor(I_DB.first.first, I_DB.first.second))
 		{
-			return FaultToProtection[I_DB.second.first];
+			ProtectActionState = FaultToProtection[I_DB.second.first];
+			FixTimeDelay(10);
+			EndTime = clock();
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+		}
 	}
 	else
-		return ProtectNoAction;
+	{
+		ActionTime = 0;
+		ProtectActionState = ProtectNoAction;
+	}
+}
+
+ActionState CurrentDiff_Protection::GetProtectAcionState()
+{
+	return ProtectActionState;
+}
+
+double CurrentDiff_Protection::GetActionTime()
+{
+	return ActionTime;
+}
+
+int CurrentDiff_Protection::GetIsStart()
+{
+	return IsStart;
+}
+
+int CurrentDiff_Protection::GetIsWeedBack()
+{
+	return IsWeedBack;
 }
 
 
@@ -122,56 +153,58 @@ void AllSideStart(CurrentDiff_Protection& CP_m, CurrentDiff_Protection& CP_n)
 	SyncCPStat(CP_m, CP_n);
 	CP_m.I_DB = Caculate_CurrentDiff(CP_m.U_OnSide, CP_m.I_OnSide, CP_n.U_OnSide, CP_n.I_OnSide);
 	CP_n.I_DB = Caculate_CurrentDiff(CP_n.U_OnSide, CP_n.I_OnSide, CP_m.U_OnSide, CP_m.I_OnSide);
-	if (CP_m.ProtectStart())
-	{
-		cout << "本侧保护启动" << endl;
-	}
+	CP_m.ProtectStart();
 	CP_m.SendActionSingle();
-	if (CP_n.ProtectStart())
-	{
-		cout << "对侧保护启动" << endl;
-	}
+	CP_n.ProtectStart();
 	CP_n.SendActionSingle();
 	SyncCPStat(CP_m, CP_n);
-	if (CP_m.OtherProtectStart())
-	{
-		cout << "本侧保护弱馈启动" << endl;
-	}
-	if (CP_n.OtherProtectStart())
-	{
-		cout << "对侧保护弱馈启动" << endl;
-	}
+	CP_m.OtherProtectStart();
+	CP_n.OtherProtectStart();
 	SyncCPStat(CP_m, CP_n);
 }
 
-vector<ActionState> CurrentDiffProtection(CurrentDiff_Protection& CP_m, CurrentDiff_Protection& CP_n)
+void CurrentDiffProtection(CurrentDiff_Protection& CP_m, CurrentDiff_Protection& CP_n)
 {
 	AllSideStart(CP_m, CP_n);
-	int ACS_m, ACS_n;
 	vector<int> result;
 	if (CP_m.IsStart == 1 && CP_m.BreakerStat == 1 && CP_m.ReceiveActionSingle == 1)
 	{
 		if (CurrentDiffAlgor(CP_m.I_DB.first.first, CP_m.I_DB.first.first))
 		{
-			ACS_m = FaultToProtection[CP_m.I_DB.second.first];
+			CP_m.ProtectActionState = FaultToProtection[CP_m.I_DB.second.first];
+			FixTimeDelay(10);
+			EndTime = clock();
+			CP_m.ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
 		}
 		else
-			ACS_m = ProtectNoAction;
+		{
+			CP_m.ActionTime = 0;
+			CP_m.ProtectActionState = ProtectNoAction;
+		}
 	}
 	else
-		ACS_m=ProtectNoAction;
+	{
+		CP_m.ActionTime = 0;
+		CP_m.ProtectActionState = ProtectNoAction;
+	}
 	if (CP_n.IsStart == 1 && CP_n.BreakerStat == 1 && CP_n.ReceiveActionSingle == 1)
 	{
 		if (CurrentDiffAlgor(CP_n.I_DB.first.first, CP_n.I_DB.first.first))
 		{
-			ACS_n = FaultToProtection[CP_n.I_DB.second.first];
+			CP_n.ProtectActionState = FaultToProtection[CP_n.I_DB.second.first];
+			FixTimeDelay(10);
+			EndTime = clock();
+			CP_n.ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
 		}
 		else
-			ACS_n = ProtectNoAction;
+		{
+			CP_n.ActionTime = 0;
+			CP_n.ProtectActionState = ProtectNoAction;
+		}
 	}
 	else
-		ACS_n == ProtectNoAction;
-	result.push_back(ACS_m);
-	result.push_back(ACS_n);
-	return result;
+	{
+		CP_n.ActionTime = 0;
+		CP_n.ProtectActionState = ProtectNoAction;
+	}
 }

@@ -60,7 +60,6 @@ int main()
 			cout << "请输入电流量(以空格分开)：";
 			InputCurrent(I_m);
 			CurrentDiff_Protection CP(U_m, I_m, 1, 1);
-			TranslateProtectState(CP.CurrentDiffProtectionLoop());
 			cout << "差动电流：" << CP.GetI_Diff() << "   " << "制动电流" << CP.GetI_B() << endl;
 			break;
 		}
@@ -89,12 +88,9 @@ int main()
 			fflush(stdin);
 			cin >> breaker_n;
 			CurrentDiff_Protection CP_n(U_n, I_n, 0, breaker_n);
-			auto i=CurrentDiffProtection(CP_m, CP_n);
 			cout << "本侧保护：";
-			TranslateProtectState(i[0]);
 			cout << "差动电流：" << CP_m.GetI_Diff() << "   " << "制动电流" << CP_m.GetI_B() << endl;
 			cout << "对侧保护：";
-			TranslateProtectState(i[1]);
 			cout << "差动电流：" << CP_n.GetI_Diff() << "   " << "制动电流" << CP_n.GetI_B() << endl;
 			break;
 		}
