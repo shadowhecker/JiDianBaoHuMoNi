@@ -29,6 +29,8 @@ public:
 // 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedMfclink1();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -41,6 +43,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	ON_BN_CLICKED(IDC_MFCLINK1, &CAboutDlg::OnBnClickedMfclink1)
 END_MESSAGE_MAP()
 
 
@@ -185,6 +188,7 @@ BEGIN_MESSAGE_MAP(CProtectSimulationDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_RADIO15, &CProtectSimulationDlg::OnClickedRadio15)
 	ON_COMMAND(IDC_RADIO16, &CProtectSimulationDlg::OnRadio16)
 	ON_COMMAND(ID_MENU_CP, &CProtectSimulationDlg::OnMenuCp)
+	ON_COMMAND(ID_MENU_ABOUT, &CProtectSimulationDlg::OnMenuAbout)
 END_MESSAGE_MAP()
 
 
@@ -1287,4 +1291,18 @@ void CProtectSimulationDlg::InputIData_OffSide(vector<Electric_Current>& I_m)
 	I_m.push_back(I_B);
 	I_m.push_back(I_C);
 	// TODO: 在此处添加实现代码.
+}
+
+
+void CAboutDlg::OnBnClickedMfclink1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CProtectSimulationDlg::OnMenuAbout()
+{
+	CAboutDlg dlg;
+	dlg.DoModal();
+	// TODO: 在此添加命令处理程序代码
 }

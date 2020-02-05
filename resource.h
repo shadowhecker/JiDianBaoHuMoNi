@@ -66,6 +66,8 @@
 #define IDC_RADIO1                      1064
 #define IDC_RADIO13                     1065
 #define IDC_STATIC_OFFSIDE              1066
+#define IDC_MFCLINK1                    1068
+#define IDC_MFCLINK2                    1069
 #define IDC_RADIO2                      1070
 #define IDC_RADIO3                      1071
 #define IDC_RADIO4                      1072
@@ -89,14 +91,16 @@
 #define ID_MENU_CP                      32777
 #define ID_MENU_DP                      32778
 #define ID_MENU_ZP                      32779
+#define ID_32780                        32780
+#define ID_MENU_ABOUT                   32781
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        131
-#define _APS_NEXT_COMMAND_VALUE         32780
-#define _APS_NEXT_CONTROL_VALUE         1067
+#define _APS_NEXT_RESOURCE_VALUE        133
+#define _APS_NEXT_COMMAND_VALUE         32782
+#define _APS_NEXT_CONTROL_VALUE         1069
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

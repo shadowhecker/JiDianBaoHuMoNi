@@ -108,4 +108,5 @@ public:
 	void InputIData_OffSide(vector<Electric_Current>& I_m);
 	CEdit m_EditText2;
 	CEdit m_EditText3;
+	afx_msg void OnMenuAbout();
 };
