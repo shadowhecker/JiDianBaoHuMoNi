@@ -1,10 +1,12 @@
 #include "Distance_Protection.h"
-
 Distance_Protection::Distance_Protection(vector<Electric_Voltage> U, vector<Electric_Current> I)
 {
 	U_m = U;
 	I_m = I;
 	Z_m = CaculateZ_m(U, I);
+	ProtectActionState = ProtectNoAction;
+	Which_Protection = ProtectNoAction;
+	ActionTime = 0;
 }
 
 int Distance_Protection::DPCoreAlgorithmOne_Ⅰ(double FaultStyle)
@@ -68,7 +70,7 @@ int Distance_Protection::DPCoreAlgorithmOne_Ⅲ(double FaultStyle)
 	return 0;
 }
 
-ActionState Distance_Protection::DistanceProtection()
+void Distance_Protection::DistanceProtection()
 {
 	if (Z_m.second == SingleEarth_Fault_A)
 	{
@@ -76,30 +78,34 @@ ActionState Distance_Protection::DistanceProtection()
 		{
 			FixTimeDelay(Ⅰ_DPFixDelay + FixTimeError(Ⅰ_DPFixDelay));
 			EndTime = clock();
-			cout << "接地距离Ⅰ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_A;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_A;
+			Which_Protection = JieDiJuLi_ⅠAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅱ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "接地距离Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay+ FixTimeError(time));
 			EndTime = clock();
-			cout << "接地距离Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_A;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_A;
+			Which_Protection = JieDiJuLi_ⅡAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅲ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "接地距离Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "接地距离Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_A;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_A;
+			Which_Protection = JieDiJuLi_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
 	else if (Z_m.second == SingleEarth_Fault_B)
 	{
@@ -107,30 +113,34 @@ ActionState Distance_Protection::DistanceProtection()
 		{
 			FixTimeDelay(Ⅰ_DPFixDelay + FixTimeError(Ⅰ_DPFixDelay));
 			EndTime = clock();
-			cout << "接地距离Ⅰ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_B;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_B;
+			Which_Protection = JieDiJuLi_ⅠAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅱ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "接地距离Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "接地距离Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_B;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_B;
+			Which_Protection = JieDiJuLi_ⅡAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅲ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "接地距离Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "接地距离Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_B;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_B;
+			Which_Protection = JieDiJuLi_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
 	else if (Z_m.second == SingleEarth_Fault_C)
 	{
@@ -138,216 +148,166 @@ ActionState Distance_Protection::DistanceProtection()
 		{
 			FixTimeDelay(30);
 			EndTime = clock();
-			cout << "接地距离Ⅰ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_C;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_C;
+			Which_Protection = JieDiJuLi_ⅠAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅱ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "接地距离Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "接地距离Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_C;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_C;
+			Which_Protection = JieDiJuLi_ⅡAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅲ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "接地距离Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "接地距离Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_C;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_C;
+			Which_Protection = JieDiJuLi_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
-	else if (Z_m.second == InterPhase_Fault_AB)
+	else if (Z_m.second == InterPhase_Fault_AB|| Z_m.second == InterPhaseGround_Fault_AB)
 	{
 		if (DPCoreAlgorithmQuad_Ⅰ(Z_m.second))
 		{
 			FixTimeDelay(30);
 			EndTime = clock();
-			cout << "相间距离Ⅰ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_AB;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			if(Z_m.second == InterPhase_Fault_AB)
+				ProtectActionState = ProtectAction_AB;
+			else
+				ProtectActionState = ProtectAction_ABN;
+			Which_Protection = XiangJianJuLi_ⅠAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅱ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "相间距离Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_AB;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			if (Z_m.second == InterPhase_Fault_AB)
+				ProtectActionState = ProtectAction_AB;
+			else
+				ProtectActionState = ProtectAction_ABN;
+			Which_Protection = XiangJianJuLi_ⅡAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅲ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "相间距离Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_AB;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			if (Z_m.second == InterPhase_Fault_AB)
+				ProtectActionState = ProtectAction_AB;
+			else
+				ProtectActionState = ProtectAction_ABN;
+			Which_Protection = XiangJianJuLi_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
-	else if (Z_m.second == InterPhase_Fault_BC)
+	else if (Z_m.second == InterPhase_Fault_BC|| Z_m.second == InterPhaseGround_Fault_BC)
 	{
 		if (DPCoreAlgorithmQuad_Ⅰ(Z_m.second))
 		{
 			FixTimeDelay(30);
 			EndTime = clock();
-			cout << "相间距离Ⅰ段动作" <<(double)(EndTime-StartTime)/(CLOCKS_PER_SEC)*1000<<"ms"<< endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_BC;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			if (Z_m.second == InterPhase_Fault_BC)
+				ProtectActionState = ProtectAction_BC;
+			else
+				ProtectActionState = ProtectAction_BCN;
+			Which_Protection = XiangJianJuLi_ⅠAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅱ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "相间距离Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_BC;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			if (Z_m.second == InterPhase_Fault_BC)
+				ProtectActionState = ProtectAction_BC;
+			else
+				ProtectActionState = ProtectAction_BCN;
+			Which_Protection = XiangJianJuLi_ⅡAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅲ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "相间距离Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_BC;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			if (Z_m.second == InterPhase_Fault_BC)
+				ProtectActionState = ProtectAction_BC;
+			else
+				ProtectActionState = ProtectAction_BCN;
+			Which_Protection = XiangJianJuLi_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
-	else if (Z_m.second == InterPhase_Fault_CA)
+	else if (Z_m.second == InterPhase_Fault_CA|| Z_m.second == InterPhaseGround_Fault_CA)
 	{
 		if (DPCoreAlgorithmQuad_Ⅰ(Z_m.second))
 		{
 			FixTimeDelay(30);
 			EndTime = clock();
-			cout << "相间距离Ⅰ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_CA;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			if (Z_m.second == InterPhase_Fault_CA)
+				ProtectActionState = ProtectAction_CA;
+			else
+				ProtectActionState = ProtectAction_CAN;
+			Which_Protection = XiangJianJuLi_ⅠAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅱ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "相间距离Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_CA;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			if (Z_m.second == InterPhase_Fault_CA)
+				ProtectActionState = ProtectAction_CA;
+			else
+				ProtectActionState = ProtectAction_CAN;
+			Which_Protection = XiangJianJuLi_ⅡAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅲ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "相间距离Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_CA;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			if (Z_m.second == InterPhase_Fault_CA)
+				ProtectActionState = ProtectAction_CA;
+			else
+				ProtectActionState = ProtectAction_CAN;
+			Which_Protection = XiangJianJuLi_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
-	}
-	else if (Z_m.second == InterPhaseGround_Fault_AB)
-	{
-		if (DPCoreAlgorithmQuad_Ⅰ(Z_m.second))
 		{
-			FixTimeDelay(30);
-			EndTime = clock();
-			cout << "相间距离Ⅰ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_ABN;
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
 		}
-		else if (DPCoreAlgorithmQuad_Ⅱ(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅱ段时间");
-			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			cout << "相间距离Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_ABN;
-		}
-		else if (DPCoreAlgorithmQuad_Ⅲ(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅲ段时间");
-			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			cout << "相间距离Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_ABN;
-		}
-		else
-			return ProtectNoAction;
-	}
-	else if (Z_m.second == InterPhaseGround_Fault_BC)
-	{
-		if (DPCoreAlgorithmQuad_Ⅰ(Z_m.second))
-		{
-			FixTimeDelay(30);
-			EndTime = clock();
-			cout << "相间距离Ⅰ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_BCN;
-		}
-		else if (DPCoreAlgorithmQuad_Ⅱ(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅱ段时间");
-			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			cout << "相间距离Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_BCN;
-		}
-		else if (DPCoreAlgorithmQuad_Ⅲ(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅲ段时间");
-			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			cout << "相间距离Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_BCN;
-		}
-		else
-			return ProtectNoAction;
-	}
-	else if (Z_m.second == InterPhaseGround_Fault_CA)
-	{
-		if (DPCoreAlgorithmQuad_Ⅰ(Z_m.second))
-		{
-			FixTimeDelay(30);
-			EndTime = clock();
-			cout << "相间距离Ⅰ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_CAN;
-		}
-		else if (DPCoreAlgorithmQuad_Ⅱ(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅱ段时间");
-			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			cout << "相间距离Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_CAN;
-		}
-		else if (DPCoreAlgorithmQuad_Ⅲ(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅲ段时间");
-			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			cout << "相间距离Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_CAN;
-		}
-		else
-			return ProtectNoAction;
 	}
 	else if (Z_m.second == ThreePhase_Fault)
 	{
@@ -355,34 +315,40 @@ ActionState Distance_Protection::DistanceProtection()
 		{
 			FixTimeDelay(30);
 			EndTime = clock();
-			cout << "相间距离Ⅰ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_ABC;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_ABC;
+			Which_Protection = XiangJianJuLi_ⅠAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅱ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "相间距离Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_ABC;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_ABC;
+			Which_Protection = XiangJianJuLi_ⅡAction;
 		}
 		else if (DPCoreAlgorithmQuad_Ⅲ(Z_m.second))
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "相间距离Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "相间距离Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			cout << "电阻R=" << Z_m.first.ReturnR() << "    " << "电抗Z=" << Z_m.first.ReturnX() << endl;
-			return ProtectAction_ABC;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_ABC;
+			Which_Protection = XiangJianJuLi_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
 	else
 	{
-		return ProtectNoAction;
+	    ActionTime = 0;
+	    ProtectActionState = ProtectNoAction;
+	    Which_Protection = ProtectNoAction;
 	}
 }
 
@@ -516,4 +482,24 @@ int Distance_Protection::DPCoreAlgorithmQuad_Ⅲ(double FaultStyle)
 	}
 	else
 		return 0;
+}
+
+ActionState Distance_Protection::GetProtectAcionState()
+{
+	return ProtectActionState;
+}
+
+ActionState Distance_Protection::GetWhich_Protection()
+{
+	return Which_Protection;
+}
+
+double Distance_Protection::GetActionTime()
+{
+	return ActionTime;
+}
+
+pair<Resistance_Impedance, double> Distance_Protection::GetZ_m()
+{
+	return Z_m;
 }

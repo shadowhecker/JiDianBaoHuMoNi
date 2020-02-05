@@ -108,7 +108,6 @@ int main()
 			InputCurrent(I_m);
 			Distance_Protection DP(U_m, I_m);
 			StartTime = clock();
-			TranslateProtectState(DP.DistanceProtection());
 			break;
 		}
 		case 4:
@@ -121,7 +120,6 @@ int main()
 			InputCurrent(I_m);
 			ZeroSeq_Protection ZP(U_m, I_m);
 			StartTime = clock();
-			TranslateProtectState(ZP.ZeroSeqProtection());
 			break;
 		}
 		}

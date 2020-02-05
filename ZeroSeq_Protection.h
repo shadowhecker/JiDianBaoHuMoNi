@@ -12,9 +12,20 @@ public:
 	ZeroSeq_Protection(vector<Electric_Voltage> U, vector<Electric_Current> I) { U_m = U; I_m = I; }
 	int ZPCoreAlgorithmQuad_Ⅱ();//零序Ⅱ段
 	int ZPCoreAlgorithmQuad_Ⅲ();//零序Ⅲ段
-	ActionState ZeroSeqProtection();//零序方向继电器
+	void ZeroSeqProtection();//零序方向继电器
+
+	ActionState GetProtectAcionState();
+	ActionState GetWhich_Protection();
+	double GetActionTime();
+	Electric_Voltage GetUZ();
+	Electric_Current GetIZ();
 private:
 	vector<Electric_Voltage> U_m;//距离阻抗继电器上的电压量
 	vector<Electric_Current> I_m;//距离阻抗继电器流经的电流量
+	ActionState ProtectActionState;
+	ActionState Which_Protection;
+	double ActionTime;
+	Electric_Voltage UZ;//零序电压
+	Electric_Current IZ;//零序电流
 };
 

@@ -45,6 +45,15 @@ constexpr auto ProtectAction_ABN = 0x0014;//保护AB相间短路接地三跳
 constexpr auto ProtectAction_BCN = 0x0015;//保护BC相间短路接地三跳
 constexpr auto ProtectAction_CAN = 0x0016;//保护CA相间短路接地三跳
 constexpr auto ProtectAction_ABC = 0x0017;//保护ABC三相短路三跳
+constexpr auto JieDiJuLi_ⅠAction = 0x0019;//接地距离Ⅰ段动作
+constexpr auto JieDiJuLi_ⅡAction = 0x0020;//接地距离Ⅱ段动作
+constexpr auto JieDiJuLi_ⅢAction = 0x0021;//接地距离Ⅲ段动作
+constexpr auto XiangJianJuLi_ⅠAction = 0x0022;//相间距离Ⅰ段动作
+constexpr auto XiangJianJuLi_ⅡAction = 0x0023;//相间距离Ⅱ段动作
+constexpr auto XiangJianJuLi_ⅢAction = 0x0024;//相间距离Ⅲ段动作
+constexpr auto LinXuDianLiu_ⅡAction = 0x0025;//零序电流Ⅱ段动作
+constexpr auto LinXuDianLiu_ⅢAction = 0x0024;//零序电流Ⅲ段动作
+
 constexpr auto ProtectNoAction = 0x0018;//保护不动作
 constexpr auto Protect500LP = 0x0100;//500kV线路保护
 constexpr auto Ⅰ_DPFixDelay = 30;//距离Ⅰ段固有延时

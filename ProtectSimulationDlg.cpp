@@ -71,54 +71,81 @@ void CProtectSimulationDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT10, m_Edit_IAT);
 	DDX_Control(pDX, IDC_EDIT11, m_Edit_IBT);
 	DDX_Control(pDX, IDC_EDIT12, m_Edit_ICT);
+
 }
 
-void CProtectSimulationDlg::InitialDBB()
-{
-	CRect rt;
-	m_pDrawWnd->GetClientRect(&rt);
-	CDC* sDC = m_pDrawWnd->GetDC();
-	// 为屏幕DC创建兼容的内存DC
-	if (!m_memDC.CreateCompatibleDC(sDC))//
-	{
-		::PostQuitMessage(0);
-	}
+//void CProtectSimulationDlg::InitialDBB()
+//{
+//	CRect rt;
+//	m_pDrawWnd->GetClientRect(&rt);
+//	CDC* sDC = m_pDrawWnd->GetDC();
+//	// 为屏幕DC创建兼容的内存DC
+//	if (!m_memDC.CreateCompatibleDC(sDC))//
+//	{
+//		::PostQuitMessage(0);
+//	}
 
-	// 创建位图,不能是m_memDC，否则无颜色
-	m_Bmp.CreateCompatibleBitmap(sDC, rt.Width(), rt.Height());//m_memDC
-	// 相当于选择画布,m_pDrawWnd->
-	::SelectObject(m_memDC.GetSafeHdc(), m_Bmp);
-	m_pDrawWnd->ReleaseDC(sDC);
-}
+//	// 创建位图,不能是m_memDC，否则无颜色
+//	m_Bmp.CreateCompatibleBitmap(sDC, rt.Width(), rt.Height());//m_memDC
+//	// 相当于选择画布,m_pDrawWnd->
+//	::SelectObject(m_memDC.GetSafeHdc(), m_Bmp);
+//	m_pDrawWnd->ReleaseDC(sDC);
+//}
 
-void CProtectSimulationDlg::DrawOnMem()
-{
-	CRect rect;
-	m_pDrawWnd->GetClientRect(&rect);
-	//COLORREF crl = GetSysColor(COLOR_3DFACE);
-	//m_memDC.FillSolidRect(rect, crl); 
-	//m_memDC.FillSolidRect(&rect, 0x00FFFFFF);// 白色填充, 注意,这次是画在内存设备环境上
-	CPen pen(PS_SOLID, 1, RGB(255, 0, 0));
-	m_memDC.SelectObject(&pen);
+//void CProtectSimulationDlg::DrawOnMem()
+//{
+//	CRect rect;
+//	m_pDrawWnd->GetClientRect(&rect);
+//	COLORREF crl = GetSysColor(COLOR_3DFACE);
+//	m_memDC.FillSolidRect(rect, crl); 
+//	m_memDC.FillSolidRect(&rect, 0x00FFFFFF);// 白色填充, 注意,这次是画在内存设备环境上
+//	CPen pen(PS_SOLID, 1, RGB(0, 0, 0));
+//	m_memDC.SelectObject(&pen);
+//	//画横坐标
+//	m_memDC.MoveTo(rect.left+15, (rect.top+(rect.bottom-rect.top)/2));
+//	m_memDC.LineTo(rect.right-15, (rect.top + (rect.bottom - rect.top) / 2));
+	//写R
+//	CFont font;//用来设置大小、样式，颜色用dc.SetTextColor设置
+//	font.CreatePointFont(80, TEXT("Arial"));//20号字
+//	m_memDC.SelectObject(&font);
+//	if (m_ChooseProtect == 2)
+//	{
+//		CRect rect_font(rect.right - 35, (rect.top + (rect.bottom - rect.top) / 2) + 5, rect.right - 15, (rect.top + (rect.bottom - rect.top) / 2) + 25);
+//		m_memDC.DrawText(_T("R"), rect_font, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+//	}
+//	//画纵坐标
+//	m_memDC.MoveTo(rect.left + (rect.right-rect.left)/2, rect.top+5);
+//	m_memDC.LineTo(rect.left + (rect.right - rect.left) / 2, rect.bottom - 5);
+	//写JX
+//	if (m_ChooseProtect == 2)
+//	{
+//		CRect rect_font2 = { rect.left + (rect.right - rect.left) / 2 - 20, rect.top + 5, rect.left + (rect.right - rect.left) / 2 - 0, rect.top + 25 };
+//		m_memDC.DrawText(_T("jX"), rect_font2, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+//	}
+	//画定值向量
+//	if (m_ChooseProtect == 2)
+//	{
+//		CPoint p1(rect.left / 2 + rect.right / 2, rect.top / 2 + rect.bottom / 2);
+//		double X_OffSet = UseSetValue.GetValue(ProtectDevice, "接地距离Ⅰ段") * cos(UseSetValue.GetValue(ProtectDevice, "线路正序灵敏角")*M_PI/180)*50;
+//		double Y_OffSet = UseSetValue.GetValue(ProtectDevice, "接地距离Ⅰ段") * sin(UseSetValue.GetValue(ProtectDevice, "线路正序灵敏角")*M_PI/180)*50;
+//		CPoint p2((rect.left/2 + rect.right/2)+X_OffSet, (rect.top / 2 + rect.bottom / 2)-Y_OffSet);
+//		DrawArrow(p1, p2, UseSetValue.GetValue(ProtectDevice, "线路正序灵敏角"), UseSetValue.GetValue(ProtectDevice, "接地距离Ⅰ段")*4);
+//	}
+//}
 
-	//画图部分
-	m_memDC.MoveTo(rect.right, rect.bottom);
-	m_memDC.LineTo(rect.left, rect.top);
-}
-
-void CProtectSimulationDlg::DrawOnStaticArea()
-{
-	CWnd* pWnd = GetDlgItem(IDC_STATIC);//获得静态文本框的窗口对象
-	CRect rect;
-	pWnd->GetClientRect(&rect);
+//void CProtectSimulationDlg::DrawOnStaticArea()
+//{
+//	CWnd* pWnd = GetDlgItem(IDC_STATIC);//获得静态文本框的窗口对象
+//	CRect rect;
+//	pWnd->GetClientRect(&rect);
 	//
-	CDC* pDC = pWnd->GetDC();//
+//	CDC* pDC = pWnd->GetDC();//
 	//
-	DrawOnMem();
-	// 一次性的将内存设备环境上绘制完毕的图形"贴"到屏幕上
-	pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &m_memDC, 0, 0, SRCCOPY);
-	pWnd->ReleaseDC(pDC);//
-}
+//	DrawOnMem();
+//	// 一次性的将内存设备环境上绘制完毕的图形"贴"到屏幕上
+//	pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &m_memDC, 0, 0, SRCCOPY);
+//	pWnd->ReleaseDC(pDC);//
+//}
 
 BEGIN_MESSAGE_MAP(CProtectSimulationDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
@@ -126,6 +153,9 @@ BEGIN_MESSAGE_MAP(CProtectSimulationDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_COMMAND(ID_MENU_DP, &CProtectSimulationDlg::OnMenuDp)
 	ON_BN_CLICKED(IDC_BUTTON1, &CProtectSimulationDlg::OnClickedButton1)
+	ON_WM_NCHITTEST()
+	ON_BN_CLICKED(IDC_BUTTON2, &CProtectSimulationDlg::OnClickedButton2)
+	ON_COMMAND(ID_MENU_ZP, &CProtectSimulationDlg::OnMenuZp)
 END_MESSAGE_MAP()
 
 
@@ -164,9 +194,9 @@ BOOL CProtectSimulationDlg::OnInitDialog()
 	CMenu menu;
 	menu.LoadMenuW(IDR_MENU1);
 	SetMenu(&menu);
-	m_brush.CreateSolidBrush(RGB(255, 0, 0));//初始化画刷
-	m_pDrawWnd = GetDlgItem(IDC_STATIC_PAINT);//获得静态窗口对象指针
-	InitialDBB();// 初始化双缓冲相关的数据
+	//m_brush.CreateSolidBrush(RGB(255, 0, 0));//初始化画刷
+	//m_pDrawWnd = GetDlgItem(IDC_EDIT_PAINT);//获得静态窗口对象指针
+	//InitialDBB();// 初始化双缓冲相关的数据
 	if (UseSetValue.IsEmpty())
 	{
 		m_EditText.SetWindowTextW(_T("定值初始化成功\n"));
@@ -177,7 +207,19 @@ BOOL CProtectSimulationDlg::OnInitDialog()
 		m_EditText.SetWindowTextW(_T("定值初始化失败\n"));
 		UpdateData(false);
 	}
-
+	m_Edit_UAV.SetWindowTextW(_T("57.74"));
+	m_Edit_UBV.SetWindowTextW(_T("57.74"));
+	m_Edit_UCV.SetWindowTextW(_T("57.74"));
+    m_Edit_UAT.SetWindowTextW(_T("0"));
+	m_Edit_UBT.SetWindowTextW(_T("-120"));
+	m_Edit_UCT.SetWindowTextW(_T("120"));
+	m_Edit_IAV.SetWindowTextW(_T("0"));
+	m_Edit_IBV.SetWindowTextW(_T("0"));
+	m_Edit_ICV.SetWindowTextW(_T("0"));
+	m_Edit_IAT.SetWindowTextW(_T("0"));
+	m_Edit_IBT.SetWindowTextW(_T("-120"));
+	m_Edit_ICT.SetWindowTextW(_T("120"));
+	m_ChooseProtect = -1;
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -221,13 +263,16 @@ void CProtectSimulationDlg::OnPaint()
 	{
 		CDialogEx::OnPaint();
 		//重绘图像区域
-		PAINTSTRUCT ps;
-		CRect rt;
-		m_pDrawWnd->GetClientRect(&rt);
-		CDC* pDC = m_pDrawWnd->BeginPaint(&ps);
-		DrawOnMem();
-		pDC->BitBlt(0, 0, rt.Width(), rt.Height(), &m_memDC, 0, 0, SRCCOPY);
-		m_pDrawWnd->EndPaint(&ps);
+		//if (m_ChooseProtect == 2 || m_ChooseProtect == 3)
+		//{
+		//	PAINTSTRUCT ps;
+		//	CRect rt;
+		//	m_pDrawWnd->GetClientRect(&rt);
+		//	CDC* pDC = m_pDrawWnd->BeginPaint(&ps);
+		//	DrawOnMem();
+		//	pDC->BitBlt(0, 0, rt.Width(), rt.Height(), &m_memDC, 0, 0, SRCCOPY);
+		//	m_pDrawWnd->EndPaint(&ps);
+		//}
 	}
 }
 
@@ -243,7 +288,8 @@ HCURSOR CProtectSimulationDlg::OnQueryDragIcon()
 void CProtectSimulationDlg::OnMenuDp()
 {
 	m_ChooseProtect = 2;//切换至距离保护的标志
-	CString strAdd = _T("切换至距离保护调试");
+	m_EditText.SetWindowTextW(_T(""));
+	CString strAdd = _T("切换至距离保护调试\r\n");
 	AppendText(IDC_EDIT_TEXT,strAdd);
 	FrameSwitch(m_ChooseProtect);
 }
@@ -253,6 +299,11 @@ void CProtectSimulationDlg::OnClickedButton1()
 {
 	switch (m_ChooseProtect)
 	{
+	case -1:
+	{
+		AppendText(IDC_EDIT_TEXT, _T("\r\n请先选择要调试的保护："));
+		break;
+	}
 	case 0:
 		break;
 	case 1:
@@ -266,11 +317,42 @@ void CProtectSimulationDlg::OnClickedButton1()
 		InputIData(I_m);
 		Distance_Protection DP(U_m, I_m);
 		StartTime = clock();
-		auto J = DP.DistanceProtection();
-		ProtectReport(J);
+		DP.DistanceProtection();
+		ProtectReport(DP.GetProtectAcionState());
+		ProtectActionReport_DP(DP.GetWhich_Protection(),DP.GetZ_m().first.ReturnR(), DP.GetZ_m().first.ReturnX());
+		if (DP.GetActionTime() != 0)
+		{
+			AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
+			CString strT;
+			strT.Format(_T("%.1lf"), DP.GetActionTime());
+			AppendText(IDC_EDIT_TEXT, strT);
+			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+		}
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
 	}
 		break;
 	case 3:
+	{
+		UpdateData(FALSE);
+		vector<Electric_Voltage> U_m;
+		vector<Electric_Current> I_m;
+		InputUData(U_m);
+		InputIData(I_m);
+		ZeroSeq_Protection ZP(U_m, I_m);
+		StartTime = clock();
+		ZP.ZeroSeqProtection();
+		ProtectReport(ZP.GetProtectAcionState());
+		ProtectActionReport_ZP(ZP.GetWhich_Protection(), ZP.GetUZ(), ZP.GetIZ());
+		if (ZP.GetActionTime() != 0)
+		{
+			AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
+			CString strT;
+			strT.Format(_T("%.1lf"), ZP.GetActionTime());
+			AppendText(IDC_EDIT_TEXT, strT);
+			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+		}
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
+	}
 		break;
 	default:
 		break;
@@ -347,7 +429,7 @@ void CProtectSimulationDlg::FrameSwitch(int ChooseProtect)
 void CProtectSimulationDlg::AppendText(int controlId, CString strAdd)
 {
 	((CEdit*)GetDlgItem(controlId))->SetSel(GetDlgItem(controlId)->GetWindowTextLength(), GetDlgItem(controlId)->GetWindowTextLength());
-	((CEdit*)GetDlgItem(controlId))->ReplaceSel(strAdd + L"\n");
+	((CEdit*)GetDlgItem(controlId))->ReplaceSel(strAdd);
 	// TODO: 在此处添加实现代码.
 }
 
@@ -359,37 +441,37 @@ void CProtectSimulationDlg::ProtectReport(int stat)
 	switch (stat)
 	{
 	case ProtectAction_A:
-		AppendText(IDC_EDIT_TEXT, _T("A相故障\n保护跳A相\n"));
+		AppendText(IDC_EDIT_TEXT, _T("A相故障\r\n保护跳A相\r\n"));
 		break;
 	case ProtectAction_B:
-		AppendText(IDC_EDIT_TEXT, _T("B相故障\n保护跳B相\n"));
+		AppendText(IDC_EDIT_TEXT, _T("B相故障\r\n保护跳B相\r\n"));
 		break;
 	case ProtectAction_C:
-		AppendText(IDC_EDIT_TEXT, _T("C相故障\n保护跳C相\n"));
+		AppendText(IDC_EDIT_TEXT, _T("C相故障\r\n保护跳C相\r\n"));
 		break;
 	case ProtectAction_AB:
-		AppendText(IDC_EDIT_TEXT, _T("AB相间故障\n保护三跳\n"));
+		AppendText(IDC_EDIT_TEXT, _T("AB相间故障\r\n保护三跳\r\n"));
 		break;
 	case ProtectAction_BC:
-		AppendText(IDC_EDIT_TEXT, _T("BC相间故障\n保护三跳\n"));
+		AppendText(IDC_EDIT_TEXT, _T("BC相间故障\r\n保护三跳\r\n"));
 		break;
 	case ProtectAction_CA:
-		AppendText(IDC_EDIT_TEXT, _T("AC相间故障\n保护三跳\n"));
+		AppendText(IDC_EDIT_TEXT, _T("AC相间故障\r\n保护三跳\r\n"));
 		break;
 	case ProtectAction_ABN:
-		AppendText(IDC_EDIT_TEXT, _T("AB相间短路接地故障\n保护三跳\n"));
+		AppendText(IDC_EDIT_TEXT, _T("AB相间短路接地故障\r\n保护三跳\r\n"));
 		break;
 	case ProtectAction_BCN:
-		AppendText(IDC_EDIT_TEXT, _T("BC相间短路接地故障\n保护三跳\n"));
+		AppendText(IDC_EDIT_TEXT, _T("BC相间短路接地故障\r\n保护三跳\r\n"));
 		break;
 	case ProtectAction_CAN:
-		AppendText(IDC_EDIT_TEXT, _T("AC相间短路接地故障\n保护三跳\n"));
+		AppendText(IDC_EDIT_TEXT, _T("AC相间短路接地故障\r\n保护三跳\r\n"));
 		break;
 	case ProtectAction_ABC:
-		AppendText(IDC_EDIT_TEXT, _T("ABC三相短路故障\n保护三跳\n"));
+		AppendText(IDC_EDIT_TEXT, _T("ABC三相短路故障\r\n保护三跳\r\n"));
 		break;
 	case ProtectNoAction:
-		AppendText(IDC_EDIT_TEXT, _T("无故障\n"));
+		AppendText(IDC_EDIT_TEXT, _T("无故障\r\n"));
 		break;
 	default:
 		break;
@@ -431,5 +513,183 @@ void CProtectSimulationDlg::InputIData(vector<Electric_Current>& I_m)
 	I_m.push_back(I_A);
 	I_m.push_back(I_B);
 	I_m.push_back(I_C);
+	// TODO: 在此处添加实现代码.
+}
+
+
+
+
+LRESULT CProtectSimulationDlg::OnNcHitTest(CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	int ret = CDialog::OnNcHitTest(point);
+
+	//if语句的前两行是用来禁止改变大小的，最后一行是用来禁止移动的
+	if (HTTOP == ret || HTBOTTOM == ret || HTLEFT == ret || HTRIGHT == ret
+		|| HTBOTTOMLEFT == ret || HTBOTTOMRIGHT == ret || HTTOPLEFT == ret || HTTOPRIGHT == ret || HTCAPTION == ret)
+		return HTCLIENT;
+
+	return ret;
+}
+
+
+// //画向量
+//void CProtectSimulationDlg::DrawArrow(CPoint p1, CPoint p2, double theta, int length)
+//{
+//	theta = 3.1415926 * theta / 180;//转换为弧度
+//	double Px, Py, P1x, P1y, P2x, P2y;
+	//以P2为原点得到向量P2P1（P）
+//	Px = p1.x - p2.x;
+//	Py = p1.y - p2.y;
+	//向量P旋转theta角得到向量P1
+//	P1x = Px * cos(theta) - Py * sin(theta);
+//	P1y = Px * sin(theta) + Py * cos(theta);
+	//向量P旋转-theta角得到向量P2
+//	P2x = Px * cos(-theta) - Py * sin(-theta);
+//	P2y = Px * sin(-theta) + Py * cos(-theta);
+	//伸缩向量至制定长度
+//	double x1, x2;
+//	x1 = sqrt(P1x * P1x + P1y * P1y);
+//	P1x = P1x * length / x1;
+//	P1y = P1y * length / x1;
+//	x2 = sqrt(P2x * P2x + P2y * P2y);
+//	P2x = P2x * length / x2;
+//	P2y = P2y * length / x2;
+//	//平移变量到直线的末端
+//	P1x = P1x + p2.x;
+//	P1y = P1y + p2.y;
+//	P2x = P2x + p2.x;
+//	P2y = P2y + p2.y;
+//	CPen pen, pen1, * oldpen;
+//	pen.CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
+//	pen1.CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
+//	oldpen = m_memDC.SelectObject(&pen);
+//	m_memDC.MoveTo(p1.x, p1.y);
+//	m_memDC.LineTo(p2.x, p2.y);
+//	m_memDC.SelectObject(&pen1);
+//	m_memDC.MoveTo(p2.x, p2.y);
+//	m_memDC.LineTo(P1x, P1y);
+//	m_memDC.MoveTo(p2.x, p2.y);
+//	m_memDC.LineTo(P2x, P2y);
+//	m_memDC.SelectObject(oldpen);
+//	// TODO: 在此处添加实现代码.
+//}
+
+
+void CProtectSimulationDlg::ProtectActionReport_DP(ActionState Stat, double R, double jX)
+{
+	CString str;
+	switch (Stat)
+	{
+	case JieDiJuLi_ⅠAction:
+		AppendText(IDC_EDIT_TEXT, _T("接地距离Ⅰ段动作：电阻="));
+		str.Format(_T("%.3lf"), R);
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
+		str.Format(_T("%.3lf"), jX);
+		AppendText(IDC_EDIT_TEXT, str);
+		break;
+	case JieDiJuLi_ⅡAction:
+		AppendText(IDC_EDIT_TEXT, _T("接地距离Ⅱ段动作：电阻="));
+		str.Format(_T("%.3lf"), R);
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
+		str.Format(_T("%.3lf"), jX);
+		AppendText(IDC_EDIT_TEXT, str);
+		break;
+	case JieDiJuLi_ⅢAction:
+		AppendText(IDC_EDIT_TEXT, _T("接地距离Ⅲ段动作：电阻="));
+		str.Format(_T("%.3lf"), R);
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
+		str.Format(_T("%.3lf"), jX);
+		AppendText(IDC_EDIT_TEXT, str);
+		break;
+	case XiangJianJuLi_ⅠAction:
+		AppendText(IDC_EDIT_TEXT, _T("相间距离Ⅰ段动作：电阻="));
+		str.Format(_T("%.3lf"), R);
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
+		str.Format(_T("%.3lf"), jX);
+		AppendText(IDC_EDIT_TEXT, str);
+		break;
+	case XiangJianJuLi_ⅡAction:
+		AppendText(IDC_EDIT_TEXT, _T("相间距离Ⅱ段动作：电阻="));
+		str.Format(_T("%.3lf"), R);
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
+		str.Format(_T("%.3lf"), jX);
+		AppendText(IDC_EDIT_TEXT, str);
+		break;
+	case XiangJianJuLi_ⅢAction:
+		AppendText(IDC_EDIT_TEXT, _T("相间距离Ⅲ段动作：电阻="));
+		str.Format(_T("%.3lf"), R);
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
+		str.Format(_T("%.3lf"), jX);
+		AppendText(IDC_EDIT_TEXT, str);
+		break;
+	default:
+		break;
+	}
+}
+
+
+void CProtectSimulationDlg::OnClickedButton2()
+{
+	m_EditText.SetWindowTextW(_T(""));
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CProtectSimulationDlg::OnMenuZp()
+{
+	m_ChooseProtect = 3;//切换至距离保护的标志
+	m_EditText.SetWindowTextW(_T(""));
+	CString strAdd = _T("切换至零序保护调试\r\n");
+	AppendText(IDC_EDIT_TEXT, strAdd);
+	FrameSwitch(m_ChooseProtect);
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CProtectSimulationDlg::ProtectActionReport_ZP(ActionState stat, Electric_Voltage UZ, Electric_Current IZ)
+{
+	CString str;
+	switch (stat)
+	{
+	case LinXuDianLiu_ⅡAction:
+		AppendText(IDC_EDIT_TEXT, _T("零序电流Ⅱ段动作：U0="));
+		str.Format(_T("%.2lf"), UZ.GetVValid());
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("∠"));
+		str.Format(_T("%.1lf"), arg(UZ.ReturnVComplex())*180/M_PI);
+		AppendText(IDC_EDIT_TEXT, str);
+
+		AppendText(IDC_EDIT_TEXT, _T("    I0="));
+		str.Format(_T("%.2lf"), IZ.GetIValid());
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("∠"));
+		str.Format(_T("%.1lf"), arg(IZ.ReturnIComplex()) * 180 / M_PI);
+		AppendText(IDC_EDIT_TEXT, str);
+		break;
+	case LinXuDianLiu_ⅢAction:
+		AppendText(IDC_EDIT_TEXT, _T("零序电流Ⅲ段动作：U0="));
+		str.Format(_T("%.2lf"), UZ.GetVValid());
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("∠"));
+		str.Format(_T("%.1lf"), arg(UZ.ReturnVComplex()) * 180 / M_PI);
+		AppendText(IDC_EDIT_TEXT, str);
+
+		AppendText(IDC_EDIT_TEXT, _T("    I0="));
+		str.Format(_T("%.2lf"), IZ.GetIValid());
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("∠"));
+		str.Format(_T("%.1lf"), arg(IZ.ReturnIComplex()) * 180 / M_PI);
+		AppendText(IDC_EDIT_TEXT, str);
+		break;
+	default:
+		break;
+	}
 	// TODO: 在此处添加实现代码.
 }

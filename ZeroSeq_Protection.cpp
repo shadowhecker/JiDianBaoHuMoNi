@@ -24,9 +24,11 @@ int ZeroSeq_Protection::ZPCoreAlgorithmQuad_Ⅲ()
 		return 0;
 }
 
-ActionState ZeroSeq_Protection::ZeroSeqProtection()
+void ZeroSeq_Protection::ZeroSeqProtection()
 {
 	auto U_I = Caculate_UZ_IZ(U_m, I_m);
+	UZ = U_I.first.first;
+	IZ = U_I.first.second;
 	if (U_I.second == SingleEarth_Fault_A)
 	{
 		if (ZPCoreAlgorithmQuad_Ⅱ())
@@ -34,19 +36,25 @@ ActionState ZeroSeq_Protection::ZeroSeqProtection()
 			double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "零序Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			return ProtectAction_A;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_A;
+			Which_Protection = LinXuDianLiu_ⅡAction;
 		}
 		else if (ZPCoreAlgorithmQuad_Ⅲ())
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "零序Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			return ProtectAction_A;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_A;
+			Which_Protection = LinXuDianLiu_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
 	else if (U_I.second == SingleEarth_Fault_B)
 	{
@@ -55,19 +63,25 @@ ActionState ZeroSeq_Protection::ZeroSeqProtection()
 			double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "零序Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			return ProtectAction_B;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_B;
+			Which_Protection = LinXuDianLiu_ⅡAction;
 		}
 		else if (ZPCoreAlgorithmQuad_Ⅲ())
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "零序Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			return ProtectAction_B;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_B;
+			Which_Protection = LinXuDianLiu_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
 	else if (U_I.second == SingleEarth_Fault_C)
 	{
@@ -76,19 +90,25 @@ ActionState ZeroSeq_Protection::ZeroSeqProtection()
 			double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "零序Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			return ProtectAction_C;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_C;
+			Which_Protection = LinXuDianLiu_ⅡAction;
 		}
 		else if (ZPCoreAlgorithmQuad_Ⅲ())
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "零序Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			return ProtectAction_C;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_C;
+			Which_Protection = LinXuDianLiu_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
 	else if (U_I.second == InterPhaseGround_Fault_AB)
 	{
@@ -97,19 +117,25 @@ ActionState ZeroSeq_Protection::ZeroSeqProtection()
 			double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "零序Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			return ProtectAction_ABN;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_ABN;
+			Which_Protection = LinXuDianLiu_ⅡAction;
 		}
 		else if (ZPCoreAlgorithmQuad_Ⅲ())
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "零序Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			return ProtectAction_ABN;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_ABN;
+			Which_Protection = LinXuDianLiu_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
 	else if (U_I.second == InterPhaseGround_Fault_BC)
 	{
@@ -118,19 +144,25 @@ ActionState ZeroSeq_Protection::ZeroSeqProtection()
 			double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅱ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "零序Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			return ProtectAction_BCN;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_BCN;
+			Which_Protection = LinXuDianLiu_ⅡAction;
 		}
 		else if (ZPCoreAlgorithmQuad_Ⅲ())
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "零序Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			return ProtectAction_BCN;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_BCN;
+			Which_Protection = LinXuDianLiu_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
 	else if (U_I.second == InterPhaseGround_Fault_CA)
 	{
@@ -139,20 +171,55 @@ ActionState ZeroSeq_Protection::ZeroSeqProtection()
 		    double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅱ段时间");
 		    FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 		    EndTime = clock();
-		    cout << "零序Ⅱ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-		    return ProtectAction_CAN;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_CAN;
+			Which_Protection = LinXuDianLiu_ⅡAction;
 		}
 		else if (ZPCoreAlgorithmQuad_Ⅲ())
 		{
 			double time = UseSetValue.GetValue(ProtectDevice, "零序过流Ⅲ段时间");
 			FixTimeDelay(time * 1000 + Ⅰ_DPFixDelay + FixTimeError(time));
 			EndTime = clock();
-			cout << "零序Ⅲ段动作" << (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000 << "ms" << endl;
-			return ProtectAction_CAN;
+			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
+			ProtectActionState = ProtectAction_CAN;
+			Which_Protection = LinXuDianLiu_ⅢAction;
 		}
 		else
-			return ProtectNoAction;
+		{
+			ActionTime = 0;
+			ProtectActionState = ProtectNoAction;
+			Which_Protection = ProtectNoAction;
+		}
 	}
 	else
-	   return ProtectNoAction;
+	{
+	  ActionTime = 0;
+	  ProtectActionState = ProtectNoAction;
+	  Which_Protection = ProtectNoAction;
+	}
+}
+
+ActionState ZeroSeq_Protection::GetProtectAcionState()
+{
+	return ProtectActionState;
+}
+
+ActionState ZeroSeq_Protection::GetWhich_Protection()
+{
+	return Which_Protection;
+}
+
+double ZeroSeq_Protection::GetActionTime()
+{
+	return ActionTime;
+}
+
+Electric_Voltage ZeroSeq_Protection::GetUZ()
+{
+	return UZ;
+}
+
+Electric_Current ZeroSeq_Protection::GetIZ()
+{
+	return IZ;
 }

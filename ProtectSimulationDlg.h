@@ -18,10 +18,10 @@ class CProtectSimulationDlg : public CDialogEx
 // 构造
 public:
 	CProtectSimulationDlg(CWnd* pParent = nullptr);	// 标准构造函数
-	CBrush m_brush;//用于自定义颜色
-	CDC m_memDC;//屏幕DC兼容的内存DC
-	CBitmap m_Bmp;//位图
-	CWnd* m_pDrawWnd;//用于保存静态文本框的对象指针
+	//CBrush m_brush;//用于自定义颜色
+	//CDC m_memDC;//屏幕DC兼容的内存DC
+	//CBitmap m_Bmp;//位图
+	//CWnd* m_pDrawWnd;//用于保存静态文本框的对象指针
 // 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_PROTECTSIMULATION_DIALOG };
@@ -50,7 +50,6 @@ public:
 	int m_ChooseProtect;
 	afx_msg void OnClickedButton1();
 	CEdit m_Edit_UAV;
-//	CEdit m_Edit_UAT;
 	CEdit m_Edit_UBV;
 	CEdit m_Edit_UCV;
 	CEdit m_Edit_UAT;
@@ -69,4 +68,12 @@ public:
 	void ProtectReport(int stat);
 	void InputUData(vector<Electric_Voltage>& U_m);
 	void InputIData(vector<Electric_Current>& I_m);
+	afx_msg LRESULT OnNcHitTest(CPoint point);
+	CEdit m_EditPaint;
+	// //画向量
+	void DrawArrow(CPoint p1, CPoint p2, double theta, int length);
+	void ProtectActionReport_DP(ActionState Stat, double R, double jX);
+	afx_msg void OnClickedButton2();
+	afx_msg void OnMenuZp();
+	void ProtectActionReport_ZP(ActionState stat, Electric_Voltage UZ, Electric_Current IZ);
 };
