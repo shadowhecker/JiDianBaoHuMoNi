@@ -99,7 +99,11 @@
 #define ID_MENU_ZP                      32779
 #define ID_32780                        32780
 #define ID_MENU_ABOUT                   32781
-
+#define TIME_DEVICE_COUNT               5000//用于软件时间走字儿的计时器
+#define TIME_DEVICE_CP_FIRST            5001//线路保护单跳失败补跳的计时器
+#define TIME_DEVICE_CP_SECOND           5002//线路保护再次单跳失败三跳的计时器
+#define TIME_DEVICE_FIRST               5003//第一态计时器
+#define TIME_DEVICE_CP_THIRD            5004//线路保护永跳失败5s
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED

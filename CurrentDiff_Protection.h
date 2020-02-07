@@ -22,11 +22,13 @@ public:
 	friend void CurrentDiffProtection(CurrentDiff_Protection& CP_m, CurrentDiff_Protection& CP_n);//差动保护联调算法
 	void CurrentDiffProtectionLoop();//自环状态下
 	ActionState GetProtectAcionState();
+	void SetProtectActionState(ActionState);
 	double GetActionTime();
 	int GetIsStart();
 	int GetIsWeedBack();
 	void SetBKState(int BK);
 	void SetUI(vector<Electric_Voltage> U, vector<Electric_Current> I);
+
 private:
 	vector<Electric_Voltage> U_OnSide;//本侧电压
 	vector<Electric_Current> I_OnSide;//本侧电流

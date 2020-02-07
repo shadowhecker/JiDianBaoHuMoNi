@@ -31,7 +31,8 @@
 #define new DEBUG_NEW
 #endif
 
-
+static int seconds_v = 0;
+static int milliseconds_v = 0;
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
 class CAboutDlg : public CDialogEx
@@ -311,6 +312,7 @@ BOOL CProtectSimulationDlg::OnInitDialog()
 	CPage1.MoveWindow(&rs);
 	CPage1.ShowWindow(TRUE);
 	m_TAB.SetCurSel(0);
+	m_Time = { 0,0,0,0 };
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -396,7 +398,7 @@ void CProtectSimulationDlg::OnMenuDp()
 
 void CProtectSimulationDlg::OnClickedButton1()
 {
-	SetTimer(1, 1, NULL);
+	SetTimer(TIME_DEVICE_COUNT, 1, NULL);
 	switch (m_ChooseProtect)
 	{
 	case -1:
@@ -407,42 +409,21 @@ void CProtectSimulationDlg::OnClickedButton1()
 	case 0:
 	{
 		UpdateData(FALSE);
-		vector<Electric_Voltage> U_m;
-		vector<Electric_Current> I_m;
-		InputUData(U_m);
-		InputIData(I_m);
 		StartTime = clock();
-		TGW_Protect.InitializeUI(U_m, I_m);
+		CPage1.UpdateUIInput();
+		TGW_Protect.InitializeUI(CPage1.m_U, CPage1.m_I);
 		UpdateFromSet(TGW_Protect);
-		TGW_Protect.CP.CurrentDiffProtectionLoop();
-		AppendText(IDC_EDIT_TEXT, _T("本侧保护：\r\n"));
-		ProtectReport(TGW_Protect.CP.GetProtectAcionState(), IDC_EDIT_TEXT,TGW_Protect);
-		UpdateBKState(TGW_Protect);
-		CString str;
-		if (TGW_Protect.CP.GetIsStart() == 1)
-		{
-			AppendText(IDC_EDIT_TEXT, _T("保护启动\r\n"));
-		}
-		AppendText(IDC_EDIT_TEXT, _T("差动保护动作：差动电流="));
-		str.Format(_T("%.3lf"), TGW_Protect.CP.GetI_Diff());
-		AppendText(IDC_EDIT_TEXT, str);
-		AppendText(IDC_EDIT_TEXT, _T("    制动电流="));
-		str.Format(_T("%.3lf"), TGW_Protect.CP.GetI_B());
-		AppendText(IDC_EDIT_TEXT, str);
-		if (TGW_Protect.CP.GetActionTime() != 0)
-		{
-			AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
-			CString strT;
-			strT.Format(_T("%.1lf"), TGW_Protect.CP.GetActionTime());
-			AppendText(IDC_EDIT_TEXT, strT);
-			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
-		}
-		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
+		DeviceGetTime();
+		SetTimer(TIME_DEVICE_FIRST, m_Time[0]*1000, NULL);
+		SetTimer(TIME_DEVICE_CP_FIRST, 1500, NULL);
+		SetTimer(TIME_DEVICE_CP_SECOND, 3000, NULL);
+		SetTimer(TIME_DEVICE_CP_THIRD, 5300, NULL);
+		DeviceCurrentDiffAction();//装置动作行
 	}
 		break;
 	case 1:
 	{
-		UpdateData(FALSE);
+		UpdateData(TRUE);
 		vector<Electric_Voltage> U_m;
 		vector<Electric_Current> I_m;
 		InputUData(U_m);
@@ -516,12 +497,9 @@ void CProtectSimulationDlg::OnClickedButton1()
 		break;
 	case 2:
 	{
-		UpdateData(FALSE);
-		vector<Electric_Voltage> U_m;
-		vector<Electric_Current> I_m;
-		InputUData(U_m);
-		InputIData(I_m);
-		TGW_Protect.InitializeUI(U_m, I_m);
+		UpdateData(TRUE);
+		CPage1.UpdateUIInput();
+		TGW_Protect.InitializeUI(CPage1.m_U, CPage1.m_I);
 		UpdateFromSet(TGW_Protect);
 		StartTime = clock();
 		TGW_Protect.DP.DistanceProtection();
@@ -541,12 +519,9 @@ void CProtectSimulationDlg::OnClickedButton1()
 		break;
 	case 3:
 	{
-		UpdateData(FALSE);
-		vector<Electric_Voltage> U_m;
-		vector<Electric_Current> I_m;
-		InputUData(U_m);
-		InputIData(I_m);
-		TGW_Protect.InitializeUI(U_m, I_m);
+		UpdateData(TRUE);
+		CPage1.UpdateUIInput();
+		TGW_Protect.InitializeUI(CPage1.m_U, CPage1.m_I);
 		UpdateFromSet(TGW_Protect);
 		StartTime = clock();
 		TGW_Protect.ZP.ZeroSeqProtection();
@@ -932,6 +907,8 @@ void CProtectSimulationDlg::OnClickedButton2()
 	m_IBT_OffSide.SetWindowTextW(_T("-120"));
 	m_ICT_OffSide.SetWindowTextW(_T("120"));
 	m_systime.SetWindowTextW(_T("00:00"));
+	seconds_v = 0;
+	milliseconds_v = 0;
 	// TODO: 在此添加控件通知处理程序代码
 }
 
@@ -1350,28 +1327,151 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	CString str;
-	static int seconds = 0;
-	static int milliseconds = 0;
 	switch (nIDEvent)
 	{
-	case 1:
-		milliseconds++;
-		if (milliseconds == 100)
+	case TIME_DEVICE_COUNT:
+		milliseconds_v++;
+		if (milliseconds_v >= 63)
 		{
-			milliseconds = 0;
-			seconds++;
+			milliseconds_v = 0;
+			seconds_v++;
 		}
-		str.Format(_T("%02i:%02i"), seconds, milliseconds);
+		str.Format(_T("%02i:%02i"), seconds_v, milliseconds_v);
 		m_systime.SetWindowTextW(str);
 		UpdateData(FALSE);
 		break;
+	case TIME_DEVICE_FIRST:
+		TGW_Protect.ClearUI();
+		KillTimer(TIME_DEVICE_FIRST);
+		KillTimer(TIME_DEVICE_COUNT);
+		break;
+	case TIME_DEVICE_CP_FIRST:
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState()))
+		{
+			switch (TGW_Protect.CP.GetProtectAcionState())
+			{
+			case ProtectAction_A:
+				AppendText(IDC_EDIT_TEXT, _T("A相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_CP_SECOND);
+				KillTimer(TIME_DEVICE_CP_THIRD);
+				break;
+			case ProtectAction_B:
+				AppendText(IDC_EDIT_TEXT, _T("B相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_CP_SECOND);
+				KillTimer(TIME_DEVICE_CP_THIRD);
+				break;
+			case ProtectAction_C:
+				AppendText(IDC_EDIT_TEXT, _T("C相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_CP_SECOND);
+				KillTimer(TIME_DEVICE_CP_THIRD);
+				break;
+			case ProtectNoAction:
+				KillTimer(TIME_DEVICE_CP_FIRST);
+				KillTimer(TIME_DEVICE_CP_SECOND);
+				break;
+			default:
+				AppendText(IDC_EDIT_TEXT, _T("三相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_CP_SECOND);
+				KillTimer(TIME_DEVICE_CP_THIRD);
+				break;
+			}
+		}
+		else
+		{
+			switch (TGW_Protect.CP.GetProtectAcionState())
+			{
+			case ProtectAction_A:
+				AppendText(IDC_EDIT_TEXT, _T("A相单跳失败永跳\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.CP.SetProtectActionState(ProtectAction_ABC);
+				break;
+			case ProtectAction_B:
+				AppendText(IDC_EDIT_TEXT, _T("B相单跳失败永跳\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.CP.SetProtectActionState(ProtectAction_ABC);
+				break;
+			case ProtectAction_C:
+				AppendText(IDC_EDIT_TEXT, _T("C相单跳失败永跳\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.CP.SetProtectActionState(ProtectAction_ABC);
+				break;
+			case ProtectNoAction:
+				KillTimer(TIME_DEVICE_CP_FIRST);
+				KillTimer(TIME_DEVICE_CP_SECOND);
+				break;
+			default:
+				AppendText(IDC_EDIT_TEXT, _T("三相跳闸失败永跳\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				TGW_Protect.CP.SetProtectActionState(ProtectAction_ABC);
+				break;
+			}
+		}
+		KillTimer(TIME_DEVICE_CP_FIRST);
+		break;
+	case TIME_DEVICE_CP_SECOND:
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState()))
+		{
+			AppendText(IDC_EDIT_TEXT, _T("永跳成功\r\n"));
+			KillTimer(TIME_DEVICE_CP_THIRD);
+		}
+		else
+		{
+
+		}
+		KillTimer(TIME_DEVICE_CP_SECOND);
+		break;
+	case TIME_DEVICE_CP_THIRD:
+		AppendText(IDC_EDIT_TEXT, _T("永跳失败\r\n"));
+		KillTimer(TIME_DEVICE_CP_THIRD);
+		break;
 	}
-	CDialogEx::OnTimer(nIDEvent);
 }
 
 
 void CProtectSimulationDlg::OnClickedButton3()
 {
-	KillTimer(1);
+	KillTimer(TIME_DEVICE_COUNT);
+	TGW_Protect.ClearUI();
+	KillTimer(TIME_DEVICE_FIRST);
 	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CProtectSimulationDlg::DeviceCurrentDiffAction()
+{
+	TGW_Protect.CP.CurrentDiffProtectionLoop();
+	AppendText(IDC_EDIT_TEXT, _T("本侧保护：\r\n"));
+	ProtectReport(TGW_Protect.CP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
+	UpdateBKState(TGW_Protect);
+	CString str;
+	if (TGW_Protect.CP.GetIsStart() == 1)
+	{
+		AppendText(IDC_EDIT_TEXT, _T("保护启动\r\n"));
+	}
+	AppendText(IDC_EDIT_TEXT, _T("差动保护动作：差动电流="));
+	str.Format(_T("%.3lf"), TGW_Protect.CP.GetI_Diff());
+	AppendText(IDC_EDIT_TEXT, str);
+	AppendText(IDC_EDIT_TEXT, _T("    制动电流="));
+	str.Format(_T("%.3lf"), TGW_Protect.CP.GetI_B());
+	AppendText(IDC_EDIT_TEXT, str);
+	if (TGW_Protect.CP.GetActionTime() != 0)
+	{
+		AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
+		CString strT;
+		strT.Format(_T("%.1lf"), TGW_Protect.CP.GetActionTime());
+		AppendText(IDC_EDIT_TEXT, strT);
+		AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+	}
+	AppendText(IDC_EDIT_TEXT, _T("\r\n"));
+
+	// TODO: 在此处添加实现代码.
+}
+
+
+void CProtectSimulationDlg::DeviceGetTime()
+{
+	m_Time[0]=CPage1.m_Time;
 }

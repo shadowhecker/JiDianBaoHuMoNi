@@ -18,6 +18,9 @@ public:
 	void UpdateProtectBKState();
 	void InitializeUI(vector<Electric_Voltage>U, vector<Electric_Current> I);
 	void UpdateProtectUI();
+
+	int IsBKOffSuccess(ActionState stat);
+	void ClearUI();
 public:
 	CurrentDiff_Protection CP;
 	Distance_Protection DP;

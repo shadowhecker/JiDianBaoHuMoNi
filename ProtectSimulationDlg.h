@@ -15,6 +15,7 @@
 #include "TGW931.h"
 #include "CDlgUIOne.h"
 // CProtectSimulationDlg 对话框
+
 class CProtectSimulationDlg : public CDialogEx
 {
 // 构造
@@ -123,4 +124,7 @@ public:
 	afx_msg void OnClickedButton3();
 	CTabCtrl m_TAB;
 	CDlgUIOne CPage1;
+	void DeviceCurrentDiffAction();
+	vector<double> m_Time;
+	void DeviceGetTime();
 };

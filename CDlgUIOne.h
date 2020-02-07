@@ -1,5 +1,13 @@
 ﻿#pragma once
-
+#include <cstdio>
+#include <iostream>
+#include "Electric_Current.h"
+#include "Electric_Voltage.h"
+#include "Protection_Lib.h"
+#include "Distance_Protection.h"
+#include "res.h"
+#include "ZeroSeq_Protection.h"
+#include "CurrentDiff_Protection.h"
 
 // CDlgUIOne 对话框
 
@@ -34,7 +42,11 @@ public:
 	double m_IAT;
 	double m_IBT;
 	double m_ICT;
-	int m_Time;
+	double m_Time;
 	virtual BOOL OnInitDialog();
-	Electric_Voltage m_U;
+	vector<Electric_Voltage> m_U;
+	vector<Electric_Current> m_I;
+	void InputUData();
+	void InputIData();
+	void UpdateUIInput();
 };
