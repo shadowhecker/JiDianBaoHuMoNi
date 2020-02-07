@@ -9,6 +9,16 @@ Distance_Protection::Distance_Protection(vector<Electric_Voltage> U, vector<Elec
 	ActionTime = 0;
 }
 
+Distance_Protection::Distance_Protection()
+{
+	U_m = { Electric_Voltage(0, 0), Electric_Voltage(0, 0), Electric_Voltage(0, 0) };
+	I_m = { Electric_Current(0, 0), Electric_Current(0, 0), Electric_Current(0, 0) };
+	Z_m = CaculateZ_m(U_m, I_m);
+	ProtectActionState = ProtectNoAction;
+	Which_Protection = ProtectNoAction;
+	ActionTime = 0;
+}
+
 int Distance_Protection::DPCoreAlgorithmOne_¢ñ(double FaultStyle)
 {
 	double JudgePara_¢ñ;
@@ -502,4 +512,11 @@ double Distance_Protection::GetActionTime()
 pair<Resistance_Impedance, double> Distance_Protection::GetZ_m()
 {
 	return Z_m;
+}
+
+void Distance_Protection::SetUI(vector<Electric_Voltage> U, vector<Electric_Current> I)
+{
+	U_m = U;
+	I_m = I;
+	Z_m = CaculateZ_m(U, I);
 }

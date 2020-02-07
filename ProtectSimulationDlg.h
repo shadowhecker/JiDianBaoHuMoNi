@@ -12,6 +12,8 @@
 #include "res.h"
 #include "ZeroSeq_Protection.h"
 #include "CurrentDiff_Protection.h"
+#include "TGW931.h"
+#include "CDlgUIOne.h"
 // CProtectSimulationDlg 对话框
 class CProtectSimulationDlg : public CDialogEx
 {
@@ -65,7 +67,7 @@ public:
 	void FrameSwitch(int ChooseProtect);
 	void AppendText(int controlId, CString strAdd);
 	// //输出报文
-	void ProtectReport(int stat,int nID);
+	void ProtectReport(int stat,int nID, TGW931& TP);
 	void InputUData(vector<Electric_Voltage>& U_m);
 	void InputIData(vector<Electric_Current>& I_m);
 	afx_msg LRESULT OnNcHitTest(CPoint point);
@@ -109,4 +111,16 @@ public:
 	CEdit m_EditText2;
 	CEdit m_EditText3;
 	afx_msg void OnMenuAbout();
+	// //更新装置的断路器状态
+	void UpdateBKState(TGW931& TP);
+	// //从用户设定界面返回开关状态
+	void UpdateFromSet(TGW931& TP);
+	void UpdateBKState_OffSide(TGW931& TP);
+	void UpdateFromSet_OffSide(TGW931& TP);
+	TGW931 TGW_Protect;
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	CEdit m_systime;
+	afx_msg void OnClickedButton3();
+	CTabCtrl m_TAB;
+	CDlgUIOne CPage1;
 };

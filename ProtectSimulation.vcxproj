@@ -187,12 +187,14 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CDlgUIOne.h" />
     <ClInclude Include="CurrentDiff_Protection.h" />
     <ClInclude Include="Distance_Protection.h" />
     <ClInclude Include="Electric_Current.h" />
     <ClInclude Include="Electric_Voltage.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Operation_Case.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="Phasor_Angle.h" />
     <ClInclude Include="Protection_Lib.h" />
     <ClInclude Include="ProtectSimulation.h" />
@@ -203,14 +205,15 @@
     <ClInclude Include="SettingValue.h" />
     <ClInclude Include="Static_Lib.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TGW931.h" />
     <ClInclude Include="ZeroSeq_Protection.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CDlgUIOne.cpp" />
     <ClCompile Include="CurrentDiff_Protection.cpp" />
     <ClCompile Include="Distance_Protection.cpp" />
     <ClCompile Include="Electric_Current.cpp" />
     <ClCompile Include="Electric_Voltage.cpp" />
-    <ClCompile Include="main_bak.cpp" />
     <ClCompile Include="Operation_Case.cpp" />
     <ClCompile Include="Phasor_Angle.cpp" />
     <ClCompile Include="Protection_Lib.cpp" />
@@ -220,6 +223,7 @@
     <ClCompile Include="Resistance_Impedance.cpp" />
     <ClCompile Include="SettingValue.cpp" />
     <ClCompile Include="Static_Lib.cpp" />
+    <ClCompile Include="TGW931.cpp" />
     <ClCompile Include="ZeroSeq_Protection.cpp" />
   </ItemGroup>
   <ItemGroup>

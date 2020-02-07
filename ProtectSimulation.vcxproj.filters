@@ -66,6 +66,15 @@
     <ClInclude Include="ZeroSeq_Protection.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="TGW931.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CDlgUIOne.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProtectSimulation.cpp">
@@ -84,9 +93,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Electric_Voltage.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="main_bak.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Operation_Case.cpp">
@@ -111,6 +117,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ZeroSeq_Protection.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TGW931.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CDlgUIOne.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -8,6 +8,7 @@
 #define IDD_PROTECTSIMULATION_DIALOG    102
 #define IDR_MAINFRAME                   128
 #define IDR_MENU1                       130
+#define IDD_DIALOG_OneState             133
 #define IDC_EDIT1                       1000
 #define IDC_EDIT2                       1001
 #define IDC_EDIT3                       1002
@@ -68,6 +69,7 @@
 #define IDC_STATIC_OFFSIDE              1066
 #define IDC_MFCLINK1                    1068
 #define IDC_MFCLINK2                    1069
+#define IDC_EDIT_TIME                   1069
 #define IDC_RADIO2                      1070
 #define IDC_RADIO3                      1071
 #define IDC_RADIO4                      1072
@@ -82,6 +84,10 @@
 #define IDC_RADIO14                     1081
 #define IDC_RADIO15                     1082
 #define IDC_RADIO16                     1083
+#define IDC_BUTTON3                     1087
+#define IDC_STATIC_TIME                 1089
+#define IDC_TAB1                        1090
+#define IDC_TAB_UI                      1090
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -98,9 +104,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        133
+#define _APS_NEXT_RESOURCE_VALUE        135
 #define _APS_NEXT_COMMAND_VALUE         32782
-#define _APS_NEXT_CONTROL_VALUE         1069
+#define _APS_NEXT_CONTROL_VALUE         1091
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -61,6 +61,8 @@ CurrentDiff_Protection::CurrentDiff_Protection(vector<Electric_Voltage> U_m, vec
 {
 	U_OnSide = U_m;
 	I_OnSide = I_m;
+	U_OffSide = { Electric_Voltage(0, 0), Electric_Voltage(0, 0), Electric_Voltage(0, 0) };
+	I_OffSide = { Electric_Current(0, 0), Electric_Current(0, 0), Electric_Current(0, 0) };
 	ChannelLoop =Loop;//默认设置装置不自环
 	if (ChannelLoop == 1)
 	{
@@ -78,10 +80,32 @@ CurrentDiff_Protection::CurrentDiff_Protection(vector<Electric_Voltage> U_m, vec
 		I_OnSide[1] = 0;
 		I_OnSide[2] = 0;
 	}
+	ReceiveActionSingle = 0;
+	SendActionSingleStat = 0;
+	IsStart = 0;
+	IsWeedBack = 0;
+	ProtectActionState = 0;
+	ActionTime = 0;
+}
+
+CurrentDiff_Protection::CurrentDiff_Protection()
+{
+	U_OnSide = { Electric_Voltage(0, 0), Electric_Voltage(0, 0), Electric_Voltage(0, 0) };
+	I_OnSide = { Electric_Current(0, 0), Electric_Current(0, 0), Electric_Current(0, 0) };
+	U_OffSide = { Electric_Voltage(0, 0), Electric_Voltage(0, 0), Electric_Voltage(0, 0) };
+	I_OffSide = { Electric_Current(0, 0), Electric_Current(0, 0), Electric_Current(0, 0) };
 	int ReceiveActionSingle = 0;
 	int SendActionSingle = 0;
 	int IsStart = 0;
 	int IsWeedBack = 0;
+	ReceiveActionSingle = 0;
+	SendActionSingleStat = 0;
+	IsStart = 0;
+	IsWeedBack = 0;
+	ProtectActionState = 0;
+	ActionTime = 0;
+	ChannelLoop = 0;
+	BreakerStat = 0;
 }
 
 void CurrentDiff_Protection::CurrentDiffProtectionLoop()
@@ -128,6 +152,18 @@ int CurrentDiff_Protection::GetIsStart()
 int CurrentDiff_Protection::GetIsWeedBack()
 {
 	return IsWeedBack;
+}
+
+void CurrentDiff_Protection::SetBKState(int BK)
+{
+	BreakerStat = BK;
+}
+
+void CurrentDiff_Protection::SetUI(vector<Electric_Voltage> U, vector<Electric_Current> I)
+{
+	U_OnSide = U;
+	I_OnSide = I;
+	I_DB = Caculate_CurrentDiff(U_OnSide, I_OnSide, U_OffSide, I_OffSide);
 }
 
 

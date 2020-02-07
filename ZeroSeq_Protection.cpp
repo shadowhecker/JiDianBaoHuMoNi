@@ -1,5 +1,27 @@
 #include "ZeroSeq_Protection.h"
 
+ZeroSeq_Protection::ZeroSeq_Protection(vector<Electric_Voltage> U, vector<Electric_Current> I)
+{
+	U_m = U;
+	I_m = I;
+	ActionTime = 0;
+	ProtectActionState = 0;
+	Which_Protection = 0;
+	UZ = Caculate_UZ_IZ(U_m, I_m).first.first;
+	IZ = Caculate_UZ_IZ(U_m, I_m).first.second;
+}
+
+ZeroSeq_Protection::ZeroSeq_Protection()
+{
+	U_m = { Electric_Voltage(0, 0), Electric_Voltage(0, 0), Electric_Voltage(0, 0) };
+	I_m = { Electric_Current(0, 0), Electric_Current(0, 0), Electric_Current(0, 0) };
+	ActionTime = 0;
+	ProtectActionState = 0;
+	Which_Protection = 0;
+	UZ = Caculate_UZ_IZ(U_m, I_m).first.first;
+	IZ = Caculate_UZ_IZ(U_m, I_m).first.second;
+}
+
 int ZeroSeq_Protection::ZPCoreAlgorithmQuad_¢Ú()
 {
 	auto ZeroTheta = 90-UseSetValue.GetValue(ProtectDevice, "œﬂ¬∑¡„–Ú¡È√ÙΩ«");
@@ -222,4 +244,9 @@ Electric_Voltage ZeroSeq_Protection::GetUZ()
 Electric_Current ZeroSeq_Protection::GetIZ()
 {
 	return IZ;
+}
+
+void ZeroSeq_Protection::SetUI(vector<Electric_Voltage> U, vector<Electric_Current> I)
+{
+
 }
