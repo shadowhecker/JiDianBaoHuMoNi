@@ -378,7 +378,7 @@ int Distance_Protection::DPCoreAlgorithmQuad_¢ñ(double FaultStyle)
 	JudgePara1_¢ñ = arg(Z_m.first.ReturnZComplex()) * 180 / M_PI;
 	if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 105)
 	{
-		if (JudgePara1_¢ñ >= 0 && JudgePara1_¢ñ <= 90)
+		if (JudgePara1_¢ñ > 0 && JudgePara1_¢ñ < 90)
 		{
 			JudgePara2_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex()) / Z_m.first.ReturnZComplex().real()) * 180 / M_PI;
 			JudgePara3_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex().real()) / Z_m.first.ReturnZComplex().imag()) * 180 / M_PI;
@@ -387,9 +387,9 @@ int Distance_Protection::DPCoreAlgorithmQuad_¢ñ(double FaultStyle)
 			else
 				return 0;
 		}
-		else if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ < 0)
+		else if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 0)
 		{
-			if (Z_m.first.ReturnZComplex().real() < Z_set_¢ñ.ReturnZComplex().real())
+			if (Z_m.first.ReturnZComplex().real() < 8*Z_set_¢ñ.ReturnZComplex().real())
 				return 1;
 			else
 				return 0;
@@ -422,7 +422,7 @@ int Distance_Protection::DPCoreAlgorithmQuad_¢ò(double FaultStyle)
 	JudgePara1_¢ñ = arg(Z_m.first.ReturnZComplex()) * 180 / M_PI;
 	if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 105)
 	{
-		if (JudgePara1_¢ñ >= 0 && JudgePara1_¢ñ <= 90)
+		if (JudgePara1_¢ñ > 0 && JudgePara1_¢ñ < 90)
 		{
 			JudgePara2_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex()) / Z_m.first.ReturnZComplex().real()) * 180 / M_PI;
 			JudgePara3_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex().real()) / Z_m.first.ReturnZComplex().imag()) * 180 / M_PI;
@@ -431,9 +431,9 @@ int Distance_Protection::DPCoreAlgorithmQuad_¢ò(double FaultStyle)
 			else
 				return 0;
 		}
-		else if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ < 0)
+		else if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 0)
 		{
-			if (Z_m.first.ReturnZComplex().real() < Z_set_¢ñ.ReturnZComplex().real())
+			if (Z_m.first.ReturnZComplex().real() < 8*Z_set_¢ñ.ReturnZComplex().real())
 				return 1;
 			else
 				return 0;
@@ -466,7 +466,7 @@ int Distance_Protection::DPCoreAlgorithmQuad_¢ó(double FaultStyle)
 	JudgePara1_¢ñ = arg(Z_m.first.ReturnZComplex()) * 180 / M_PI;
 	if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 105)
 	{
-		if (JudgePara1_¢ñ >= 0 && JudgePara1_¢ñ <= 90)
+		if (JudgePara1_¢ñ > 0 && JudgePara1_¢ñ < 90)
 		{
 			JudgePara2_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex()) / Z_m.first.ReturnZComplex().real()) * 180 / M_PI;
 			JudgePara3_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex().real()) / Z_m.first.ReturnZComplex().imag()) * 180 / M_PI;
@@ -475,9 +475,9 @@ int Distance_Protection::DPCoreAlgorithmQuad_¢ó(double FaultStyle)
 			else
 				return 0;
 		}
-		else if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ < 0)
+		else if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 0)
 		{
-			if (Z_m.first.ReturnZComplex().real() < Z_set_¢ñ.ReturnZComplex().real())
+			if (Z_m.first.ReturnZComplex().real() < 8*Z_set_¢ñ.ReturnZComplex().real())
 				return 1;
 			else
 				return 0;
@@ -519,4 +519,10 @@ void Distance_Protection::SetUI(vector<Electric_Voltage> U, vector<Electric_Curr
 	U_m = U;
 	I_m = I;
 	Z_m = CaculateZ_m(U, I);
+	ProtectActionState = Z_m.second;
+}
+
+void Distance_Protection::SetProtectActionState(ActionState stat)
+{
+	ProtectActionState = stat;
 }

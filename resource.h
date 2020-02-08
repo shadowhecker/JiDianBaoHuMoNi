@@ -88,6 +88,21 @@
 #define IDC_STATIC_TIME                 1089
 #define IDC_TAB1                        1090
 #define IDC_TAB_UI                      1090
+#define IDC_STATIC_MS                   1091
+#define TIME_DEVICE_COUNT               5000
+#define TIME_DEVICE_CP_FIRST            5001
+#define TIME_DEVICE_CP_SECOND           5002
+#define TIME_DEVICE_FIRST               5003
+#define TIME_DEVICE_CP_THIRD            5004
+#define TIME_DEVICE_CP_FORTH            5005
+#define TIME_DEVICE_DP_FIRST            5006
+#define TIME_DEVICE_DP_SECOND           5007
+#define TIME_DEVICE_DP_THIRD            5008
+#define TIME_DEVICE_DP_FORTH            5009
+#define TIME_DEVICE_ZP_FIRST            5010
+#define TIME_DEVICE_ZP_SECOND           5011
+#define TIME_DEVICE_ZP_THIRD            5012
+#define TIME_DEVICE_ZP_FORTH            5013
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -99,18 +114,14 @@
 #define ID_MENU_ZP                      32779
 #define ID_32780                        32780
 #define ID_MENU_ABOUT                   32781
-#define TIME_DEVICE_COUNT               5000//用于软件时间走字儿的计时器
-#define TIME_DEVICE_CP_FIRST            5001//线路保护单跳失败补跳的计时器
-#define TIME_DEVICE_CP_SECOND           5002//线路保护再次单跳失败三跳的计时器
-#define TIME_DEVICE_FIRST               5003//第一态计时器
-#define TIME_DEVICE_CP_THIRD            5004//线路保护永跳失败5s
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        135
 #define _APS_NEXT_COMMAND_VALUE         32782
-#define _APS_NEXT_CONTROL_VALUE         1091
+#define _APS_NEXT_CONTROL_VALUE         1092
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

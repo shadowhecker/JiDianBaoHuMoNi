@@ -248,5 +248,15 @@ Electric_Current ZeroSeq_Protection::GetIZ()
 
 void ZeroSeq_Protection::SetUI(vector<Electric_Voltage> U, vector<Electric_Current> I)
 {
+	U_m = U;
+	I_m = I;
+	UZ = Caculate_UZ_IZ(U_m, I_m).first.first;
+	IZ = Caculate_UZ_IZ(U_m, I_m).first.second;
+}
 
+
+void ZeroSeq_Protection::SetProtectActionState(ActionState stat)
+{
+	ProtectActionState = stat;
+	// TODO: 在此处添加实现代码.
 }

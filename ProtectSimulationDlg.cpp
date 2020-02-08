@@ -31,8 +31,8 @@
 #define new DEBUG_NEW
 #endif
 
-static int seconds_v = 0;
-static int milliseconds_v = 0;
+static double seconds_v = 0;
+static double milliseconds_v = 0;
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
 class CAboutDlg : public CDialogEx
@@ -67,12 +67,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_MFCLINK1, &CAboutDlg::OnBnClickedMfclink1)
 END_MESSAGE_MAP()
-
-
 // CProtectSimulationDlg 对话框
-
-
-
 CProtectSimulationDlg::CProtectSimulationDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_PROTECTSIMULATION_DIALOG, pParent)
 {
@@ -124,79 +119,6 @@ void CProtectSimulationDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_TAB_UI, m_TAB);
 }
 
-//void CProtectSimulationDlg::InitialDBB()
-//{
-//	CRect rt;
-//	m_pDrawWnd->GetClientRect(&rt);
-//	CDC* sDC = m_pDrawWnd->GetDC();
-//	// 为屏幕DC创建兼容的内存DC
-//	if (!m_memDC.CreateCompatibleDC(sDC))//
-//	{
-//		::PostQuitMessage(0);
-//	}
-
-//	// 创建位图,不能是m_memDC，否则无颜色
-//	m_Bmp.CreateCompatibleBitmap(sDC, rt.Width(), rt.Height());//m_memDC
-//	// 相当于选择画布,m_pDrawWnd->
-//	::SelectObject(m_memDC.GetSafeHdc(), m_Bmp);
-//	m_pDrawWnd->ReleaseDC(sDC);
-//}
-
-//void CProtectSimulationDlg::DrawOnMem()
-//{
-//	CRect rect;
-//	m_pDrawWnd->GetClientRect(&rect);
-//	COLORREF crl = GetSysColor(COLOR_3DFACE);
-//	m_memDC.FillSolidRect(rect, crl); 
-//	m_memDC.FillSolidRect(&rect, 0x00FFFFFF);// 白色填充, 注意,这次是画在内存设备环境上
-//	CPen pen(PS_SOLID, 1, RGB(0, 0, 0));
-//	m_memDC.SelectObject(&pen);
-//	//画横坐标
-//	m_memDC.MoveTo(rect.left+15, (rect.top+(rect.bottom-rect.top)/2));
-//	m_memDC.LineTo(rect.right-15, (rect.top + (rect.bottom - rect.top) / 2));
-	//写R
-//	CFont font;//用来设置大小、样式，颜色用dc.SetTextColor设置
-//	font.CreatePointFont(80, TEXT("Arial"));//20号字
-//	m_memDC.SelectObject(&font);
-//	if (m_ChooseProtect == 2)
-//	{
-//		CRect rect_font(rect.right - 35, (rect.top + (rect.bottom - rect.top) / 2) + 5, rect.right - 15, (rect.top + (rect.bottom - rect.top) / 2) + 25);
-//		m_memDC.DrawText(_T("R"), rect_font, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-//	}
-//	//画纵坐标
-//	m_memDC.MoveTo(rect.left + (rect.right-rect.left)/2, rect.top+5);
-//	m_memDC.LineTo(rect.left + (rect.right - rect.left) / 2, rect.bottom - 5);
-	//写JX
-//	if (m_ChooseProtect == 2)
-//	{
-//		CRect rect_font2 = { rect.left + (rect.right - rect.left) / 2 - 20, rect.top + 5, rect.left + (rect.right - rect.left) / 2 - 0, rect.top + 25 };
-//		m_memDC.DrawText(_T("jX"), rect_font2, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-//	}
-	//画定值向量
-//	if (m_ChooseProtect == 2)
-//	{
-//		CPoint p1(rect.left / 2 + rect.right / 2, rect.top / 2 + rect.bottom / 2);
-//		double X_OffSet = UseSetValue.GetValue(ProtectDevice, "接地距离Ⅰ段") * cos(UseSetValue.GetValue(ProtectDevice, "线路正序灵敏角")*M_PI/180)*50;
-//		double Y_OffSet = UseSetValue.GetValue(ProtectDevice, "接地距离Ⅰ段") * sin(UseSetValue.GetValue(ProtectDevice, "线路正序灵敏角")*M_PI/180)*50;
-//		CPoint p2((rect.left/2 + rect.right/2)+X_OffSet, (rect.top / 2 + rect.bottom / 2)-Y_OffSet);
-//		DrawArrow(p1, p2, UseSetValue.GetValue(ProtectDevice, "线路正序灵敏角"), UseSetValue.GetValue(ProtectDevice, "接地距离Ⅰ段")*4);
-//	}
-//}
-
-//void CProtectSimulationDlg::DrawOnStaticArea()
-//{
-//	CWnd* pWnd = GetDlgItem(IDC_STATIC);//获得静态文本框的窗口对象
-//	CRect rect;
-//	pWnd->GetClientRect(&rect);
-	//
-//	CDC* pDC = pWnd->GetDC();//
-	//
-//	DrawOnMem();
-//	// 一次性的将内存设备环境上绘制完毕的图形"贴"到屏幕上
-//	pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &m_memDC, 0, 0, SRCCOPY);
-//	pWnd->ReleaseDC(pDC);//
-//}
-
 BEGIN_MESSAGE_MAP(CProtectSimulationDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
@@ -216,10 +138,7 @@ BEGIN_MESSAGE_MAP(CProtectSimulationDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BUTTON3, &CProtectSimulationDlg::OnClickedButton3)
 END_MESSAGE_MAP()
-
-
 // CProtectSimulationDlg 消息处理程序
-
 BOOL CProtectSimulationDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -376,8 +295,6 @@ HCURSOR CProtectSimulationDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-
-
 void CProtectSimulationDlg::OnMenuDp()
 {
 	m_ChooseProtect = 2;//切换至距离保护的标志
@@ -395,10 +312,9 @@ void CProtectSimulationDlg::OnMenuDp()
 	((CButton*)GetDlgItem(IDC_RADIO14))->EnableWindow(FALSE);
 }
 
-
 void CProtectSimulationDlg::OnClickedButton1()
 {
-	SetTimer(TIME_DEVICE_COUNT, 1, NULL);
+	
 	switch (m_ChooseProtect)
 	{
 	case -1:
@@ -414,10 +330,8 @@ void CProtectSimulationDlg::OnClickedButton1()
 		TGW_Protect.InitializeUI(CPage1.m_U, CPage1.m_I);
 		UpdateFromSet(TGW_Protect);
 		DeviceGetTime();
-		SetTimer(TIME_DEVICE_FIRST, m_Time[0]*1000, NULL);
-		SetTimer(TIME_DEVICE_CP_FIRST, 1500, NULL);
-		SetTimer(TIME_DEVICE_CP_SECOND, 3000, NULL);
-		SetTimer(TIME_DEVICE_CP_THIRD, 5300, NULL);
+		SetTimer(TIME_DEVICE_COUNT, 1, NULL);
+		SetTimer(TIME_DEVICE_FIRST, m_Time[0]*10000, NULL);
 		DeviceCurrentDiffAction();//装置动作行
 	}
 		break;
@@ -497,46 +411,28 @@ void CProtectSimulationDlg::OnClickedButton1()
 		break;
 	case 2:
 	{
-		UpdateData(TRUE);
+		UpdateData(FALSE);
+		StartTime = clock();
 		CPage1.UpdateUIInput();
 		TGW_Protect.InitializeUI(CPage1.m_U, CPage1.m_I);
 		UpdateFromSet(TGW_Protect);
-		StartTime = clock();
-		TGW_Protect.DP.DistanceProtection();
-		ProtectReport(TGW_Protect.DP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
-		UpdateBKState(TGW_Protect);
-		ProtectActionReport_DP(TGW_Protect.DP.GetWhich_Protection(), TGW_Protect.DP.GetZ_m().first.ReturnR(), TGW_Protect.DP.GetZ_m().first.ReturnX());
-		if (TGW_Protect.DP.GetActionTime() != 0)
-		{
-			AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
-			CString strT;
-			strT.Format(_T("%.1lf"), TGW_Protect.DP.GetActionTime());
-			AppendText(IDC_EDIT_TEXT, strT);
-			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
-		}
-		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
+		DeviceGetTime();
+		SetTimer(TIME_DEVICE_COUNT, 1, NULL);
+		SetTimer(TIME_DEVICE_FIRST, m_Time[0] * 10000, NULL);
+		DeviceDistanceAction();
 	}
 		break;
 	case 3:
 	{
-		UpdateData(TRUE);
+		UpdateData(FALSE);
+		StartTime = clock();
 		CPage1.UpdateUIInput();
 		TGW_Protect.InitializeUI(CPage1.m_U, CPage1.m_I);
 		UpdateFromSet(TGW_Protect);
-		StartTime = clock();
-		TGW_Protect.ZP.ZeroSeqProtection();
-		ProtectReport(TGW_Protect.ZP.GetProtectAcionState(),IDC_EDIT_TEXT, TGW_Protect);
-		UpdateBKState(TGW_Protect);
-		ProtectActionReport_ZP(TGW_Protect.ZP.GetWhich_Protection(), TGW_Protect.ZP.GetUZ(), TGW_Protect.ZP.GetIZ());
-		if (TGW_Protect.ZP.GetActionTime() != 0)
-		{
-			AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
-			CString strT;
-			strT.Format(_T("%.1lf"), TGW_Protect.ZP.GetActionTime());
-			AppendText(IDC_EDIT_TEXT, strT);
-			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
-		}
-		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
+		DeviceGetTime();
+		SetTimer(TIME_DEVICE_COUNT, 1, NULL);
+		SetTimer(TIME_DEVICE_FIRST, m_Time[0] * 10000, NULL);
+		DeviceZeroSeqAction();
 	}
 		break;
 	default:
@@ -544,8 +440,6 @@ void CProtectSimulationDlg::OnClickedButton1()
 	}
 	
 }
-
-
 // //根据菜单所选的保护类型切换画面
 void CProtectSimulationDlg::FrameSwitch(int ChooseProtect)
 {
@@ -577,7 +471,6 @@ void CProtectSimulationDlg::FrameSwitch(int ChooseProtect)
 		GetDlgItem(IDC_EDIT23)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT24)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT25)->ShowWindow(TRUE);
-
 		GetDlgItem(IDC_STATIC_OFFSIDE)->ShowWindow(TRUE);
 		GetDlgItem(IDC_RADIO7)->ShowWindow(TRUE);
 		GetDlgItem(IDC_RADIO8)->ShowWindow(TRUE);
@@ -592,6 +485,37 @@ void CProtectSimulationDlg::FrameSwitch(int ChooseProtect)
 		GetDlgItem(IDC_EDIT_TEXT3)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT_TIME)->ShowWindow(FALSE);
 		GetDlgItem(IDC_STATIC_TIME)->ShowWindow(FALSE);
+
+		GetDlgItem(IDC_TAB_UI)->ShowWindow(FALSE);
+		CPage1.ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC_MS)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC_GP1)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC1)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC2)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC3)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC4)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC5)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC6)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC7)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC8)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC9)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC10)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC11)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC12)->ShowWindow(TRUE);
+
+		GetDlgItem(IDC_EDIT1)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT2)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT3)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT4)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT5)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT6)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT7)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT8)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT9)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT10)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT11)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT12)->ShowWindow(TRUE);
+
 	}
 	else
 	{
@@ -636,10 +560,39 @@ void CProtectSimulationDlg::FrameSwitch(int ChooseProtect)
 		GetDlgItem(IDC_EDIT_TEXT3)->ShowWindow(FALSE);
 		GetDlgItem(IDC_EDIT_TIME)->ShowWindow(TRUE);
 		GetDlgItem(IDC_STATIC_TIME)->ShowWindow(TRUE);
+
+		GetDlgItem(IDC_TAB_UI)->ShowWindow(TRUE);
+		CPage1.ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC_MS)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC_GP1)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC1)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC2)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC3)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC4)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC5)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC6)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC7)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC8)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC9)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC10)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC11)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC12)->ShowWindow(FALSE);
+
+		GetDlgItem(IDC_EDIT1)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT2)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT3)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT4)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT5)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT6)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT7)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT8)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT9)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT10)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT11)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT12)->ShowWindow(FALSE);
 	}
 	// TODO: 在此处添加实现代码.
 }
-
 
 void CProtectSimulationDlg::AppendText(int controlId, CString strAdd)
 {
@@ -647,9 +600,6 @@ void CProtectSimulationDlg::AppendText(int controlId, CString strAdd)
 	((CEdit*)GetDlgItem(controlId))->ReplaceSel(strAdd);
 	// TODO: 在此处添加实现代码.
 }
-
-
-
 // //输出报文
 void CProtectSimulationDlg::ProtectReport(int stat,int nID,TGW931& TP)
 {
@@ -666,7 +616,6 @@ void CProtectSimulationDlg::ProtectReport(int stat,int nID,TGW931& TP)
 	case ProtectAction_C:
 		AppendText(nID, _T("C相故障\r\n保护跳C相\r\n"));
 		TP.BK.OffBKC();
-		if (nID == IDC_EDIT_TEXT3)
 		break;
 	case ProtectAction_AB:
 		AppendText(nID, _T("AB相间故障\r\n保护三跳\r\n"));
@@ -705,7 +654,6 @@ void CProtectSimulationDlg::ProtectReport(int stat,int nID,TGW931& TP)
 	// TODO: 在此处添加实现代码.
 }
 
-
 void CProtectSimulationDlg::InputUData(vector<Electric_Voltage>& U_m)
 {
 	CString U_A_V, U_A_T, U_B_V, U_B_T, U_C_V, U_C_T;
@@ -722,7 +670,6 @@ void CProtectSimulationDlg::InputUData(vector<Electric_Voltage>& U_m)
 	U_m.push_back(U_B);
 	U_m.push_back(U_C);
 }
-
 
 void CProtectSimulationDlg::InputIData(vector<Electric_Current>& I_m)
 {
@@ -742,9 +689,6 @@ void CProtectSimulationDlg::InputIData(vector<Electric_Current>& I_m)
 	// TODO: 在此处添加实现代码.
 }
 
-
-
-
 LRESULT CProtectSimulationDlg::OnNcHitTest(CPoint point)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
@@ -757,50 +701,6 @@ LRESULT CProtectSimulationDlg::OnNcHitTest(CPoint point)
 
 	return ret;
 }
-
-
-// //画向量
-//void CProtectSimulationDlg::DrawArrow(CPoint p1, CPoint p2, double theta, int length)
-//{
-//	theta = 3.1415926 * theta / 180;//转换为弧度
-//	double Px, Py, P1x, P1y, P2x, P2y;
-	//以P2为原点得到向量P2P1（P）
-//	Px = p1.x - p2.x;
-//	Py = p1.y - p2.y;
-	//向量P旋转theta角得到向量P1
-//	P1x = Px * cos(theta) - Py * sin(theta);
-//	P1y = Px * sin(theta) + Py * cos(theta);
-	//向量P旋转-theta角得到向量P2
-//	P2x = Px * cos(-theta) - Py * sin(-theta);
-//	P2y = Px * sin(-theta) + Py * cos(-theta);
-	//伸缩向量至制定长度
-//	double x1, x2;
-//	x1 = sqrt(P1x * P1x + P1y * P1y);
-//	P1x = P1x * length / x1;
-//	P1y = P1y * length / x1;
-//	x2 = sqrt(P2x * P2x + P2y * P2y);
-//	P2x = P2x * length / x2;
-//	P2y = P2y * length / x2;
-//	//平移变量到直线的末端
-//	P1x = P1x + p2.x;
-//	P1y = P1y + p2.y;
-//	P2x = P2x + p2.x;
-//	P2y = P2y + p2.y;
-//	CPen pen, pen1, * oldpen;
-//	pen.CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
-//	pen1.CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
-//	oldpen = m_memDC.SelectObject(&pen);
-//	m_memDC.MoveTo(p1.x, p1.y);
-//	m_memDC.LineTo(p2.x, p2.y);
-//	m_memDC.SelectObject(&pen1);
-//	m_memDC.MoveTo(p2.x, p2.y);
-//	m_memDC.LineTo(P1x, P1y);
-//	m_memDC.MoveTo(p2.x, p2.y);
-//	m_memDC.LineTo(P2x, P2y);
-//	m_memDC.SelectObject(oldpen);
-//	// TODO: 在此处添加实现代码.
-//}
-
 
 void CProtectSimulationDlg::ProtectActionReport_DP(ActionState Stat, double R, double jX)
 {
@@ -860,12 +760,9 @@ void CProtectSimulationDlg::ProtectActionReport_DP(ActionState Stat, double R, d
 	}
 }
 
-
 void CProtectSimulationDlg::OnClickedButton2()
 {
 	m_EditText.SetWindowTextW(_T(""));
-	m_EditText2.SetWindowTextW(_T(""));
-	m_EditText3.SetWindowTextW(_T(""));
 	((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(TRUE);
 	((CButton*)GetDlgItem(IDC_RADIO2))->SetCheck(FALSE);
 	((CButton*)GetDlgItem(IDC_RADIO3))->SetCheck(TRUE);
@@ -882,36 +779,59 @@ void CProtectSimulationDlg::OnClickedButton2()
 	((CButton*)GetDlgItem(IDC_RADIO12))->SetCheck(FALSE);
 	((CButton*)GetDlgItem(IDC_RADIO15))->SetCheck(TRUE);
 	((CButton*)GetDlgItem(IDC_RADIO16))->SetCheck(FALSE);
-	m_Edit_UAV.SetWindowTextW(_T("57.74"));
-	m_Edit_UBV.SetWindowTextW(_T("57.74"));
-	m_Edit_UCV.SetWindowTextW(_T("57.74"));
-	m_Edit_UAT.SetWindowTextW(_T("0"));
-	m_Edit_UBT.SetWindowTextW(_T("-120"));
-	m_Edit_UCT.SetWindowTextW(_T("120"));
-	m_Edit_IAV.SetWindowTextW(_T("0"));
-	m_Edit_IBV.SetWindowTextW(_T("0"));
-	m_Edit_ICV.SetWindowTextW(_T("0"));
-	m_Edit_IAT.SetWindowTextW(_T("0"));
-	m_Edit_IBT.SetWindowTextW(_T("-120"));
-	m_Edit_ICT.SetWindowTextW(_T("120"));
-	m_UAV_OffSide.SetWindowTextW(_T("57.74"));
-	m_UBV_OffSide.SetWindowTextW(_T("57.74"));
-	m_UCV_OffSide.SetWindowTextW(_T("57.74"));
-	m_UAT_OffSide.SetWindowTextW(_T("0"));
-	m_UBT_OffSide.SetWindowTextW(_T("-120"));
-	m_UCT_OffSide.SetWindowTextW(_T("120"));
-	m_IAV_OffSide.SetWindowTextW(_T("0"));
-	m_IBV_OffSide.SetWindowTextW(_T("0"));
-	m_ICV_OffSide.SetWindowTextW(_T("0"));
-	m_IAT_OffSide.SetWindowTextW(_T("0"));
-	m_IBT_OffSide.SetWindowTextW(_T("-120"));
-	m_ICT_OffSide.SetWindowTextW(_T("120"));
-	m_systime.SetWindowTextW(_T("00:00"));
+	if (m_ChooseProtect == 1)
+	{
+		m_EditText2.SetWindowTextW(_T(""));
+		m_EditText3.SetWindowTextW(_T(""));
+		
+		m_Edit_UAV.SetWindowTextW(_T("57.74"));
+		m_Edit_UBV.SetWindowTextW(_T("57.74"));
+		m_Edit_UCV.SetWindowTextW(_T("57.74"));
+		m_Edit_UAT.SetWindowTextW(_T("0"));
+		m_Edit_UBT.SetWindowTextW(_T("-120"));
+		m_Edit_UCT.SetWindowTextW(_T("120"));
+		m_Edit_IAV.SetWindowTextW(_T("0"));
+		m_Edit_IBV.SetWindowTextW(_T("0"));
+		m_Edit_ICV.SetWindowTextW(_T("0"));
+		m_Edit_IAT.SetWindowTextW(_T("0"));
+		m_Edit_IBT.SetWindowTextW(_T("-120"));
+		m_Edit_ICT.SetWindowTextW(_T("120"));
+		m_UAV_OffSide.SetWindowTextW(_T("57.74"));
+		m_UBV_OffSide.SetWindowTextW(_T("57.74"));
+		m_UCV_OffSide.SetWindowTextW(_T("57.74"));
+		m_UAT_OffSide.SetWindowTextW(_T("0"));
+		m_UBT_OffSide.SetWindowTextW(_T("-120"));
+		m_UCT_OffSide.SetWindowTextW(_T("120"));
+		m_IAV_OffSide.SetWindowTextW(_T("0"));
+		m_IBV_OffSide.SetWindowTextW(_T("0"));
+		m_ICV_OffSide.SetWindowTextW(_T("0"));
+		m_IAT_OffSide.SetWindowTextW(_T("0"));
+		m_IBT_OffSide.SetWindowTextW(_T("-120"));
+		m_ICT_OffSide.SetWindowTextW(_T("120"));
+
+	}
+	else
+	{
+		CPage1.GetDlgItem(IDC_EDIT14)->SetWindowTextW(_T("57.74"));
+		CPage1.GetDlgItem(IDC_EDIT15)->SetWindowTextW(_T("57.74"));
+		CPage1.GetDlgItem(IDC_EDIT16)->SetWindowTextW(_T("57.74"));
+		CPage1.GetDlgItem(IDC_EDIT17)->SetWindowTextW(_T("0"));
+		CPage1.GetDlgItem(IDC_EDIT18)->SetWindowTextW(_T("-120"));
+		CPage1.GetDlgItem(IDC_EDIT19)->SetWindowTextW(_T("120"));
+		CPage1.GetDlgItem(IDC_EDIT20)->SetWindowTextW(_T("0"));
+		CPage1.GetDlgItem(IDC_EDIT21)->SetWindowTextW(_T("0"));
+		CPage1.GetDlgItem(IDC_EDIT22)->SetWindowTextW(_T("0"));
+		CPage1.GetDlgItem(IDC_EDIT23)->SetWindowTextW(_T("0"));
+		CPage1.GetDlgItem(IDC_EDIT24)->SetWindowTextW(_T("-120"));
+		CPage1.GetDlgItem(IDC_EDIT25)->SetWindowTextW(_T("120"));
+		CPage1.GetDlgItem(IDC_EDIT_TIME)->SetWindowTextW(_T("0"));
+		UpdateData(FALSE);
+	}
+	m_systime.SetWindowTextW(_T("00:000"));
 	seconds_v = 0;
 	milliseconds_v = 0;
 	// TODO: 在此添加控件通知处理程序代码
 }
-
 
 void CProtectSimulationDlg::OnMenuZp()
 {
@@ -930,7 +850,6 @@ void CProtectSimulationDlg::OnMenuZp()
 	((CButton*)GetDlgItem(IDC_RADIO14))->EnableWindow(FALSE);
 	// TODO: 在此添加命令处理程序代码
 }
-
 
 void CProtectSimulationDlg::ProtectActionReport_ZP(ActionState stat, Electric_Voltage UZ, Electric_Current IZ)
 {
@@ -973,7 +892,6 @@ void CProtectSimulationDlg::ProtectActionReport_ZP(ActionState stat, Electric_Vo
 	// TODO: 在此处添加实现代码.
 }
 
-
 void CProtectSimulationDlg::OnMenuCpl()
 {
 	m_ChooseProtect = 0;
@@ -992,47 +910,6 @@ void CProtectSimulationDlg::OnMenuCpl()
 	// TODO: 在此添加命令处理程序代码
 }
 
-
-//void CProtectSimulationDlg::OnRadio1()
-//{
-//	if (m_ChooseProtect==0|| m_ChooseProtect == 1)
-//	{
-//		m_Breaker_BenCe = 1;
-//	}
-//	// TODO: 在此添加命令处理程序代码
-//}
-
-
-//void CProtectSimulationDlg::OnRadio2()
-//{
-//	if (m_ChooseProtect == 0 || m_ChooseProtect == 1)
-//	{
-//		m_Breaker_BenCe = 0;
-//	}
-//	// TODO: 在此添加命令处理程序代码
-//}
-
-
-//void CProtectSimulationDlg::OnRadio3()
-//{
-//	if (m_ChooseProtect == 0 || m_ChooseProtect == 1)
-//	{
-//		m_Breaker_DuiCe = 1;
-//	}
-//	// TODO: 在此添加命令处理程序代码
-//}
-
-
-//void CProtectSimulationDlg::OnRadio4()
-//{
-//	if (m_ChooseProtect == 0 || m_ChooseProtect == 1)
-//	{
-//		m_Breaker_DuiCe = 0;
-//	}
-//	// TODO: 在此添加命令处理程序代码
-//}
-
-
 void CProtectSimulationDlg::OnClickedRadio13()
 {
 	((CButton*)GetDlgItem(IDC_RADIO1))->SetCheck(TRUE);
@@ -1044,7 +921,6 @@ void CProtectSimulationDlg::OnClickedRadio13()
 	UpdateData(FALSE);
 	// TODO: 在此添加控件通知处理程序代码
 }
-
 
 void CProtectSimulationDlg::OnRadio14()
 {
@@ -1058,7 +934,6 @@ void CProtectSimulationDlg::OnRadio14()
 	// TODO: 在此添加命令处理程序代码
 }
 
-
 void CProtectSimulationDlg::OnClickedRadio15()
 {
 	((CButton*)GetDlgItem(IDC_RADIO7))->SetCheck(TRUE);
@@ -1070,7 +945,6 @@ void CProtectSimulationDlg::OnClickedRadio15()
 	UpdateData(FALSE);
 	// TODO: 在此添加控件通知处理程序代码
 }
-
 
 void CProtectSimulationDlg::OnRadio16()
 {
@@ -1084,7 +958,6 @@ void CProtectSimulationDlg::OnRadio16()
 	// TODO: 在此添加命令处理程序代码
 }
 
-
 int CProtectSimulationDlg::GetBKState(int BK)
 {
 	// TODO: 在此处添加实现代码.
@@ -1092,7 +965,6 @@ int CProtectSimulationDlg::GetBKState(int BK)
 		return 1;
 	return 0;
 }
-
 
 void CProtectSimulationDlg::OnMenuCp()
 {
@@ -1112,7 +984,6 @@ void CProtectSimulationDlg::OnMenuCp()
 	// TODO: 在此添加命令处理程序代码
 }
 
-
 void CProtectSimulationDlg::InputUData_OffSide(vector<Electric_Voltage>& U_m)
 {
 	CString U_A_V, U_A_T, U_B_V, U_B_T, U_C_V, U_C_T;
@@ -1130,7 +1001,6 @@ void CProtectSimulationDlg::InputUData_OffSide(vector<Electric_Voltage>& U_m)
 	U_m.push_back(U_C);
 	// TODO: 在此处添加实现代码.
 }
-
 
 void CProtectSimulationDlg::InputIData_OffSide(vector<Electric_Current>& I_m)
 {
@@ -1150,12 +1020,10 @@ void CProtectSimulationDlg::InputIData_OffSide(vector<Electric_Current>& I_m)
 	// TODO: 在此处添加实现代码.
 }
 
-
 void CAboutDlg::OnBnClickedMfclink1()
 {
 	// TODO: 在此添加控件通知处理程序代码
 }
-
 
 void CProtectSimulationDlg::OnMenuAbout()
 {
@@ -1163,8 +1031,6 @@ void CProtectSimulationDlg::OnMenuAbout()
 	dlg.DoModal();
 	// TODO: 在此添加命令处理程序代码
 }
-
-
 // //更新装置的断路器状态
 void CProtectSimulationDlg::UpdateBKState(TGW931& TP)//
 {
@@ -1211,8 +1077,6 @@ void CProtectSimulationDlg::UpdateBKState(TGW931& TP)//
 	UpdateData(FALSE);
 	// TODO: 在此处添加实现代码.
 }
-
-
 // //从用户设定界面返回开关状态
 void CProtectSimulationDlg::UpdateFromSet(TGW931& TP)
 {
@@ -1289,8 +1153,6 @@ void CProtectSimulationDlg::UpdateBKState_OffSide(TGW931& TP)//
 	UpdateData(FALSE);
 	// TODO: 在此处添加实现代码.
 }
-
-
 // //从用户设定界面返回开关状态
 void CProtectSimulationDlg::UpdateFromSet_OffSide(TGW931& TP)
 {
@@ -1322,7 +1184,6 @@ void CProtectSimulationDlg::UpdateFromSet_OffSide(TGW931& TP)
 	// TODO: 在此处添加实现代码.
 }
 
-
 void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
@@ -1331,12 +1192,12 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 	{
 	case TIME_DEVICE_COUNT:
 		milliseconds_v++;
-		if (milliseconds_v >= 63)
+		if (milliseconds_v >= 630)
 		{
 			milliseconds_v = 0;
 			seconds_v++;
 		}
-		str.Format(_T("%02i:%02i"), seconds_v, milliseconds_v);
+		str.Format(_T("%02.0f:%03.0f"), seconds_v, milliseconds_v);
 		m_systime.SetWindowTextW(str);
 		UpdateData(FALSE);
 		break;
@@ -1344,6 +1205,9 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 		TGW_Protect.ClearUI();
 		KillTimer(TIME_DEVICE_FIRST);
 		KillTimer(TIME_DEVICE_COUNT);
+		str.Format(_T("%02.0f:%03.0f"), floor(m_Time[0] ), (m_Time[0]  - floor(m_Time[0] )) * 1000);
+		m_systime.SetWindowTextW(str);
+		UpdateData(FALSE);
 		break;
 	case TIME_DEVICE_CP_FIRST:
 		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState()))
@@ -1354,25 +1218,30 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 				AppendText(IDC_EDIT_TEXT, _T("A相跳闸成功\r\n"));
 				KillTimer(TIME_DEVICE_CP_SECOND);
 				KillTimer(TIME_DEVICE_CP_THIRD);
+				KillTimer(TIME_DEVICE_CP_FORTH);
 				break;
 			case ProtectAction_B:
 				AppendText(IDC_EDIT_TEXT, _T("B相跳闸成功\r\n"));
 				KillTimer(TIME_DEVICE_CP_SECOND);
 				KillTimer(TIME_DEVICE_CP_THIRD);
+				KillTimer(TIME_DEVICE_CP_FORTH);
 				break;
 			case ProtectAction_C:
 				AppendText(IDC_EDIT_TEXT, _T("C相跳闸成功\r\n"));
 				KillTimer(TIME_DEVICE_CP_SECOND);
 				KillTimer(TIME_DEVICE_CP_THIRD);
+				KillTimer(TIME_DEVICE_CP_FORTH);
 				break;
 			case ProtectNoAction:
 				KillTimer(TIME_DEVICE_CP_FIRST);
+				KillTimer(TIME_DEVICE_CP_THIRD);
 				KillTimer(TIME_DEVICE_CP_SECOND);
 				break;
 			default:
 				AppendText(IDC_EDIT_TEXT, _T("三相跳闸成功\r\n"));
 				KillTimer(TIME_DEVICE_CP_SECOND);
 				KillTimer(TIME_DEVICE_CP_THIRD);
+				KillTimer(TIME_DEVICE_CP_FORTH);
 				break;
 			}
 		}
@@ -1381,97 +1250,526 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 			switch (TGW_Protect.CP.GetProtectAcionState())
 			{
 			case ProtectAction_A:
-				AppendText(IDC_EDIT_TEXT, _T("A相单跳失败永跳\r\n"));
-				TGW_Protect.BK.OffBKABC();
+				AppendText(IDC_EDIT_TEXT, _T("A相单跳失败,补跳单相\r\n"));
+				TGW_Protect.BK.OffBKA();
+				TGW_Protect.CP.SetProtectActionState(ProtectAction_A);
 				UpdateBKState(TGW_Protect);
-				TGW_Protect.CP.SetProtectActionState(ProtectAction_ABC);
 				break;
 			case ProtectAction_B:
-				AppendText(IDC_EDIT_TEXT, _T("B相单跳失败永跳\r\n"));
-				TGW_Protect.BK.OffBKABC();
+				AppendText(IDC_EDIT_TEXT, _T("B相单失败,补跳单相\r\n"));
+				TGW_Protect.BK.OffBKB();
+				TGW_Protect.CP.SetProtectActionState(ProtectAction_B);
 				UpdateBKState(TGW_Protect);
-				TGW_Protect.CP.SetProtectActionState(ProtectAction_ABC);
 				break;
 			case ProtectAction_C:
-				AppendText(IDC_EDIT_TEXT, _T("C相单跳失败永跳\r\n"));
-				TGW_Protect.BK.OffBKABC();
+				AppendText(IDC_EDIT_TEXT, _T("C相单跳失败,补跳单相\r\n"));
+				TGW_Protect.BK.OffBKC();
+				TGW_Protect.CP.SetProtectActionState(ProtectAction_C);
 				UpdateBKState(TGW_Protect);
-				TGW_Protect.CP.SetProtectActionState(ProtectAction_ABC);
 				break;
 			case ProtectNoAction:
 				KillTimer(TIME_DEVICE_CP_FIRST);
 				KillTimer(TIME_DEVICE_CP_SECOND);
 				break;
 			default:
-				AppendText(IDC_EDIT_TEXT, _T("三相跳闸失败永跳\r\n"));
+				AppendText(IDC_EDIT_TEXT, _T("三相跳闸失败，永跳闭锁重合闸\r\n"));
 				TGW_Protect.BK.OffBKABC();
 				TGW_Protect.CP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_CP_THIRD);
 				break;
 			}
 		}
 		KillTimer(TIME_DEVICE_CP_FIRST);
 		break;
 	case TIME_DEVICE_CP_SECOND:
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState())&& TGW_Protect.CP.GetProtectAcionState()==ProtectAction_ABC)
+		{
+			AppendText(IDC_EDIT_TEXT, _T("永跳成功\r\n"));
+			KillTimer(TIME_DEVICE_CP_SECOND);
+			KillTimer(TIME_DEVICE_CP_THIRD);
+			KillTimer(TIME_DEVICE_CP_FORTH);
+			break;
+		}
+		if (!TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState()) && TGW_Protect.CP.GetProtectAcionState() == ProtectAction_ABC)
+		{
+			KillTimer(TIME_DEVICE_CP_SECOND);
+			KillTimer(TIME_DEVICE_CP_THIRD);
+			break;
+		}
+		if(TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState())&& TGW_Protect.CP.GetProtectAcionState()!=ProtectAction_ABC)
+		{
+			AppendText(IDC_EDIT_TEXT, _T("补跳单相成功\r\n"));
+			KillTimer(TIME_DEVICE_CP_SECOND);
+			KillTimer(TIME_DEVICE_CP_THIRD);
+			KillTimer(TIME_DEVICE_CP_FORTH);
+			break;
+		}
+		else
+		{
+			switch (TGW_Protect.CP.GetProtectAcionState())
+			{
+			case ProtectAction_A:
+				AppendText(IDC_EDIT_TEXT, _T("A相补跳失败,永跳闭锁重合闸\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.CP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_CP_SECOND);
+				break;
+			case ProtectAction_B:
+				AppendText(IDC_EDIT_TEXT, _T("B相补跳失败,永跳闭锁重合闸\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.CP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_CP_SECOND);
+				break;
+			case ProtectAction_C:
+				AppendText(IDC_EDIT_TEXT, _T("C相补跳失败,永跳闭锁重合闸\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.CP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_CP_SECOND);
+				break;
+			}
+		}
+		break;
+	case TIME_DEVICE_CP_THIRD:
 		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState()))
 		{
 			AppendText(IDC_EDIT_TEXT, _T("永跳成功\r\n"));
 			KillTimer(TIME_DEVICE_CP_THIRD);
+			KillTimer(TIME_DEVICE_CP_FORTH);
 		}
 		else
 		{
-
+			KillTimer(TIME_DEVICE_CP_THIRD);
 		}
-		KillTimer(TIME_DEVICE_CP_SECOND);
 		break;
-	case TIME_DEVICE_CP_THIRD:
+	case TIME_DEVICE_CP_FORTH:
 		AppendText(IDC_EDIT_TEXT, _T("永跳失败\r\n"));
-		KillTimer(TIME_DEVICE_CP_THIRD);
+		KillTimer(TIME_DEVICE_CP_FORTH);
+		break;
+	case TIME_DEVICE_DP_FIRST:
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.DP.GetProtectAcionState()))
+		{
+			switch (TGW_Protect.DP.GetProtectAcionState())
+			{
+			case ProtectAction_A:
+				AppendText(IDC_EDIT_TEXT, _T("A相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_DP_SECOND);
+				KillTimer(TIME_DEVICE_DP_THIRD);
+				KillTimer(TIME_DEVICE_DP_FORTH);
+				break;
+			case ProtectAction_B:
+				AppendText(IDC_EDIT_TEXT, _T("B相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_DP_SECOND);
+				KillTimer(TIME_DEVICE_DP_THIRD);
+				KillTimer(TIME_DEVICE_DP_FORTH);
+				break;
+			case ProtectAction_C:
+				AppendText(IDC_EDIT_TEXT, _T("C相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_DP_SECOND);
+				KillTimer(TIME_DEVICE_DP_THIRD);
+				KillTimer(TIME_DEVICE_DP_FORTH);
+				break;
+			case ProtectNoAction:
+				KillTimer(TIME_DEVICE_DP_FIRST);
+				KillTimer(TIME_DEVICE_DP_THIRD);
+				KillTimer(TIME_DEVICE_DP_SECOND);
+				break;
+			default:
+				AppendText(IDC_EDIT_TEXT, _T("三相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_DP_SECOND);
+				KillTimer(TIME_DEVICE_DP_THIRD);
+				KillTimer(TIME_DEVICE_DP_FORTH);
+				break;
+			}
+		}
+		else
+		{
+			switch (TGW_Protect.DP.GetProtectAcionState())
+			{
+			case ProtectAction_A:
+				AppendText(IDC_EDIT_TEXT, _T("A相单跳失败,补跳单相\r\n"));
+				TGW_Protect.BK.OffBKA();
+				TGW_Protect.DP.SetProtectActionState(ProtectAction_A);
+				UpdateBKState(TGW_Protect);
+				break;
+			case ProtectAction_B:
+				AppendText(IDC_EDIT_TEXT, _T("B相单失败,补跳单相\r\n"));
+				TGW_Protect.BK.OffBKB();
+				TGW_Protect.DP.SetProtectActionState(ProtectAction_B);
+				UpdateBKState(TGW_Protect);
+				break;
+			case ProtectAction_C:
+				AppendText(IDC_EDIT_TEXT, _T("C相单跳失败,补跳单相\r\n"));
+				TGW_Protect.BK.OffBKC();
+				TGW_Protect.DP.SetProtectActionState(ProtectAction_C);
+				UpdateBKState(TGW_Protect);
+				break;
+			case ProtectNoAction:
+				KillTimer(TIME_DEVICE_DP_FIRST);
+				KillTimer(TIME_DEVICE_DP_SECOND);
+				break;
+			default:
+				AppendText(IDC_EDIT_TEXT, _T("三相跳闸失败，永跳闭锁重合闸\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				TGW_Protect.DP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_DP_THIRD);
+				break;
+			}
+		}
+		KillTimer(TIME_DEVICE_DP_FIRST);
+		break;
+	case TIME_DEVICE_DP_SECOND:
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.DP.GetProtectAcionState()) && TGW_Protect.DP.GetProtectAcionState() == ProtectAction_ABC)
+		{
+			AppendText(IDC_EDIT_TEXT, _T("永跳成功\r\n"));
+			KillTimer(TIME_DEVICE_DP_SECOND);
+			KillTimer(TIME_DEVICE_DP_THIRD);
+			KillTimer(TIME_DEVICE_DP_FORTH);
+			break;
+		}
+		if (!TGW_Protect.IsBKOffSuccess(TGW_Protect.DP.GetProtectAcionState()) && TGW_Protect.DP.GetProtectAcionState() == ProtectAction_ABC)
+		{
+			KillTimer(TIME_DEVICE_DP_SECOND);
+			KillTimer(TIME_DEVICE_DP_THIRD);
+			break;
+		}
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.DP.GetProtectAcionState()) && TGW_Protect.DP.GetProtectAcionState() != ProtectAction_ABC)
+		{
+			AppendText(IDC_EDIT_TEXT, _T("补跳单相成功\r\n"));
+			KillTimer(TIME_DEVICE_DP_SECOND);
+			KillTimer(TIME_DEVICE_DP_THIRD);
+			KillTimer(TIME_DEVICE_DP_FORTH);
+			break;
+		}
+		else
+		{
+			switch (TGW_Protect.DP.GetProtectAcionState())
+			{
+			case ProtectAction_A:
+				AppendText(IDC_EDIT_TEXT, _T("A相补跳失败,永跳闭锁重合闸\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.DP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_DP_SECOND);
+				break;
+			case ProtectAction_B:
+				AppendText(IDC_EDIT_TEXT, _T("B相补跳失败,永跳闭锁重合闸\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.DP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_DP_SECOND);
+				break;
+			case ProtectAction_C:
+				AppendText(IDC_EDIT_TEXT, _T("C相补跳失败,永跳闭锁重合闸\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.DP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_DP_SECOND);
+				break;
+			}
+		}
+		break;
+	case TIME_DEVICE_DP_THIRD:
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.DP.GetProtectAcionState()))
+		{
+			AppendText(IDC_EDIT_TEXT, _T("永跳成功\r\n"));
+			KillTimer(TIME_DEVICE_DP_THIRD);
+			KillTimer(TIME_DEVICE_DP_FORTH);
+		}
+		else
+		{
+			KillTimer(TIME_DEVICE_DP_THIRD);
+		}
+		break;
+	case TIME_DEVICE_DP_FORTH:
+		AppendText(IDC_EDIT_TEXT, _T("永跳失败\r\n"));
+		KillTimer(TIME_DEVICE_DP_FORTH);
+		break;
+	case TIME_DEVICE_ZP_FIRST:
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.ZP.GetProtectAcionState()))
+		{
+			switch (TGW_Protect.ZP.GetProtectAcionState())
+			{
+			case ProtectAction_A:
+				AppendText(IDC_EDIT_TEXT, _T("A相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_ZP_SECOND);
+				KillTimer(TIME_DEVICE_ZP_THIRD);
+				KillTimer(TIME_DEVICE_ZP_FORTH);
+				break;
+			case ProtectAction_B:
+				AppendText(IDC_EDIT_TEXT, _T("B相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_ZP_SECOND);
+				KillTimer(TIME_DEVICE_ZP_THIRD);
+				KillTimer(TIME_DEVICE_ZP_FORTH);
+				break;
+			case ProtectAction_C:
+				AppendText(IDC_EDIT_TEXT, _T("C相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_ZP_SECOND);
+				KillTimer(TIME_DEVICE_ZP_THIRD);
+				KillTimer(TIME_DEVICE_ZP_FORTH);
+				break;
+			case ProtectNoAction:
+				KillTimer(TIME_DEVICE_ZP_FIRST);
+				KillTimer(TIME_DEVICE_ZP_THIRD);
+				KillTimer(TIME_DEVICE_ZP_SECOND);
+				break;
+			default:
+				AppendText(IDC_EDIT_TEXT, _T("三相跳闸成功\r\n"));
+				KillTimer(TIME_DEVICE_ZP_SECOND);
+				KillTimer(TIME_DEVICE_ZP_THIRD);
+				KillTimer(TIME_DEVICE_ZP_FORTH);
+				break;
+			}
+		}
+		else
+		{
+			switch (TGW_Protect.ZP.GetProtectAcionState())
+			{
+			case ProtectAction_A:
+				AppendText(IDC_EDIT_TEXT, _T("A相单跳失败,补跳单相\r\n"));
+				TGW_Protect.BK.OffBKA();
+				TGW_Protect.ZP.SetProtectActionState(ProtectAction_A);
+				UpdateBKState(TGW_Protect);
+				break;
+			case ProtectAction_B:
+				AppendText(IDC_EDIT_TEXT, _T("B相单失败,补跳单相\r\n"));
+				TGW_Protect.BK.OffBKB();
+				TGW_Protect.ZP.SetProtectActionState(ProtectAction_B);
+				UpdateBKState(TGW_Protect);
+				break;
+			case ProtectAction_C:
+				AppendText(IDC_EDIT_TEXT, _T("C相单跳失败,补跳单相\r\n"));
+				TGW_Protect.BK.OffBKC();
+				TGW_Protect.ZP.SetProtectActionState(ProtectAction_C);
+				UpdateBKState(TGW_Protect);
+				break;
+			case ProtectNoAction:
+				KillTimer(TIME_DEVICE_ZP_FIRST);
+				KillTimer(TIME_DEVICE_ZP_SECOND);
+				break;
+			default:
+				AppendText(IDC_EDIT_TEXT, _T("三相跳闸失败，永跳闭锁重合闸\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				TGW_Protect.ZP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_ZP_THIRD);
+				break;
+			}
+		}
+		KillTimer(TIME_DEVICE_ZP_FIRST);
+		break;
+	case TIME_DEVICE_ZP_SECOND:
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.ZP.GetProtectAcionState()) && TGW_Protect.ZP.GetProtectAcionState() == ProtectAction_ABC)
+		{
+			AppendText(IDC_EDIT_TEXT, _T("永跳成功\r\n"));
+			KillTimer(TIME_DEVICE_ZP_SECOND);
+			KillTimer(TIME_DEVICE_ZP_THIRD);
+			KillTimer(TIME_DEVICE_ZP_FORTH);
+			break;
+		}
+		if (!TGW_Protect.IsBKOffSuccess(TGW_Protect.ZP.GetProtectAcionState()) && TGW_Protect.ZP.GetProtectAcionState() == ProtectAction_ABC)
+		{
+			KillTimer(TIME_DEVICE_ZP_SECOND);
+			KillTimer(TIME_DEVICE_ZP_THIRD);
+			break;
+		}
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.ZP.GetProtectAcionState()) && TGW_Protect.ZP.GetProtectAcionState() != ProtectAction_ABC)
+		{
+			AppendText(IDC_EDIT_TEXT, _T("补跳单相成功\r\n"));
+			KillTimer(TIME_DEVICE_ZP_SECOND);
+			KillTimer(TIME_DEVICE_ZP_THIRD);
+			KillTimer(TIME_DEVICE_ZP_FORTH);
+			break;
+		}
+		else
+		{
+			switch (TGW_Protect.ZP.GetProtectAcionState())
+			{
+			case ProtectAction_A:
+				AppendText(IDC_EDIT_TEXT, _T("A相补跳失败,永跳闭锁重合闸\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.ZP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_ZP_SECOND);
+				break;
+			case ProtectAction_B:
+				AppendText(IDC_EDIT_TEXT, _T("B相补跳失败,永跳闭锁重合闸\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.ZP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_ZP_SECOND);
+				break;
+			case ProtectAction_C:
+				AppendText(IDC_EDIT_TEXT, _T("C相补跳失败,永跳闭锁重合闸\r\n"));
+				TGW_Protect.BK.OffBKABC();
+				UpdateBKState(TGW_Protect);
+				TGW_Protect.ZP.SetProtectActionState(ProtectAction_ABC);
+				KillTimer(TIME_DEVICE_ZP_SECOND);
+				break;
+			}
+		}
+		break;
+	case TIME_DEVICE_ZP_THIRD:
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.ZP.GetProtectAcionState()))
+		{
+			AppendText(IDC_EDIT_TEXT, _T("永跳成功\r\n"));
+			KillTimer(TIME_DEVICE_ZP_THIRD);
+			KillTimer(TIME_DEVICE_ZP_FORTH);
+		}
+		else
+		{
+			KillTimer(TIME_DEVICE_ZP_THIRD);
+		}
+		break;
+	case TIME_DEVICE_ZP_FORTH:
+		AppendText(IDC_EDIT_TEXT, _T("永跳失败\r\n"));
+		KillTimer(TIME_DEVICE_ZP_FORTH);
 		break;
 	}
 }
 
-
 void CProtectSimulationDlg::OnClickedButton3()
 {
 	KillTimer(TIME_DEVICE_COUNT);
+	CString str;
+	str.Format(_T("%02.0f:%03.0f"), floor(m_Time[0]), (m_Time[0] - floor(m_Time[0])) * 1000);
+	m_systime.SetWindowTextW(str);
+	UpdateData(FALSE);
 	TGW_Protect.ClearUI();
 	KillTimer(TIME_DEVICE_FIRST);
+	if (m_ChooseProtect == 0)
+	{
+		KillTimer(TIME_DEVICE_CP_FIRST);
+		KillTimer(TIME_DEVICE_CP_SECOND);
+		KillTimer(TIME_DEVICE_CP_THIRD);
+		KillTimer(TIME_DEVICE_CP_FORTH);
+	}
+	if (m_ChooseProtect == 2)
+	{
+		KillTimer(TIME_DEVICE_DP_FIRST);
+		KillTimer(TIME_DEVICE_DP_SECOND);
+		KillTimer(TIME_DEVICE_DP_THIRD);
+		KillTimer(TIME_DEVICE_DP_FORTH);
+	}
+	if (m_ChooseProtect == 3)
+	{
+		KillTimer(TIME_DEVICE_ZP_FIRST);
+		KillTimer(TIME_DEVICE_ZP_SECOND);
+		KillTimer(TIME_DEVICE_ZP_THIRD);
+		KillTimer(TIME_DEVICE_ZP_FORTH);
+	}
 	// TODO: 在此添加控件通知处理程序代码
 }
-
 
 void CProtectSimulationDlg::DeviceCurrentDiffAction()
 {
 	TGW_Protect.CP.CurrentDiffProtectionLoop();
 	AppendText(IDC_EDIT_TEXT, _T("本侧保护：\r\n"));
 	ProtectReport(TGW_Protect.CP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
+	SetTimer(TIME_DEVICE_CP_FIRST, 1500, NULL);
+	SetTimer(TIME_DEVICE_CP_SECOND, 3000, NULL);
+	SetTimer(TIME_DEVICE_CP_THIRD, 4500, NULL);
+	SetTimer(TIME_DEVICE_CP_FORTH, 7000, NULL);
 	UpdateBKState(TGW_Protect);
 	CString str;
 	if (TGW_Protect.CP.GetIsStart() == 1)
 	{
 		AppendText(IDC_EDIT_TEXT, _T("保护启动\r\n"));
 	}
-	AppendText(IDC_EDIT_TEXT, _T("差动保护动作：差动电流="));
-	str.Format(_T("%.3lf"), TGW_Protect.CP.GetI_Diff());
-	AppendText(IDC_EDIT_TEXT, str);
-	AppendText(IDC_EDIT_TEXT, _T("    制动电流="));
-	str.Format(_T("%.3lf"), TGW_Protect.CP.GetI_B());
-	AppendText(IDC_EDIT_TEXT, str);
-	if (TGW_Protect.CP.GetActionTime() != 0)
+	if (TGW_Protect.CP.GetProtectAcionState() == ProtectNoAction)
 	{
-		AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
-		CString strT;
-		strT.Format(_T("%.1lf"), TGW_Protect.CP.GetActionTime());
-		AppendText(IDC_EDIT_TEXT, strT);
-		AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+		KillTimer(TIME_DEVICE_COUNT);
+		KillTimer(TIME_DEVICE_FIRST);
+		KillTimer(TIME_DEVICE_CP_FIRST);
+		KillTimer(TIME_DEVICE_CP_SECOND);
+		KillTimer(TIME_DEVICE_CP_THIRD);
+		KillTimer(TIME_DEVICE_CP_FORTH);
 	}
-	AppendText(IDC_EDIT_TEXT, _T("\r\n"));
-
+	else
+	{
+		AppendText(IDC_EDIT_TEXT, _T("差动保护动作：差动电流="));
+		str.Format(_T("%.3lf"), TGW_Protect.CP.GetI_Diff());
+		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("    制动电流="));
+		str.Format(_T("%.3lf"), TGW_Protect.CP.GetI_B());
+		AppendText(IDC_EDIT_TEXT, str);
+		if (TGW_Protect.CP.GetActionTime() != 0)
+		{
+			AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
+			CString strT;
+			strT.Format(_T("%.1lf"), TGW_Protect.CP.GetActionTime());
+			AppendText(IDC_EDIT_TEXT, strT);
+			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+		}
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
+	}
 	// TODO: 在此处添加实现代码.
 }
-
 
 void CProtectSimulationDlg::DeviceGetTime()
 {
 	m_Time[0]=CPage1.m_Time;
+}
+
+void CProtectSimulationDlg::DeviceDistanceAction()
+{
+	TGW_Protect.DP.DistanceProtection();
+	ProtectReport(TGW_Protect.DP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
+	SetTimer(TIME_DEVICE_DP_FIRST, 1500, NULL);
+	SetTimer(TIME_DEVICE_DP_SECOND, 3000, NULL);
+	SetTimer(TIME_DEVICE_DP_THIRD, 4500, NULL);
+	SetTimer(TIME_DEVICE_DP_FORTH, 7000, NULL);
+	UpdateBKState(TGW_Protect);
+	ProtectActionReport_DP(TGW_Protect.DP.GetWhich_Protection(), TGW_Protect.DP.GetZ_m().first.ReturnR(), TGW_Protect.DP.GetZ_m().first.ReturnX());
+	if (TGW_Protect.DP.GetProtectAcionState() == ProtectNoAction)
+	{
+		KillTimer(TIME_DEVICE_COUNT);
+		KillTimer(TIME_DEVICE_FIRST);
+		KillTimer(TIME_DEVICE_DP_FIRST);
+		KillTimer(TIME_DEVICE_DP_SECOND);
+		KillTimer(TIME_DEVICE_DP_THIRD);
+		KillTimer(TIME_DEVICE_DP_FORTH);
+	}
+	else
+	{
+		AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
+		CString strT;
+		strT.Format(_T("%.1lf"), TGW_Protect.DP.GetActionTime());
+		AppendText(IDC_EDIT_TEXT, strT);
+		AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+	}
+	AppendText(IDC_EDIT_TEXT, _T("\r\n"));
+	// TODO: 在此处添加实现代码.
+}
+
+void CProtectSimulationDlg::DeviceZeroSeqAction()
+{
+	TGW_Protect.ZP.ZeroSeqProtection();
+	ProtectReport(TGW_Protect.ZP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
+	SetTimer(TIME_DEVICE_ZP_FIRST, 1500, NULL);
+	SetTimer(TIME_DEVICE_ZP_SECOND, 3000, NULL);
+	SetTimer(TIME_DEVICE_ZP_THIRD, 4500, NULL);
+	SetTimer(TIME_DEVICE_ZP_FORTH, 7000, NULL);
+	UpdateBKState(TGW_Protect);
+	ProtectActionReport_ZP(TGW_Protect.ZP.GetWhich_Protection(), TGW_Protect.ZP.GetUZ(), TGW_Protect.ZP.GetIZ());
+	if (TGW_Protect.ZP.GetProtectAcionState() == ProtectNoAction)
+	{
+		KillTimer(TIME_DEVICE_COUNT);
+		KillTimer(TIME_DEVICE_FIRST);
+		KillTimer(TIME_DEVICE_ZP_FIRST);
+		KillTimer(TIME_DEVICE_ZP_SECOND);
+		KillTimer(TIME_DEVICE_ZP_THIRD);
+		KillTimer(TIME_DEVICE_ZP_FORTH);
+	}
+	else
+	{
+		AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
+		CString strT;
+		strT.Format(_T("%.1lf"), TGW_Protect.ZP.GetActionTime());
+		AppendText(IDC_EDIT_TEXT, strT);
+		AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+	}
+	AppendText(IDC_EDIT_TEXT, _T("\r\n"));
+	// TODO: 在此处添加实现代码.
 }

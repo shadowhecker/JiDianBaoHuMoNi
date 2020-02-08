@@ -23,6 +23,7 @@ public:
 	double GetActionTime();
 	pair<Resistance_Impedance, double> GetZ_m();
 	void SetUI(vector<Electric_Voltage> U,vector<Electric_Current> I);
+	void SetProtectActionState(ActionState stat);
 private:
 	vector<Electric_Voltage> U_m;//距离阻抗继电器上的电压量
 	vector<Electric_Current> I_m;//距离阻抗继电器流经的电流量

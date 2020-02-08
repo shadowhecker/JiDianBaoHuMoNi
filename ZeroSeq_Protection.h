@@ -29,5 +29,7 @@ private:
 	double ActionTime;
 	Electric_Voltage UZ;//¡„–ÚµÁ—π
 	Electric_Current IZ;//¡„–ÚµÁ¡˜
+public:
+	void SetProtectActionState(ActionState stat);
 };
 

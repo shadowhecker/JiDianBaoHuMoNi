@@ -139,9 +139,9 @@ ActionState CurrentDiff_Protection::GetProtectAcionState()
 	return ProtectActionState;
 }
 
-void CurrentDiff_Protection::SetProtectActionState(ActionState)
+void CurrentDiff_Protection::SetProtectActionState(ActionState stat)
 {
-	ProtectActionState = ProtectAction_ABC;
+	ProtectActionState = stat;
 }
 
 double CurrentDiff_Protection::GetActionTime()

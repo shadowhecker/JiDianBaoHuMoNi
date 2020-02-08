@@ -29,7 +29,7 @@ int JudgeFaultStyle_ZerotoANegtive(vector<Electric_Voltage>V_m, vector<Electric_
 	if (CompareDouble(I_Zero.GetIValid(), 0) == 0)
 		return 0;
 	Electric_Current I_A_Negtive = GetNegativeSeq(I_m[0], I_m[1], I_m[2], 'A');
-	int JudgePhase = arg(I_Zero.ReturnIComplex() / I_A_Negtive.ReturnIComplex()) * 180 / M_PI;
+	int JudgePhase = arg(I_A_Negtive.ReturnIComplex()/I_Zero.ReturnIComplex() ) * 180 / M_PI;
 	if (JudgePhase > 30 && JudgePhase < 90)
 		return InterPhaseGround_Fault_AB;
 	else if (JudgePhase > 150 && JudgePhase <= 180 || JudgePhase>=-180 && JudgePhase < -150)
@@ -85,7 +85,7 @@ pair<Resistance_Impedance, double> CaculateZ_m(vector<Electric_Voltage> U, vecto
 	double Z_s;
     double K = UseSetValue.GetValue(ProtectDevice, "零序电抗补偿系数");
 	auto PhaseDiff_res = JudgeFaultStyle_PhaseDiff(I);
-	auto ZeroDiff_res = JudgeFaultStyle_ZerotoANegtive(U, I, UseSetValue.GetValue(ProtectDevice, "接地距离Ⅰ段"));
+	auto ZeroDiff_res = JudgeFaultStyle_ZerotoANegtive(U, I, UseSetValue.GetValue(ProtectDevice, "接地距离Ⅲ段"));
 	if (PhaseDiff_res == SingleEarth_Fault_A)
 	{
 		if (ZeroDiff_res == InterPhaseGround_Fault_BC)
@@ -204,7 +204,7 @@ pair<pair<Electric_Voltage, Electric_Current>, double > Caculate_UZ_IZ(vector<El
 {
 	Electric_Voltage U0;
 	Electric_Current I0;
-	auto ZeroDiff_res = JudgeFaultStyle_ZerotoANegtive(U, I, UseSetValue.GetValue(ProtectDevice, "接地距离Ⅰ段"));//用零序电流与A相正序电压比较法
+	auto ZeroDiff_res = JudgeFaultStyle_ZerotoANegtive(U, I, UseSetValue.GetValue(ProtectDevice, "接地距离Ⅲ段"));//用零序电流与A相正序电压比较法
 	auto PhaseDiff_res = JudgeFaultStyle_PhaseDiff(I);
 	if (PhaseDiff_res == SingleEarth_Fault_A)
 	{
@@ -310,7 +310,7 @@ int CurrentBrustStart(vector<Electric_Current> I_m)
 
 char ChoosePhase(vector<double> Input)
 {
-	auto i = max(Input[0], Input[1], Input[2]);
+	auto i = max(max(Input[0], Input[1]), Input[2]);
 	if (i == Input[0])
 		return 'A';
 	if (i == Input[1])
@@ -330,7 +330,7 @@ pair<pair<double,double>,pair<int,char> > Caculate_CurrentDiff(vector<Electric_V
 	vector<Electric_Current> I_D = {Electric_Current(I_m[0].ReturnIComplex() + I_n[0].ReturnIComplex()),Electric_Current(I_m[1].ReturnIComplex() + I_n[1].ReturnIComplex()), Electric_Current(I_m[2].ReturnIComplex() + I_n[2].ReturnIComplex())};
 	vector<double> i = { I_A_Diff ,I_B_Diff ,I_C_Diff };
 	auto PhaseDiff_res = JudgeFaultStyle_PhaseDiff(I_D);
-	auto ZeroDiff_res = JudgeFaultStyle_ZerotoANegtive(U_m, I_D, UseSetValue.GetValue(ProtectDevice, "接地距离Ⅰ段"));
+	auto ZeroDiff_res = JudgeFaultStyle_ZerotoANegtive(U_m, I_D, UseSetValue.GetValue(ProtectDevice, "接地距离Ⅲ段"));
 	if (PhaseDiff_res == SingleEarth_Fault_A)
 	{
 		if (ZeroDiff_res == InterPhaseGround_Fault_BC)

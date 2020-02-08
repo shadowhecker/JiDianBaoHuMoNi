@@ -127,4 +127,6 @@ public:
 	void DeviceCurrentDiffAction();
 	vector<double> m_Time;
 	void DeviceGetTime();
+	void DeviceDistanceAction();
+	void DeviceZeroSeqAction();
 };

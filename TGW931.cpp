@@ -69,4 +69,3 @@ void TGW931::ClearUI()
 	ZP.SetUI(U_m, I_m);
 	CP.SetUI(U_m, I_m);
 }
-

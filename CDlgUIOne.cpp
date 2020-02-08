@@ -78,6 +78,8 @@ BOOL CDlgUIOne::OnInitDialog()
 	m_ICT = 120;
 	m_Time = 0;
 	UpdateData(FALSE);
+	m_U = { Electric_Voltage(m_UAV,m_UAT),Electric_Voltage(m_UBV,m_UBT) ,Electric_Voltage(m_UCV,m_UCT) };
+	m_I = { Electric_Current(m_IAV,m_IAT),Electric_Current(m_IBV,m_IBT) ,Electric_Current(m_ICV,m_ICT) };
 	// TODO:  在此添加额外的初始化
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
@@ -90,9 +92,9 @@ void CDlgUIOne::InputUData()
 	Electric_Voltage U_A(m_UAV, m_UAT);
 	Electric_Voltage U_B(m_UBV, m_UBT);
 	Electric_Voltage U_C(m_UCV, m_UCT);
-	m_U.push_back(U_A);
-	m_U.push_back(U_B);
-	m_U.push_back(U_C);
+	m_U[0]=U_A;
+	m_U[1]=U_B;
+	m_U[2]=U_C;
 	// TODO: 在此处添加实现代码.
 }
 
@@ -103,9 +105,9 @@ void CDlgUIOne::InputIData()
 	Electric_Current I_A(m_IAV, m_IAT);
 	Electric_Current I_B(m_IBV, m_IBT);
 	Electric_Current I_C(m_ICV, m_ICT);
-	m_I.push_back(I_A);
-	m_I.push_back(I_B);
-	m_I.push_back(I_C);
+	m_I[0] = I_A;
+	m_I[1] = I_B;
+	m_I[2] = I_C;
 	// TODO: 在此处添加实现代码.
 }
 
