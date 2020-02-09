@@ -10,7 +10,7 @@
 #include<map>
 #include"SettingValue.h"
 #include<ctime>
-#include<windows.h>
+#include <afxwin.h>
 #include<random>
 #include<istream>
 using namespace std;

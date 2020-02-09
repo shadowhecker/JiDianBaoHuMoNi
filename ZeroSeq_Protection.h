@@ -6,6 +6,7 @@
 #include "Electric_Voltage.h"
 #include "Protection_Lib.h"
 #include "Resistance_Impedance.h"
+#include "Resource.h"
 class ZeroSeq_Protection
 {
 public:
@@ -20,15 +21,21 @@ public:
 	double GetActionTime();
 	Electric_Voltage GetUZ();
 	Electric_Current GetIZ();
+	vector<Electric_Voltage> GetU_m();
+	vector<Electric_Current> GetI_m();
+	void SetActionTime(double time);
+	void SetWhich_Protection(int Pro);
 	void SetUI(vector<Electric_Voltage> U, vector<Electric_Current> I);
+	int GetFault();
 private:
-	vector<Electric_Voltage> U_m;//距离阻抗继电器上的电压量
-	vector<Electric_Current> I_m;//距离阻抗继电器流经的电流量
+	vector<Electric_Voltage> U_m;
+	vector<Electric_Current> I_m;
 	ActionState ProtectActionState;
 	ActionState Which_Protection;
 	double ActionTime;
 	Electric_Voltage UZ;//零序电压
 	Electric_Current IZ;//零序电流
+	int Fault;//故障判别标志位
 public:
 	void SetProtectActionState(ActionState stat);
 };

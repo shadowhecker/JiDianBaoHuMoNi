@@ -1,4 +1,4 @@
-#include "Distance_Protection.h"
+ï»¿#include "Distance_Protection.h"
 Distance_Protection::Distance_Protection(vector<Electric_Voltage> U, vector<Electric_Current> I)
 {
 	U_m = U;
@@ -7,6 +7,7 @@ Distance_Protection::Distance_Protection(vector<Electric_Voltage> U, vector<Elec
 	ProtectActionState = ProtectNoAction;
 	Which_Protection = ProtectNoAction;
 	ActionTime = 0;
+	Fault = FaultToProtection[Z_m.second];
 }
 
 Distance_Protection::Distance_Protection()
@@ -17,63 +18,64 @@ Distance_Protection::Distance_Protection()
 	ProtectActionState = ProtectNoAction;
 	Which_Protection = ProtectNoAction;
 	ActionTime = 0;
+	Fault = FaultToProtection[Z_m.second];
 }
 
-int Distance_Protection::DPCoreAlgorithmOne_¢ñ(double FaultStyle)
+int Distance_Protection::DPCoreAlgorithmOne_â… (double FaultStyle)
 {
-	double JudgePara_¢ñ;
-	Resistance_Impedance Z_set_¢ñ;
+	double JudgePara_â… ;
+	Resistance_Impedance Z_set_â… ;
 	if (FaultStyle == SingleEarth_Fault_A || FaultStyle == SingleEarth_Fault_B || FaultStyle == SingleEarth_Fault_C
 		|| FaultStyle == InterPhaseGround_Fault_AB || FaultStyle == InterPhaseGround_Fault_BC || FaultStyle == InterPhaseGround_Fault_CA)
 	{
-		Z_set_¢ñ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ñ¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
+		Z_set_â…  = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "æŽ¥åœ°è·ç¦»â… æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
 	}
 	else
 	{
-		Z_set_¢ñ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ñ¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
+		Z_set_â…  = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "ç›¸é—´è·ç¦»â… æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
 	}
-	JudgePara_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex()) / Z_m.first.ReturnZComplex()) * 180 / M_PI;
-	if ((JudgePara_¢ñ > 90 && JudgePara_¢ñ <= 180.001)|| (JudgePara_¢ñ < -90 && JudgePara_¢ñ >= -180.001))
+	JudgePara_â…  = arg((Z_m.first.ReturnZComplex() - Z_set_â… .ReturnZComplex()) / Z_m.first.ReturnZComplex()) * 180 / M_PI;
+	if ((JudgePara_â…  > 90 && JudgePara_â…  <= 180.001)|| (JudgePara_â…  < -90 && JudgePara_â…  >= -180.001))
 		return 1;
 	else
 		return 0;
 }
 
-int Distance_Protection::DPCoreAlgorithmOne_¢ò(double FaultStyle)
+int Distance_Protection::DPCoreAlgorithmOne_â…¡(double FaultStyle)
 {
-	double JudgePara_¢ò;
-	Resistance_Impedance Z_set_¢ò;
+	double JudgePara_â…¡;
+	Resistance_Impedance Z_set_â…¡;
 	if (FaultStyle == SingleEarth_Fault_A || FaultStyle == SingleEarth_Fault_B || FaultStyle == SingleEarth_Fault_C
 		|| FaultStyle == InterPhaseGround_Fault_AB || FaultStyle == InterPhaseGround_Fault_BC || FaultStyle == InterPhaseGround_Fault_CA)
 	{
-		Z_set_¢ò = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ò¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
+		Z_set_â…¡ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "æŽ¥åœ°è·ç¦»â…¡æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
 	}
 	else
 	{
-		Z_set_¢ò = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ò¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
+		Z_set_â…¡ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "ç›¸é—´è·ç¦»â…¡æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
 	}
-	JudgePara_¢ò = arg((Z_m.first.ReturnZComplex() - Z_set_¢ò.ReturnZComplex()) / Z_m.first.ReturnZComplex()) * 180 / M_PI;
-	if ((JudgePara_¢ò > 90 && JudgePara_¢ò <= 180.001) || (JudgePara_¢ò < -90 && JudgePara_¢ò >= -180.001))
+	JudgePara_â…¡ = arg((Z_m.first.ReturnZComplex() - Z_set_â…¡.ReturnZComplex()) / Z_m.first.ReturnZComplex()) * 180 / M_PI;
+	if ((JudgePara_â…¡ > 90 && JudgePara_â…¡ <= 180.001) || (JudgePara_â…¡ < -90 && JudgePara_â…¡ >= -180.001))
 		return 1;
 	else
 		return 0;
 }
 
-int Distance_Protection::DPCoreAlgorithmOne_¢ó(double FaultStyle)
+int Distance_Protection::DPCoreAlgorithmOne_â…¢(double FaultStyle)
 {
-	double JudgePara_¢ó;
-	Resistance_Impedance Z_set_¢ó;
+	double JudgePara_â…¢;
+	Resistance_Impedance Z_set_â…¢;
 	if (FaultStyle == SingleEarth_Fault_A || FaultStyle == SingleEarth_Fault_B || FaultStyle == SingleEarth_Fault_C
 		|| FaultStyle == InterPhaseGround_Fault_AB || FaultStyle == InterPhaseGround_Fault_BC || FaultStyle == InterPhaseGround_Fault_CA)
 	{
-		Z_set_¢ó = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ó¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
+		Z_set_â…¢ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "æŽ¥åœ°è·ç¦»â…¢æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
 	}
 	else
 	{
-		Z_set_¢ó = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ó¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
+		Z_set_â…¢ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "ç›¸é—´è·ç¦»â…¢æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
 	}
-	JudgePara_¢ó = arg((Z_m.first.ReturnZComplex() - Z_set_¢ó.ReturnZComplex()) / Z_m.first.ReturnZComplex()) * 180 / M_PI;
-	if ((JudgePara_¢ó > 90 && JudgePara_¢ó <= 180.001) || (JudgePara_¢ó < -90 && JudgePara_¢ó >= -180.001))
+	JudgePara_â…¢ = arg((Z_m.first.ReturnZComplex() - Z_set_â…¢.ReturnZComplex()) / Z_m.first.ReturnZComplex()) * 180 / M_PI;
+	if ((JudgePara_â…¢ > 90 && JudgePara_â…¢ <= 180.001) || (JudgePara_â…¢ < -90 && JudgePara_â…¢ >= -180.001))
 		return 1;
 	else
 		return 0;
@@ -82,416 +84,197 @@ int Distance_Protection::DPCoreAlgorithmOne_¢ó(double FaultStyle)
 
 void Distance_Protection::DistanceProtection()
 {
-	if (Z_m.second == SingleEarth_Fault_A)
+	double timeâ…¡;
+	double timeâ…¢;
+	double timeâ… ;//ç»§ç”µå™¨åŠ¨ä½œå›ºæœ‰å»¶æ—¶
+	if (Z_m.second == SingleEarth_Fault_A || Z_m.second == SingleEarth_Fault_B || Z_m.second == SingleEarth_Fault_C)
 	{
-		if (DPCoreAlgorithmQuad_¢ñ(Z_m.second))
-		{
-			FixTimeDelay(¢ñ_DPFixDelay + FixTimeError(¢ñ_DPFixDelay));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_A;
-			Which_Protection = JieDiJuLi_¢ñAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ò(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ò¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay+ FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_A;
-			Which_Protection = JieDiJuLi_¢òAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ó(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ó¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_A;
-			Which_Protection = JieDiJuLi_¢óAction;
-		}
-		else
-		{
-			ActionTime = 0;
-			ProtectActionState = ProtectNoAction;
-			Which_Protection = ProtectNoAction;
-		}
-	}
-	else if (Z_m.second == SingleEarth_Fault_B)
-	{
-		if (DPCoreAlgorithmQuad_¢ñ(Z_m.second))
-		{
-			FixTimeDelay(¢ñ_DPFixDelay + FixTimeError(¢ñ_DPFixDelay));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_B;
-			Which_Protection = JieDiJuLi_¢ñAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ò(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ò¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_B;
-			Which_Protection = JieDiJuLi_¢òAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ó(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ó¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_B;
-			Which_Protection = JieDiJuLi_¢óAction;
-		}
-		else
-		{
-			ActionTime = 0;
-			ProtectActionState = ProtectNoAction;
-			Which_Protection = ProtectNoAction;
-		}
-	}
-	else if (Z_m.second == SingleEarth_Fault_C)
-	{
-		if (DPCoreAlgorithmQuad_¢ñ(Z_m.second))
-		{
-			FixTimeDelay(30);
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_C;
-			Which_Protection = JieDiJuLi_¢ñAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ò(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ò¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_C;
-			Which_Protection = JieDiJuLi_¢òAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ó(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ó¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_C;
-			Which_Protection = JieDiJuLi_¢óAction;
-		}
-		else
-		{
-			ActionTime = 0;
-			ProtectActionState = ProtectNoAction;
-			Which_Protection = ProtectNoAction;
-		}
-	}
-	else if (Z_m.second == InterPhase_Fault_AB|| Z_m.second == InterPhaseGround_Fault_AB)
-	{
-		if (DPCoreAlgorithmQuad_¢ñ(Z_m.second))
-		{
-			FixTimeDelay(30);
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			if(Z_m.second == InterPhase_Fault_AB)
-				ProtectActionState = ProtectAction_AB;
-			else
-				ProtectActionState = ProtectAction_ABN;
-			Which_Protection = XiangJianJuLi_¢ñAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ò(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ò¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			if (Z_m.second == InterPhase_Fault_AB)
-				ProtectActionState = ProtectAction_AB;
-			else
-				ProtectActionState = ProtectAction_ABN;
-			Which_Protection = XiangJianJuLi_¢òAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ó(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ó¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			if (Z_m.second == InterPhase_Fault_AB)
-				ProtectActionState = ProtectAction_AB;
-			else
-				ProtectActionState = ProtectAction_ABN;
-			Which_Protection = XiangJianJuLi_¢óAction;
-		}
-		else
-		{
-			ActionTime = 0;
-			ProtectActionState = ProtectNoAction;
-			Which_Protection = ProtectNoAction;
-		}
-	}
-	else if (Z_m.second == InterPhase_Fault_BC|| Z_m.second == InterPhaseGround_Fault_BC)
-	{
-		if (DPCoreAlgorithmQuad_¢ñ(Z_m.second))
-		{
-			FixTimeDelay(30);
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			if (Z_m.second == InterPhase_Fault_BC)
-				ProtectActionState = ProtectAction_BC;
-			else
-				ProtectActionState = ProtectAction_BCN;
-			Which_Protection = XiangJianJuLi_¢ñAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ò(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ò¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			if (Z_m.second == InterPhase_Fault_BC)
-				ProtectActionState = ProtectAction_BC;
-			else
-				ProtectActionState = ProtectAction_BCN;
-			Which_Protection = XiangJianJuLi_¢òAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ó(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ó¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			if (Z_m.second == InterPhase_Fault_BC)
-				ProtectActionState = ProtectAction_BC;
-			else
-				ProtectActionState = ProtectAction_BCN;
-			Which_Protection = XiangJianJuLi_¢óAction;
-		}
-		else
-		{
-			ActionTime = 0;
-			ProtectActionState = ProtectNoAction;
-			Which_Protection = ProtectNoAction;
-		}
-	}
-	else if (Z_m.second == InterPhase_Fault_CA|| Z_m.second == InterPhaseGround_Fault_CA)
-	{
-		if (DPCoreAlgorithmQuad_¢ñ(Z_m.second))
-		{
-			FixTimeDelay(30);
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			if (Z_m.second == InterPhase_Fault_CA)
-				ProtectActionState = ProtectAction_CA;
-			else
-				ProtectActionState = ProtectAction_CAN;
-			Which_Protection = XiangJianJuLi_¢ñAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ò(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ò¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			if (Z_m.second == InterPhase_Fault_CA)
-				ProtectActionState = ProtectAction_CA;
-			else
-				ProtectActionState = ProtectAction_CAN;
-			Which_Protection = XiangJianJuLi_¢òAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ó(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ó¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			if (Z_m.second == InterPhase_Fault_CA)
-				ProtectActionState = ProtectAction_CA;
-			else
-				ProtectActionState = ProtectAction_CAN;
-			Which_Protection = XiangJianJuLi_¢óAction;
-		}
-		else
-		{
-			ActionTime = 0;
-			ProtectActionState = ProtectNoAction;
-			Which_Protection = ProtectNoAction;
-		}
-	}
-	else if (Z_m.second == ThreePhase_Fault)
-	{
-		if (DPCoreAlgorithmQuad_¢ñ(Z_m.second))
-		{
-			FixTimeDelay(30);
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_ABC;
-			Which_Protection = XiangJianJuLi_¢ñAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ò(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ò¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_ABC;
-			Which_Protection = XiangJianJuLi_¢òAction;
-		}
-		else if (DPCoreAlgorithmQuad_¢ó(Z_m.second))
-		{
-			double time = UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ó¶ÎÊ±¼ä");
-			FixTimeDelay(time * 1000 + ¢ñ_DPFixDelay + FixTimeError(time));
-			EndTime = clock();
-			ActionTime = (double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000;
-			ProtectActionState = ProtectAction_ABC;
-			Which_Protection = XiangJianJuLi_¢óAction;
-		}
-		else
-		{
-			ActionTime = 0;
-			ProtectActionState = ProtectNoAction;
-			Which_Protection = ProtectNoAction;
-		}
+		timeâ…  = â… _DPFixDelay;
+		timeâ…¡ = UseSetValue.GetValue(ProtectDevice, "æŽ¥åœ°è·ç¦»â…¡æ®µæ—¶é—´");
+		timeâ…¢ = UseSetValue.GetValue(ProtectDevice, "æŽ¥åœ°è·ç¦»â…¢æ®µæ—¶é—´");
 	}
 	else
 	{
-	    ActionTime = 0;
-	    ProtectActionState = ProtectNoAction;
-	    Which_Protection = ProtectNoAction;
+		timeâ…¡ = UseSetValue.GetValue(ProtectDevice, "ç›¸é—´è·ç¦»â…¡æ®µæ—¶é—´");
+		timeâ…¢ = UseSetValue.GetValue(ProtectDevice, "ç›¸é—´è·ç¦»â…¢æ®µæ—¶é—´");
 	}
+	SetTimer(AfxGetMainWnd()->GetSafeHwnd(), TIME_DEVICE_DP_ALG_1, â… _DPFixDelay, NULL);
+	SetTimer(AfxGetMainWnd()->GetSafeHwnd(), TIME_DEVICE_DP_ALG_2, timeâ…¡ * 1000 + â… _DPFixDelay, NULL);
+	SetTimer(AfxGetMainWnd()->GetSafeHwnd(), TIME_DEVICE_DP_ALG_3, timeâ…¢ * 1000 + â… _DPFixDelay, NULL);
 }
 
-int Distance_Protection::DPCoreAlgorithmQuad_¢ñ(double FaultStyle)
+int Distance_Protection::DPCoreAlgorithmQuad_â… (double FaultStyle)
 {
-	double JudgePara1_¢ñ,JudgePara2_¢ñ,JudgePara3_¢ñ;
-	Resistance_Impedance Z_set_¢ñ;
+	double JudgePara1_â… ,JudgePara2_â… ,JudgePara3_â… ;
+	Resistance_Impedance Z_set_â… ;
 	if (FaultStyle == SingleEarth_Fault_A || FaultStyle == SingleEarth_Fault_B || FaultStyle == SingleEarth_Fault_C
 		|| FaultStyle == InterPhaseGround_Fault_AB || FaultStyle == InterPhaseGround_Fault_BC || FaultStyle == InterPhaseGround_Fault_CA)
 	{
-		Z_set_¢ñ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ñ¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
+		Z_set_â…  = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "æŽ¥åœ°è·ç¦»â… æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
+		SetWhich_Protection(JieDiJuLi_â… Action);
 	}
-	else
+	if(FaultStyle==InterPhase_Fault_AB|| FaultStyle == InterPhase_Fault_BC|| FaultStyle == InterPhase_Fault_CA|| FaultStyle == ThreePhase_Fault)
 	{
-		Z_set_¢ñ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ñ¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
+		Z_set_â…  = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "ç›¸é—´è·ç¦»â… æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
+		SetWhich_Protection(XiangJianJuLi_â… Action);
 	}
-	JudgePara1_¢ñ = arg(Z_m.first.ReturnZComplex()) * 180 / M_PI;
-	if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 105)
+	JudgePara1_â…  = arg(Z_m.first.ReturnZComplex()) * 180 / M_PI;
+	if (JudgePara1_â…  >= -15 && JudgePara1_â…  <= 105&&Z_set_â… .ReturnZValid()!=0)
 	{
-		if (JudgePara1_¢ñ > 0 && JudgePara1_¢ñ < 90)
+		if (JudgePara1_â…  > 0 && JudgePara1_â…  < 90)
 		{
-			JudgePara2_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex()) / Z_m.first.ReturnZComplex().real()) * 180 / M_PI;
-			JudgePara3_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex().real()) / Z_m.first.ReturnZComplex().imag()) * 180 / M_PI;
-			if ((JudgePara2_¢ñ <= -7 && JudgePara3_¢ñ >= -173) && (JudgePara3_¢ñ >= 30 && JudgePara3_¢ñ <= 210))
+			JudgePara2_â…  = arg((Z_m.first.ReturnZComplex() - Z_set_â… .ReturnZComplex()) / Z_m.first.ReturnZComplex().real()) * 180 / M_PI;
+			JudgePara3_â…  = arg((Z_m.first.ReturnZComplex() - Z_set_â… .ReturnZComplex().real()) / Z_m.first.ReturnZComplex().imag()) * 180 / M_PI;
+			if ((JudgePara2_â…  <= -7 && JudgePara3_â…  >= -173) && (JudgePara3_â…  >= 30 && JudgePara3_â…  <= 210))
 				return 1;
 			else
+			{
+				SetWhich_Protection(ProtectNoAction);
 				return 0;
+			}
 		}
-		else if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 0)
+		else if (JudgePara1_â…  >= -15 && JudgePara1_â…  <= 0)
 		{
-			if (Z_m.first.ReturnZComplex().real() < 8*Z_set_¢ñ.ReturnZComplex().real())
+			if (Z_m.first.ReturnZComplex().real() < 8*Z_set_â… .ReturnZComplex().real())
 				return 1;
 			else
+			{
+				SetWhich_Protection(ProtectNoAction);
 				return 0;
+			}
 		}
 		else
 		{
-			if (Z_m.first.ReturnZComplex().imag() < Z_set_¢ñ.ReturnZComplex().imag())
+			if (Z_m.first.ReturnZComplex().imag() < Z_set_â… .ReturnZComplex().imag())
 				return 1;
 			else
+			{
+				SetWhich_Protection(ProtectNoAction);
 				return 0;
+			}
 		}
 	}
 	else
+	{
+		SetWhich_Protection(ProtectNoAction);
 		return 0;
+	}
 }
 
-int Distance_Protection::DPCoreAlgorithmQuad_¢ò(double FaultStyle)
+int Distance_Protection::DPCoreAlgorithmQuad_â…¡(double FaultStyle)
 {
-	double JudgePara1_¢ñ, JudgePara2_¢ñ, JudgePara3_¢ñ;
-	Resistance_Impedance Z_set_¢ñ;
+	double JudgePara1_â… , JudgePara2_â… , JudgePara3_â… ;
+	Resistance_Impedance Z_set_â… ;
+	if (FaultStyle == SingleEarth_Fault_A || FaultStyle == SingleEarth_Fault_B || FaultStyle == SingleEarth_Fault_C
+		|| FaultStyle == InterPhaseGround_Fault_AB || FaultStyle == InterPhaseGround_Fault_BC || FaultStyle == InterPhaseGround_Fault_CA || FaultStyle == ThreePhase_Fault)
+	{
+		Z_set_â…  = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "æŽ¥åœ°è·ç¦»â…¡æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
+		SetWhich_Protection(JieDiJuLi_â…¡Action);
+	}
+	if (FaultStyle == InterPhase_Fault_AB || FaultStyle == InterPhase_Fault_BC || FaultStyle == InterPhase_Fault_CA)
+	{
+		Z_set_â…  = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "ç›¸é—´è·ç¦»â…¡æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
+		SetWhich_Protection(XiangJianJuLi_â…¡Action);
+	}
+	JudgePara1_â…  = arg(Z_m.first.ReturnZComplex()) * 180 / M_PI;
+	if (JudgePara1_â…  >= -15 && JudgePara1_â…  <= 105 && Z_set_â… .ReturnZValid() != 0)
+	{
+		if (JudgePara1_â…  > 0 && JudgePara1_â…  < 90)
+		{
+			JudgePara2_â…  = arg((Z_m.first.ReturnZComplex() - Z_set_â… .ReturnZComplex()) / Z_m.first.ReturnZComplex().real()) * 180 / M_PI;
+			JudgePara3_â…  = arg((Z_m.first.ReturnZComplex() - Z_set_â… .ReturnZComplex().real()) / Z_m.first.ReturnZComplex().imag()) * 180 / M_PI;
+			if ((JudgePara2_â…  <= -7 && JudgePara3_â…  >= -173) && (JudgePara3_â…  >= 30 && JudgePara3_â…  <= 210))
+				return 1;
+			else
+			{
+				SetWhich_Protection(ProtectNoAction);
+				return 0;
+			}
+		}
+		else if (JudgePara1_â…  >= -15 && JudgePara1_â…  <= 0)
+		{
+			if (Z_m.first.ReturnZComplex().real() < 8*Z_set_â… .ReturnZComplex().real())
+				return 1;
+			else
+			{
+				SetWhich_Protection(ProtectNoAction);
+				return 0;
+			}
+		}
+		else
+		{
+			if (Z_m.first.ReturnZComplex().imag() < Z_set_â… .ReturnZComplex().imag())
+				return 1;
+			else
+			{
+				SetWhich_Protection(ProtectNoAction);
+				return 0;
+			}
+		}
+	}
+	else
+	{
+		SetWhich_Protection(ProtectNoAction);
+		return 0;
+	}
+}
+
+int Distance_Protection::DPCoreAlgorithmQuad_â…¢(double FaultStyle)
+{
+	double JudgePara1_â… , JudgePara2_â… , JudgePara3_â… ;
+	Resistance_Impedance Z_set_â… ;
 	if (FaultStyle == SingleEarth_Fault_A || FaultStyle == SingleEarth_Fault_B || FaultStyle == SingleEarth_Fault_C
 		|| FaultStyle == InterPhaseGround_Fault_AB || FaultStyle == InterPhaseGround_Fault_BC || FaultStyle == InterPhaseGround_Fault_CA)
 	{
-		Z_set_¢ñ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ò¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
+		Z_set_â…  = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "æŽ¥åœ°è·ç¦»â…¢æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
+		SetWhich_Protection(JieDiJuLi_â…¢Action);
 	}
-	else
+	if (FaultStyle == InterPhase_Fault_AB || FaultStyle == InterPhase_Fault_BC || FaultStyle == InterPhase_Fault_CA || FaultStyle == ThreePhase_Fault)
 	{
-		Z_set_¢ñ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ò¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
+		Z_set_â…  = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "ç›¸é—´è·ç¦»â…¢æ®µ"), UseSetValue.GetValue(ProtectDevice, "çº¿è·¯æ­£åºçµæ•è§’"));
+		SetWhich_Protection(XiangJianJuLi_â…¢Action);
 	}
-	JudgePara1_¢ñ = arg(Z_m.first.ReturnZComplex()) * 180 / M_PI;
-	if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 105)
+	JudgePara1_â…  = arg(Z_m.first.ReturnZComplex()) * 180 / M_PI;
+	if (JudgePara1_â…  >= -15 && JudgePara1_â…  <= 105 && Z_set_â… .ReturnZValid() != 0)
 	{
-		if (JudgePara1_¢ñ > 0 && JudgePara1_¢ñ < 90)
+		if (JudgePara1_â…  > 0 && JudgePara1_â…  < 90)
 		{
-			JudgePara2_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex()) / Z_m.first.ReturnZComplex().real()) * 180 / M_PI;
-			JudgePara3_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex().real()) / Z_m.first.ReturnZComplex().imag()) * 180 / M_PI;
-			if ((JudgePara2_¢ñ <= -7 && JudgePara3_¢ñ >= -173) && (JudgePara3_¢ñ >= 30 && JudgePara3_¢ñ <= 210))
+			JudgePara2_â…  = arg((Z_m.first.ReturnZComplex() - Z_set_â… .ReturnZComplex()) / Z_m.first.ReturnZComplex().real()) * 180 / M_PI;
+			JudgePara3_â…  = arg((Z_m.first.ReturnZComplex() - Z_set_â… .ReturnZComplex().real()) / Z_m.first.ReturnZComplex().imag()) * 180 / M_PI;
+			if ((JudgePara2_â…  <= -7 && JudgePara3_â…  >= -173) && (JudgePara3_â…  >= 30 && JudgePara3_â…  <= 210))
 				return 1;
 			else
+			{
+				SetWhich_Protection(ProtectNoAction);
 				return 0;
+			}
 		}
-		else if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 0)
+		else if (JudgePara1_â…  >= -15 && JudgePara1_â…  <= 0)
 		{
-			if (Z_m.first.ReturnZComplex().real() < 8*Z_set_¢ñ.ReturnZComplex().real())
+			if (Z_m.first.ReturnZComplex().real() < 8*Z_set_â… .ReturnZComplex().real())
 				return 1;
 			else
+			{
+				SetWhich_Protection(ProtectNoAction);
 				return 0;
+			}
 		}
 		else
 		{
-			if (Z_m.first.ReturnZComplex().imag() < Z_set_¢ñ.ReturnZComplex().imag())
+			if (Z_m.first.ReturnZComplex().imag() < Z_set_â… .ReturnZComplex().imag())
 				return 1;
 			else
+			{
+				SetWhich_Protection(ProtectNoAction);
 				return 0;
+			}
 		}
 	}
 	else
+	{
+		SetWhich_Protection(ProtectNoAction);
 		return 0;
-}
-
-int Distance_Protection::DPCoreAlgorithmQuad_¢ó(double FaultStyle)
-{
-	double JudgePara1_¢ñ, JudgePara2_¢ñ, JudgePara3_¢ñ;
-	Resistance_Impedance Z_set_¢ñ;
-	if (FaultStyle == SingleEarth_Fault_A || FaultStyle == SingleEarth_Fault_B || FaultStyle == SingleEarth_Fault_C
-		|| FaultStyle == InterPhaseGround_Fault_AB || FaultStyle == InterPhaseGround_Fault_BC || FaultStyle == InterPhaseGround_Fault_CA)
-	{
-		Z_set_¢ñ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "½ÓµØ¾àÀë¢ó¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
 	}
-	else
-	{
-		Z_set_¢ñ = Resistance_Impedance(UseSetValue.GetValue(ProtectDevice, "Ïà¼ä¾àÀë¢ó¶Î"), UseSetValue.GetValue(ProtectDevice, "ÏßÂ·ÕýÐòÁéÃô½Ç"));
-	}
-	JudgePara1_¢ñ = arg(Z_m.first.ReturnZComplex()) * 180 / M_PI;
-	if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 105)
-	{
-		if (JudgePara1_¢ñ > 0 && JudgePara1_¢ñ < 90)
-		{
-			JudgePara2_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex()) / Z_m.first.ReturnZComplex().real()) * 180 / M_PI;
-			JudgePara3_¢ñ = arg((Z_m.first.ReturnZComplex() - Z_set_¢ñ.ReturnZComplex().real()) / Z_m.first.ReturnZComplex().imag()) * 180 / M_PI;
-			if ((JudgePara2_¢ñ <= -7 && JudgePara3_¢ñ >= -173) && (JudgePara3_¢ñ >= 30 && JudgePara3_¢ñ <= 210))
-				return 1;
-			else
-				return 0;
-		}
-		else if (JudgePara1_¢ñ >= -15 && JudgePara1_¢ñ <= 0)
-		{
-			if (Z_m.first.ReturnZComplex().real() < 8*Z_set_¢ñ.ReturnZComplex().real())
-				return 1;
-			else
-				return 0;
-		}
-		else
-		{
-			if (Z_m.first.ReturnZComplex().imag() < Z_set_¢ñ.ReturnZComplex().imag())
-				return 1;
-			else
-				return 0;
-		}
-	}
-	else
-		return 0;
 }
 
 ActionState Distance_Protection::GetProtectAcionState()
@@ -519,10 +302,35 @@ void Distance_Protection::SetUI(vector<Electric_Voltage> U, vector<Electric_Curr
 	U_m = U;
 	I_m = I;
 	Z_m = CaculateZ_m(U, I);
-	ProtectActionState = Z_m.second;
+	Fault = FaultToProtection[Z_m.second];
 }
 
 void Distance_Protection::SetProtectActionState(ActionState stat)
 {
 	ProtectActionState = stat;
+}
+
+vector<Electric_Voltage> Distance_Protection::GetU_m()
+{
+	return U_m;
+}
+
+vector<Electric_Current> Distance_Protection::GetI_m()
+{
+	return I_m;
+}
+
+void Distance_Protection::SetActionTime(double time)
+{
+	ActionTime = time;
+}
+
+void Distance_Protection::SetWhich_Protection(int Pro)
+{
+	Which_Protection = Pro;
+}
+
+int Distance_Protection::GetFault()
+{
+	return Fault;
 }

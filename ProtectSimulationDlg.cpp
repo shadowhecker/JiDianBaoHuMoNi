@@ -25,6 +25,7 @@
 #include "framework.h"
 #include "ProtectSimulation.h"
 #include "ProtectSimulationDlg.h"
+#include "Protection_Lib.h"
 #include "afxdialogex.h"
 
 #ifdef _DEBUG
@@ -33,8 +34,8 @@
 
 static double seconds_v = 0;
 static double milliseconds_v = 0;
-// 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
+// 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 class CAboutDlg : public CDialogEx
 {
 public:
@@ -232,6 +233,7 @@ BOOL CProtectSimulationDlg::OnInitDialog()
 	CPage1.ShowWindow(TRUE);
 	m_TAB.SetCurSel(0);
 	m_Time = { 0,0,0,0 };
+	GetDlgItem(IDC_BUTTON3)->EnableWindow(FALSE);
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -314,7 +316,7 @@ void CProtectSimulationDlg::OnMenuDp()
 
 void CProtectSimulationDlg::OnClickedButton1()
 {
-	
+	GetDlgItem(IDC_BUTTON3)->EnableWindow(TRUE);
 	switch (m_ChooseProtect)
 	{
 	case -1:
@@ -331,7 +333,7 @@ void CProtectSimulationDlg::OnClickedButton1()
 		UpdateFromSet(TGW_Protect);
 		DeviceGetTime();
 		SetTimer(TIME_DEVICE_COUNT, 1, NULL);
-		SetTimer(TIME_DEVICE_FIRST, m_Time[0]*10000, NULL);
+		SetTimer(TIME_DEVICE_FIRST, m_Time[0]*1000, NULL);
 		DeviceCurrentDiffAction();//装置动作行
 	}
 		break;
@@ -418,7 +420,7 @@ void CProtectSimulationDlg::OnClickedButton1()
 		UpdateFromSet(TGW_Protect);
 		DeviceGetTime();
 		SetTimer(TIME_DEVICE_COUNT, 1, NULL);
-		SetTimer(TIME_DEVICE_FIRST, m_Time[0] * 10000, NULL);
+		SetTimer(TIME_DEVICE_FIRST, m_Time[0] * 1000, NULL);
 		DeviceDistanceAction();
 	}
 		break;
@@ -431,7 +433,7 @@ void CProtectSimulationDlg::OnClickedButton1()
 		UpdateFromSet(TGW_Protect);
 		DeviceGetTime();
 		SetTimer(TIME_DEVICE_COUNT, 1, NULL);
-		SetTimer(TIME_DEVICE_FIRST, m_Time[0] * 10000, NULL);
+		SetTimer(TIME_DEVICE_FIRST, m_Time[0] * 1000, NULL);
 		DeviceZeroSeqAction();
 	}
 		break;
@@ -714,6 +716,7 @@ void CProtectSimulationDlg::ProtectActionReport_DP(ActionState Stat, double R, d
 		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
 		str.Format(_T("%.3lf"), jX);
 		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
 		break;
 	case JieDiJuLi_ⅡAction:
 		AppendText(IDC_EDIT_TEXT, _T("接地距离Ⅱ段动作：电阻="));
@@ -722,6 +725,7 @@ void CProtectSimulationDlg::ProtectActionReport_DP(ActionState Stat, double R, d
 		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
 		str.Format(_T("%.3lf"), jX);
 		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
 		break;
 	case JieDiJuLi_ⅢAction:
 		AppendText(IDC_EDIT_TEXT, _T("接地距离Ⅲ段动作：电阻="));
@@ -730,6 +734,7 @@ void CProtectSimulationDlg::ProtectActionReport_DP(ActionState Stat, double R, d
 		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
 		str.Format(_T("%.3lf"), jX);
 		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
 		break;
 	case XiangJianJuLi_ⅠAction:
 		AppendText(IDC_EDIT_TEXT, _T("相间距离Ⅰ段动作：电阻="));
@@ -738,6 +743,7 @@ void CProtectSimulationDlg::ProtectActionReport_DP(ActionState Stat, double R, d
 		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
 		str.Format(_T("%.3lf"), jX);
 		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
 		break;
 	case XiangJianJuLi_ⅡAction:
 		AppendText(IDC_EDIT_TEXT, _T("相间距离Ⅱ段动作：电阻="));
@@ -746,6 +752,7 @@ void CProtectSimulationDlg::ProtectActionReport_DP(ActionState Stat, double R, d
 		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
 		str.Format(_T("%.3lf"), jX);
 		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
 		break;
 	case XiangJianJuLi_ⅢAction:
 		AppendText(IDC_EDIT_TEXT, _T("相间距离Ⅲ段动作：电阻="));
@@ -754,6 +761,7 @@ void CProtectSimulationDlg::ProtectActionReport_DP(ActionState Stat, double R, d
 		AppendText(IDC_EDIT_TEXT, _T("    电抗="));
 		str.Format(_T("%.3lf"), jX);
 		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
 		break;
 	default:
 		break;
@@ -870,6 +878,7 @@ void CProtectSimulationDlg::ProtectActionReport_ZP(ActionState stat, Electric_Vo
 		AppendText(IDC_EDIT_TEXT, _T("∠"));
 		str.Format(_T("%.1lf"), arg(IZ.ReturnIComplex()) * 180 / M_PI);
 		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
 		break;
 	case LinXuDianLiu_ⅢAction:
 		AppendText(IDC_EDIT_TEXT, _T("零序电流Ⅲ段动作：U0="));
@@ -885,6 +894,7 @@ void CProtectSimulationDlg::ProtectActionReport_ZP(ActionState stat, Electric_Vo
 		AppendText(IDC_EDIT_TEXT, _T("∠"));
 		str.Format(_T("%.1lf"), arg(IZ.ReturnIComplex()) * 180 / M_PI);
 		AppendText(IDC_EDIT_TEXT, str);
+		AppendText(IDC_EDIT_TEXT, _T("\r\n"));
 		break;
 	default:
 		break;
@@ -1192,7 +1202,7 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 	{
 	case TIME_DEVICE_COUNT:
 		milliseconds_v++;
-		if (milliseconds_v >= 630)
+		if (milliseconds_v >= 63)
 		{
 			milliseconds_v = 0;
 			seconds_v++;
@@ -1205,9 +1215,10 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 		TGW_Protect.ClearUI();
 		KillTimer(TIME_DEVICE_FIRST);
 		KillTimer(TIME_DEVICE_COUNT);
-		str.Format(_T("%02.0f:%03.0f"), floor(m_Time[0] ), (m_Time[0]  - floor(m_Time[0] )) * 1000);
-		m_systime.SetWindowTextW(str);
+		str.Format(_T("%02.0f:%03.0f"), floor(m_Time[0]), (m_Time[0] - floor(m_Time[0])) * 1000);
+		m_systime.SetWindowTextW(str); 
 		UpdateData(FALSE);
+		GetDlgItem(IDC_BUTTON3)->EnableWindow(FALSE);
 		break;
 	case TIME_DEVICE_CP_FIRST:
 		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState()))
@@ -1282,7 +1293,7 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 		KillTimer(TIME_DEVICE_CP_FIRST);
 		break;
 	case TIME_DEVICE_CP_SECOND:
-		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState())&& TGW_Protect.CP.GetProtectAcionState()==ProtectAction_ABC)
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState()) && TGW_Protect.CP.GetProtectAcionState() == ProtectAction_ABC)
 		{
 			AppendText(IDC_EDIT_TEXT, _T("永跳成功\r\n"));
 			KillTimer(TIME_DEVICE_CP_SECOND);
@@ -1296,7 +1307,7 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 			KillTimer(TIME_DEVICE_CP_THIRD);
 			break;
 		}
-		if(TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState())&& TGW_Protect.CP.GetProtectAcionState()!=ProtectAction_ABC)
+		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState()) && TGW_Protect.CP.GetProtectAcionState() != ProtectAction_ABC)
 		{
 			AppendText(IDC_EDIT_TEXT, _T("补跳单相成功\r\n"));
 			KillTimer(TIME_DEVICE_CP_SECOND);
@@ -1626,16 +1637,164 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 		AppendText(IDC_EDIT_TEXT, _T("永跳失败\r\n"));
 		KillTimer(TIME_DEVICE_ZP_FORTH);
 		break;
+	case TIME_DEVICE_ZP_ALG_2:
+	{
+		auto U_I = Caculate_UZ_IZ(TGW_Protect.ZP.GetU_m(), TGW_Protect.ZP.GetI_m());
+		EndTime = clock();
+		if (TGW_Protect.ZP.ZPCoreAlgorithmQuad_Ⅱ())
+		{
+			TGW_Protect.ZP.SetActionTime((double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000);
+			TGW_Protect.ZP.SetProtectActionState(FaultToProtection[U_I.second]);
+			TGW_Protect.ZP.SetWhich_Protection(LinXuDianLiu_ⅡAction);
+			ProtectReport(TGW_Protect.ZP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
+			UpdateBKState(TGW_Protect);
+			AppendText(IDC_EDIT_TEXT, _T("动作时间："));
+			CString strT;
+			strT.Format(_T("%.1lf"), TGW_Protect.ZP.GetActionTime());
+			AppendText(IDC_EDIT_TEXT, strT);
+			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+			ProtectActionReport_ZP(TGW_Protect.ZP.GetWhich_Protection(), TGW_Protect.ZP.GetUZ(), TGW_Protect.ZP.GetIZ());
+			SetTimer(TIME_DEVICE_ZP_FIRST, 150, NULL);
+			SetTimer(TIME_DEVICE_ZP_SECOND, 300, NULL);
+			SetTimer(TIME_DEVICE_ZP_THIRD, 450, NULL);
+			SetTimer(TIME_DEVICE_ZP_FORTH, 5000, NULL);
+			KillTimer(TIME_DEVICE_ZP_ALG_2);
+			KillTimer(TIME_DEVICE_ZP_ALG_3);
+		}
+		KillTimer(TIME_DEVICE_ZP_ALG_2);
+		break;
+	}
+	case TIME_DEVICE_ZP_ALG_3:
+	{
+		auto i = Caculate_UZ_IZ(TGW_Protect.ZP.GetU_m(), TGW_Protect.ZP.GetI_m());
+		EndTime = clock();
+		if (TGW_Protect.ZP.ZPCoreAlgorithmQuad_Ⅲ())
+		{
+			TGW_Protect.ZP.SetActionTime((double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000);
+			TGW_Protect.ZP.SetProtectActionState(FaultToProtection[i.second]);
+			TGW_Protect.ZP.SetWhich_Protection(LinXuDianLiu_ⅢAction);
+			ProtectReport(TGW_Protect.ZP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
+			UpdateBKState(TGW_Protect);
+			AppendText(IDC_EDIT_TEXT, _T("动作时间："));
+			CString strT;
+			strT.Format(_T("%.1lf"), TGW_Protect.ZP.GetActionTime());
+			AppendText(IDC_EDIT_TEXT, strT);
+			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+			ProtectActionReport_ZP(TGW_Protect.ZP.GetWhich_Protection(), TGW_Protect.ZP.GetUZ(), TGW_Protect.ZP.GetIZ());
+			SetTimer(TIME_DEVICE_ZP_FIRST, 150, NULL);
+			SetTimer(TIME_DEVICE_ZP_SECOND, 300, NULL);
+			SetTimer(TIME_DEVICE_ZP_THIRD, 450, NULL);
+			SetTimer(TIME_DEVICE_ZP_FORTH, 5000, NULL);
+			KillTimer(TIME_DEVICE_ZP_ALG_2);
+			KillTimer(TIME_DEVICE_ZP_ALG_3);
+		}
+		else
+		{
+			TGW_Protect.ZP.SetActionTime(0);
+			TGW_Protect.ZP.SetProtectActionState(ProtectNoAction);
+			TGW_Protect.ZP.SetWhich_Protection(ProtectNoAction);
+			KillTimer(TIME_DEVICE_ZP_ALG_2);
+			KillTimer(TIME_DEVICE_ZP_ALG_3);
+		}
+		break;
+	}
+	case TIME_DEVICE_DP_ALG_1:
+	{
+		auto Z_m = CaculateZ_m(TGW_Protect.DP.GetU_m(), TGW_Protect.DP.GetI_m());
+		EndTime = clock();
+		if (TGW_Protect.DP.DPCoreAlgorithmQuad_Ⅰ(Z_m.second))
+		{
+			TGW_Protect.DP.SetActionTime((double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000);
+			TGW_Protect.DP.SetProtectActionState(FaultToProtection[Z_m.second]);
+			ProtectReport(TGW_Protect.DP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
+			UpdateBKState(TGW_Protect);
+			AppendText(IDC_EDIT_TEXT, _T("动作时间："));
+			CString strT;
+			strT.Format(_T("%.1lf"), TGW_Protect.DP.GetActionTime());
+			AppendText(IDC_EDIT_TEXT, strT);
+			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+			ProtectActionReport_DP(TGW_Protect.DP.GetWhich_Protection(), TGW_Protect.DP.GetZ_m().first.ReturnR(), TGW_Protect.DP.GetZ_m().first.ReturnX());
+			SetTimer(TIME_DEVICE_DP_FIRST, 150, NULL);
+			SetTimer(TIME_DEVICE_DP_SECOND, 300, NULL);
+			SetTimer(TIME_DEVICE_DP_THIRD, 450, NULL);
+			SetTimer(TIME_DEVICE_DP_FORTH, 5000, NULL);
+			KillTimer(TIME_DEVICE_DP_ALG_2);
+			KillTimer(TIME_DEVICE_DP_ALG_3);
+		}
+		KillTimer(TIME_DEVICE_DP_ALG_1);
+		break;
+	}
+	case TIME_DEVICE_DP_ALG_2:
+	{
+		auto Z_m = CaculateZ_m(TGW_Protect.DP.GetU_m(), TGW_Protect.DP.GetI_m());
+		EndTime = clock();
+		if (TGW_Protect.DP.DPCoreAlgorithmQuad_Ⅱ(Z_m.second))
+		{
+			TGW_Protect.DP.SetActionTime((double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000);
+			TGW_Protect.DP.SetProtectActionState(FaultToProtection[Z_m.second]);
+			ProtectReport(TGW_Protect.DP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
+			UpdateBKState(TGW_Protect);
+			AppendText(IDC_EDIT_TEXT, _T("动作时间："));
+			CString strT;
+			strT.Format(_T("%.1lf"), TGW_Protect.DP.GetActionTime());
+			AppendText(IDC_EDIT_TEXT, strT);
+			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+			ProtectActionReport_DP(TGW_Protect.DP.GetWhich_Protection(), TGW_Protect.DP.GetZ_m().first.ReturnR(), TGW_Protect.DP.GetZ_m().first.ReturnX());
+			SetTimer(TIME_DEVICE_DP_FIRST, 150, NULL);
+			SetTimer(TIME_DEVICE_DP_SECOND, 300, NULL);
+			SetTimer(TIME_DEVICE_DP_THIRD, 450, NULL);
+			SetTimer(TIME_DEVICE_DP_FORTH, 5000, NULL);
+			KillTimer(TIME_DEVICE_DP_ALG_3);
+		}
+		KillTimer(TIME_DEVICE_DP_ALG_2);
+		break;
+	}
+	case TIME_DEVICE_DP_ALG_3:
+	{
+		auto Z_m = CaculateZ_m(TGW_Protect.DP.GetU_m(), TGW_Protect.DP.GetI_m());
+		EndTime = clock();
+		if (TGW_Protect.DP.DPCoreAlgorithmQuad_Ⅲ(Z_m.second))
+		{
+			TGW_Protect.DP.SetActionTime((double)(EndTime - StartTime) / (CLOCKS_PER_SEC) * 1000);
+			TGW_Protect.DP.SetProtectActionState(FaultToProtection[Z_m.second]);
+			ProtectReport(TGW_Protect.DP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
+			UpdateBKState(TGW_Protect);
+			AppendText(IDC_EDIT_TEXT, _T("动作时间："));
+			CString strT;
+			strT.Format(_T("%.1lf"), TGW_Protect.DP.GetActionTime());
+			AppendText(IDC_EDIT_TEXT, strT);
+			AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
+			ProtectActionReport_DP(TGW_Protect.DP.GetWhich_Protection(), TGW_Protect.DP.GetZ_m().first.ReturnR(), TGW_Protect.DP.GetZ_m().first.ReturnX());
+			SetTimer(TIME_DEVICE_DP_FIRST, 150, NULL);
+			SetTimer(TIME_DEVICE_DP_SECOND, 300, NULL);
+			SetTimer(TIME_DEVICE_DP_THIRD, 450, NULL);
+			SetTimer(TIME_DEVICE_DP_FORTH, 5000, NULL);
+			KillTimer(TIME_DEVICE_DP_ALG_3);
+		}
+		else
+		{
+			TGW_Protect.ZP.SetActionTime(0);
+			TGW_Protect.ZP.SetProtectActionState(ProtectNoAction);
+			TGW_Protect.ZP.SetWhich_Protection(ProtectNoAction);
+			KillTimer(TIME_DEVICE_DP_ALG_1);
+			KillTimer(TIME_DEVICE_DP_ALG_2);
+			KillTimer(TIME_DEVICE_DP_ALG_3);
+		}
+		break;
+	}
 	}
 }
 
 void CProtectSimulationDlg::OnClickedButton3()
 {
 	KillTimer(TIME_DEVICE_COUNT);
-	CString str;
-	str.Format(_T("%02.0f:%03.0f"), floor(m_Time[0]), (m_Time[0] - floor(m_Time[0])) * 1000);
-	m_systime.SetWindowTextW(str);
-	UpdateData(FALSE);
+	if (CPage1.GetDlgItem(IDC_EDIT_TIME) != 0)
+	{
+		CString str;
+		str.Format(_T("%02.0f:%03.0f"), floor(m_Time[0]), (m_Time[0] - floor(m_Time[0])) * 1000);
+		m_systime.SetWindowTextW(str);
+		UpdateData(FALSE);
+	}
 	TGW_Protect.ClearUI();
 	KillTimer(TIME_DEVICE_FIRST);
 	if (m_ChooseProtect == 0)
@@ -1651,6 +1810,9 @@ void CProtectSimulationDlg::OnClickedButton3()
 		KillTimer(TIME_DEVICE_DP_SECOND);
 		KillTimer(TIME_DEVICE_DP_THIRD);
 		KillTimer(TIME_DEVICE_DP_FORTH);
+		KillTimer(TIME_DEVICE_DP_ALG_1);
+		KillTimer(TIME_DEVICE_DP_ALG_2);
+		KillTimer(TIME_DEVICE_DP_ALG_3);
 	}
 	if (m_ChooseProtect == 3)
 	{
@@ -1658,7 +1820,10 @@ void CProtectSimulationDlg::OnClickedButton3()
 		KillTimer(TIME_DEVICE_ZP_SECOND);
 		KillTimer(TIME_DEVICE_ZP_THIRD);
 		KillTimer(TIME_DEVICE_ZP_FORTH);
+		KillTimer(TIME_DEVICE_ZP_ALG_2);
+		KillTimer(TIME_DEVICE_ZP_ALG_3);
 	}
+	GetDlgItem(IDC_BUTTON3)->EnableWindow(FALSE);
 	// TODO: 在此添加控件通知处理程序代码
 }
 
@@ -1714,62 +1879,31 @@ void CProtectSimulationDlg::DeviceGetTime()
 
 void CProtectSimulationDlg::DeviceDistanceAction()
 {
+	if (CurrentBrustStart(TGW_Protect.DP.GetI_m()))
+		AppendText(IDC_EDIT_TEXT, _T("保护启动\r\n"));
 	TGW_Protect.DP.DistanceProtection();
-	ProtectReport(TGW_Protect.DP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
-	SetTimer(TIME_DEVICE_DP_FIRST, 1500, NULL);
-	SetTimer(TIME_DEVICE_DP_SECOND, 3000, NULL);
-	SetTimer(TIME_DEVICE_DP_THIRD, 4500, NULL);
-	SetTimer(TIME_DEVICE_DP_FORTH, 7000, NULL);
-	UpdateBKState(TGW_Protect);
-	ProtectActionReport_DP(TGW_Protect.DP.GetWhich_Protection(), TGW_Protect.DP.GetZ_m().first.ReturnR(), TGW_Protect.DP.GetZ_m().first.ReturnX());
-	if (TGW_Protect.DP.GetProtectAcionState() == ProtectNoAction)
+	if (TGW_Protect.DP.GetFault() == ProtectNoAction)
 	{
 		KillTimer(TIME_DEVICE_COUNT);
 		KillTimer(TIME_DEVICE_FIRST);
-		KillTimer(TIME_DEVICE_DP_FIRST);
-		KillTimer(TIME_DEVICE_DP_SECOND);
-		KillTimer(TIME_DEVICE_DP_THIRD);
-		KillTimer(TIME_DEVICE_DP_FORTH);
+		KillTimer(TIME_DEVICE_DP_ALG_1);
+		KillTimer(TIME_DEVICE_DP_ALG_2);
+		KillTimer(TIME_DEVICE_DP_ALG_3);
 	}
-	else
-	{
-		AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
-		CString strT;
-		strT.Format(_T("%.1lf"), TGW_Protect.DP.GetActionTime());
-		AppendText(IDC_EDIT_TEXT, strT);
-		AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
-	}
-	AppendText(IDC_EDIT_TEXT, _T("\r\n"));
 	// TODO: 在此处添加实现代码.
 }
 
 void CProtectSimulationDlg::DeviceZeroSeqAction()
 {
+	if (CurrentBrustStart(TGW_Protect.ZP.GetI_m()))
+		AppendText(IDC_EDIT_TEXT, _T("保护启动\r\n"));
 	TGW_Protect.ZP.ZeroSeqProtection();
-	ProtectReport(TGW_Protect.ZP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
-	SetTimer(TIME_DEVICE_ZP_FIRST, 1500, NULL);
-	SetTimer(TIME_DEVICE_ZP_SECOND, 3000, NULL);
-	SetTimer(TIME_DEVICE_ZP_THIRD, 4500, NULL);
-	SetTimer(TIME_DEVICE_ZP_FORTH, 7000, NULL);
-	UpdateBKState(TGW_Protect);
-	ProtectActionReport_ZP(TGW_Protect.ZP.GetWhich_Protection(), TGW_Protect.ZP.GetUZ(), TGW_Protect.ZP.GetIZ());
-	if (TGW_Protect.ZP.GetProtectAcionState() == ProtectNoAction)
+	if (TGW_Protect.ZP.GetFault() == ProtectNoAction)
 	{
 		KillTimer(TIME_DEVICE_COUNT);
 		KillTimer(TIME_DEVICE_FIRST);
-		KillTimer(TIME_DEVICE_ZP_FIRST);
-		KillTimer(TIME_DEVICE_ZP_SECOND);
-		KillTimer(TIME_DEVICE_ZP_THIRD);
-		KillTimer(TIME_DEVICE_ZP_FORTH);
+		KillTimer(TIME_DEVICE_ZP_ALG_2);
+		KillTimer(TIME_DEVICE_ZP_ALG_3);
 	}
-	else
-	{
-		AppendText(IDC_EDIT_TEXT, _T("\r\n动作时间："));
-		CString strT;
-		strT.Format(_T("%.1lf"), TGW_Protect.ZP.GetActionTime());
-		AppendText(IDC_EDIT_TEXT, strT);
-		AppendText(IDC_EDIT_TEXT, _T("ms\r\n"));
-	}
-	AppendText(IDC_EDIT_TEXT, _T("\r\n"));
 	// TODO: 在此处添加实现代码.
 }

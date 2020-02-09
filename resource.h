@@ -103,6 +103,11 @@
 #define TIME_DEVICE_ZP_SECOND           5011
 #define TIME_DEVICE_ZP_THIRD            5012
 #define TIME_DEVICE_ZP_FORTH            5013
+#define TIME_DEVICE_ZP_ALG_2            6000
+#define TIME_DEVICE_ZP_ALG_3            6001
+#define TIME_DEVICE_DP_ALG_1            6002 
+#define TIME_DEVICE_DP_ALG_2            6003 
+#define TIME_DEVICE_DP_ALG_3            6004 
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -125,3 +130,4 @@
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
+
