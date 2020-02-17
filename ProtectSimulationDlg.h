@@ -14,6 +14,9 @@
 #include "CurrentDiff_Protection.h"
 #include "TGW931.h"
 #include "CDlgUIOne.h"
+#include "CDlgUITwo.h"
+#include "CDlgUIThree.h"
+#include "CDlgUIFour.h"
 // CProtectSimulationDlg 对话框
 
 class CProtectSimulationDlg : public CDialogEx
@@ -123,10 +126,18 @@ public:
 	CEdit m_systime;
 	afx_msg void OnClickedButton3();
 	CTabCtrl m_TAB;
+	vector<CDialogEx> CPage;
 	CDlgUIOne CPage1;
 	void DeviceCurrentDiffAction();
 	vector<double> m_Time;
 	void DeviceGetTime();
 	void DeviceDistanceAction();
 	void DeviceZeroSeqAction();
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void On_AddState();
+	CDlgUITwo CPage2;
+	afx_msg void OnTcnSelchangeTabUi(NMHDR* pNMHDR, LRESULT* pResult);
+	CDlgUIThree CPage3;
+	CDlgUIFour CPage4;
+	afx_msg void On_DeleteState();
 };

@@ -27,6 +27,7 @@
 #include "ProtectSimulationDlg.h"
 #include "Protection_Lib.h"
 #include "afxdialogex.h"
+#include "CDlgAttion.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -138,6 +139,10 @@ BEGIN_MESSAGE_MAP(CProtectSimulationDlg, CDialogEx)
 	ON_COMMAND(ID_MENU_ABOUT, &CProtectSimulationDlg::OnMenuAbout)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BUTTON3, &CProtectSimulationDlg::OnClickedButton3)
+	ON_WM_RBUTTONDOWN()
+	ON_COMMAND(ID_32782, &CProtectSimulationDlg::On_AddState)
+	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_UI, &CProtectSimulationDlg::OnTcnSelchangeTabUi)
+	ON_COMMAND(ID_32783, &CProtectSimulationDlg::On_DeleteState)
 END_MESSAGE_MAP()
 // CProtectSimulationDlg 消息处理程序
 BOOL CProtectSimulationDlg::OnInitDialog()
@@ -250,10 +255,6 @@ void CProtectSimulationDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// 如果向对话框添加最小化按钮，则需要下面的代码
-//  来绘制该图标。  对于使用文档/视图模型的 MFC 应用程序，
-//  这将由框架自动完成。
-
 void CProtectSimulationDlg::OnPaint()
 {
 	if (IsIconic())
@@ -290,8 +291,6 @@ void CProtectSimulationDlg::OnPaint()
 	}
 }
 
-//当用户拖动最小化窗口时系统调用此函数取得光标
-//显示。
 HCURSOR CProtectSimulationDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -1832,10 +1831,10 @@ void CProtectSimulationDlg::DeviceCurrentDiffAction()
 	TGW_Protect.CP.CurrentDiffProtectionLoop();
 	AppendText(IDC_EDIT_TEXT, _T("本侧保护：\r\n"));
 	ProtectReport(TGW_Protect.CP.GetProtectAcionState(), IDC_EDIT_TEXT, TGW_Protect);
-	SetTimer(TIME_DEVICE_CP_FIRST, 1500, NULL);
-	SetTimer(TIME_DEVICE_CP_SECOND, 3000, NULL);
-	SetTimer(TIME_DEVICE_CP_THIRD, 4500, NULL);
-	SetTimer(TIME_DEVICE_CP_FORTH, 7000, NULL);
+	SetTimer(TIME_DEVICE_CP_FIRST, 150, NULL);
+	SetTimer(TIME_DEVICE_CP_SECOND, 300, NULL);
+	SetTimer(TIME_DEVICE_CP_THIRD, 450, NULL);
+	SetTimer(TIME_DEVICE_CP_FORTH, 5000, NULL);
 	UpdateBKState(TGW_Protect);
 	CString str;
 	if (TGW_Protect.CP.GetIsStart() == 1)
@@ -1906,4 +1905,170 @@ void CProtectSimulationDlg::DeviceZeroSeqAction()
 		KillTimer(TIME_DEVICE_ZP_ALG_3);
 	}
 	// TODO: 在此处添加实现代码.
+}
+
+void CProtectSimulationDlg::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	CMenu   menu;   //定义下面要用到的cmenu对象
+	menu.LoadMenu(IDR_MENU2); //装载自定义的右键菜单 
+	CMenu* pContextMenu = menu.GetSubMenu(0); //获取第一个弹出菜单，所以第一个菜单必须有子菜单 
+	CPoint point1;//定义一个用于确定光标位置的位置  
+	GetCursorPos(&point1);//获取当前光标的位置，以便使得菜单可以跟随光标  
+	pContextMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point1.x, point1.y, AfxGetMainWnd()); //在指定位置显示弹出菜单
+	CDialog::OnRButtonDown(nFlags, point1);
+}
+
+void CProtectSimulationDlg::On_AddState()
+{
+	switch (m_TAB.GetItemCount())
+	{
+	case 1:
+	{
+		m_TAB.InsertItem(1, _T("第二态"));
+		CPage2.Create(IDD_DIALOG_TwoState, GetDlgItem(IDC_TAB_UI));
+		CRect rs;
+		GetDlgItem(IDC_TAB_UI)->GetClientRect(&rs);
+		//设置属性页的大小和位置
+		rs.top += 21;
+		rs.bottom -= 0;
+		rs.left += 0;
+		rs.right -= 0;
+		CPage2.MoveWindow(&rs);
+		CPage2.ShowWindow(TRUE);
+		CPage1.ShowWindow(FALSE);
+		m_TAB.SetCurSel(1);
+		break;
+	}
+	case 2:
+	{
+		m_TAB.InsertItem(2, _T("第三态"));
+		CPage3.Create(IDD_DIALOG_ThreeState, GetDlgItem(IDC_TAB_UI));
+		CRect rs;
+		GetDlgItem(IDC_TAB_UI)->GetClientRect(&rs);
+		//设置属性页的大小和位置
+		rs.top += 21;
+		rs.bottom -= 0;
+		rs.left += 0;
+		rs.right -= 0;
+		CPage3.MoveWindow(&rs);
+		CPage3.ShowWindow(TRUE);
+		CPage1.ShowWindow(FALSE);
+		CPage2.ShowWindow(FALSE);
+		m_TAB.SetCurSel(2);
+		break;
+	}
+	case 3:
+	{
+		m_TAB.InsertItem(3, _T("第四态"));
+		CPage4.Create(IDD_DIALOG_FourState, GetDlgItem(IDC_TAB_UI));
+		CRect rs;
+		GetDlgItem(IDC_TAB_UI)->GetClientRect(&rs);
+		//设置属性页的大小和位置
+		rs.top += 21;
+		rs.bottom -= 0;
+		rs.left += 0;
+		rs.right -= 0;
+		CPage4.MoveWindow(&rs);
+		CPage4.ShowWindow(TRUE);
+		CPage1.ShowWindow(FALSE);
+		CPage2.ShowWindow(FALSE);
+		CPage3.ShowWindow(FALSE);
+		m_TAB.SetCurSel(3);
+		break;
+	}
+	}
+	// TODO: 在此添加命令处理程序代码
+}
+
+void CProtectSimulationDlg::OnTcnSelchangeTabUi(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CRect tabRect;
+	GetDlgItem(IDC_TAB_UI)->GetClientRect(&tabRect);
+	//设置属性页的大小和位置
+	tabRect.top += 21;
+	tabRect.bottom -= 0;
+	tabRect.left += 0;
+	tabRect.right -= 0;
+	switch (m_TAB.GetCurSel())
+	{
+	case 0:
+		CPage1.ShowWindow(TRUE);
+		if(CPage2.m_hWnd!=NULL)
+			CPage2.ShowWindow(FALSE);
+		if (CPage3.m_hWnd != NULL)
+			CPage3.ShowWindow(FALSE);
+		if (CPage4.m_hWnd != NULL)
+			CPage4.ShowWindow(FALSE);
+		break;
+	case 1:
+		CPage1.ShowWindow(FALSE);
+		if (CPage2.m_hWnd != NULL)
+			CPage2.ShowWindow(TRUE);
+		if (CPage3.m_hWnd != NULL)
+			CPage3.ShowWindow(FALSE);
+		if (CPage4.m_hWnd != NULL)
+			CPage4.ShowWindow(FALSE);
+		break;
+	case 2:
+		CPage1.ShowWindow(FALSE);
+		if (CPage2.m_hWnd != NULL)
+			CPage2.ShowWindow(FALSE);
+		if (CPage3.m_hWnd != NULL)
+			CPage3.ShowWindow(TRUE);
+		if (CPage4.m_hWnd != NULL)
+			CPage4.ShowWindow(FALSE);
+		break;
+	case 3:
+		CPage1.ShowWindow(FALSE);
+		if (CPage2.m_hWnd != NULL)
+			CPage2.ShowWindow(FALSE);
+		if (CPage3.m_hWnd != NULL)
+			CPage3.ShowWindow(FALSE);
+		if (CPage4.m_hWnd != NULL)
+			CPage4.ShowWindow(TRUE);
+		break;
+	}
+	*pResult = 0;
+}
+
+void CProtectSimulationDlg::On_DeleteState()
+{
+	CRect tabRect;
+	GetDlgItem(IDC_TAB_UI)->GetClientRect(&tabRect);
+	//设置属性页的大小和位置
+	tabRect.top += 21;
+	tabRect.bottom -= 0;
+	tabRect.left += 0;
+	tabRect.right -= 0;
+	int i = m_TAB.GetCurSel();
+	if(i==0)
+	{
+		CDlgAttion dlg;
+		dlg.DoModal();
+	}
+	else
+	{
+		int m = m_TAB.GetItemCount();
+		m_TAB.SetCurSel(m - 2);
+		m_TAB.DeleteItem(m-1);
+		switch (m - 1)
+		{
+		case 1:
+			CPage2.DestroyWindow();
+			CPage1.ShowWindow(TRUE);
+			break;
+		case 2:
+			CPage3.DestroyWindow();
+			CPage2.ShowWindow(TRUE);
+			break;
+		case 3:
+			CPage4.DestroyWindow();
+			CPage3.ShowWindow(TRUE);
+			break;
+		}
+		
+	}
+	// TODO: 在此添加命令处理程序代码
 }

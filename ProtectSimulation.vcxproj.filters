@@ -75,6 +75,21 @@
     <ClInclude Include="CDlgUIOne.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CDlgUITwo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CDlgUIThree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CDlgUIFour.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CDlgAttion.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UITState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProtectSimulation.cpp">
@@ -123,6 +138,21 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="res.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CDlgUITwo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CDlgUIThree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CDlgUIFour.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CDlgAttion.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="UITState.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

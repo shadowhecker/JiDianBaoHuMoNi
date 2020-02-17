@@ -187,7 +187,11 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CDlgAttion.h" />
+    <ClInclude Include="CDlgUIFour.h" />
     <ClInclude Include="CDlgUIOne.h" />
+    <ClInclude Include="CDlgUIThree.h" />
+    <ClInclude Include="CDlgUITwo.h" />
     <ClInclude Include="CurrentDiff_Protection.h" />
     <ClInclude Include="Distance_Protection.h" />
     <ClInclude Include="Electric_Current.h" />
@@ -206,10 +210,15 @@
     <ClInclude Include="Static_Lib.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TGW931.h" />
+    <ClInclude Include="UITState.h" />
     <ClInclude Include="ZeroSeq_Protection.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CDlgAttion.cpp" />
+    <ClCompile Include="CDlgUIFour.cpp" />
     <ClCompile Include="CDlgUIOne.cpp" />
+    <ClCompile Include="CDlgUIThree.cpp" />
+    <ClCompile Include="CDlgUITwo.cpp" />
     <ClCompile Include="CurrentDiff_Protection.cpp" />
     <ClCompile Include="Distance_Protection.cpp" />
     <ClCompile Include="Electric_Current.cpp" />
@@ -224,6 +233,7 @@
     <ClCompile Include="SettingValue.cpp" />
     <ClCompile Include="Static_Lib.cpp" />
     <ClCompile Include="TGW931.cpp" />
+    <ClCompile Include="UITState.cpp" />
     <ClCompile Include="ZeroSeq_Protection.cpp" />
   </ItemGroup>
   <ItemGroup>
