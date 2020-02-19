@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CDlgUIFour, CDialogEx)
 
 CDlgUIFour::CDlgUIFour(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_DIALOG_FourState, pParent)
+	: CDlgUIOne(IDD_DIALOG_FourState, pParent)
 	, m_Time(0)
 	, m_UAV(0)
 	, m_UBV(0)

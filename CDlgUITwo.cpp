@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CDlgUITwo, CDialogEx)
 
 CDlgUITwo::CDlgUITwo(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_DIALOG_TwoState, pParent)
+	: CDlgUIOne(IDD_DIALOG_TwoState, pParent)
 	, m_UAV(0)
 	, m_UBV(0)
 	, m_UCV(0)

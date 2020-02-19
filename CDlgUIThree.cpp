@@ -7,12 +7,13 @@
 #include "afxdialogex.h"
 
 
+
 // CDlgUIThree 对话框
 
 IMPLEMENT_DYNAMIC(CDlgUIThree, CDialogEx)
 
 CDlgUIThree::CDlgUIThree(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_DIALOG_ThreeState, pParent)
+	: CDlgUIOne(IDD_DIALOG_ThreeState, pParent)
 	, m_UAV(0)
 	, m_UBV(0)
 	, m_UCV(0)

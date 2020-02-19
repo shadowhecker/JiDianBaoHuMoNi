@@ -11,8 +11,8 @@
 
 IMPLEMENT_DYNAMIC(CDlgUIOne, CDialogEx)
 
-CDlgUIOne::CDlgUIOne(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_DIALOG_OneState, pParent)
+CDlgUIOne::CDlgUIOne(int nItem,CWnd* pParent /*=nullptr*/)
+	: CDialogEx(nItem, pParent)
 	, m_UAV(0)
 	, m_UBV(0)
 	, m_UCV(0)

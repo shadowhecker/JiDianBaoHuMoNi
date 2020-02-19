@@ -8,7 +8,7 @@
 #include "res.h"
 #include "ZeroSeq_Protection.h"
 #include "CurrentDiff_Protection.h"
-
+#include "CDlgUIOne.h"
 // CDlgUITwo 对话框
 
 class CDlgUITwo : public CDlgUIOne

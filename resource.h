@@ -99,7 +99,11 @@
 #define TIME_DEVICE_COUNT               5000
 #define TIME_DEVICE_CP_FIRST            5001
 #define TIME_DEVICE_CP_SECOND           5002
-#define TIME_DEVICE_FIRST               5003
+#define TIME_DEVICE_END                 7001
+#define TIME_DEVICE_FIRST               7002
+#define TIME_DEVICE_SECOND              7003
+#define TIME_DEVICE_THIRD               7004
+#define TIME_DEVICE_FORTH               7005
 #define TIME_DEVICE_CP_THIRD            5004
 #define TIME_DEVICE_CP_FORTH            5005
 #define TIME_DEVICE_DP_FIRST            5006

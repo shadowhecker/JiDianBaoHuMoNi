@@ -8,7 +8,7 @@
 #include "res.h"
 #include "ZeroSeq_Protection.h"
 #include "CurrentDiff_Protection.h"
-
+#include "afxdialogex.h"
 // CDlgUIOne 对话框
 
 class CDlgUIOne : public CDialogEx
@@ -16,7 +16,7 @@ class CDlgUIOne : public CDialogEx
 	DECLARE_DYNAMIC(CDlgUIOne)
 
 public:
-	CDlgUIOne(CWnd* pParent = nullptr);   // 标准构造函数
+	CDlgUIOne(int nItem=IDD_DIALOG_OneState,CWnd* pParent = nullptr);   // 标准构造函数
 	virtual ~CDlgUIOne();
 
 // 对话框数据

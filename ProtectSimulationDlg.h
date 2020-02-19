@@ -17,6 +17,7 @@
 #include "CDlgUITwo.h"
 #include "CDlgUIThree.h"
 #include "CDlgUIFour.h"
+#include "UITState.h"
 // CProtectSimulationDlg 对话框
 
 class CProtectSimulationDlg : public CDialogEx
@@ -140,4 +141,6 @@ public:
 	CDlgUIThree CPage3;
 	CDlgUIFour CPage4;
 	afx_msg void On_DeleteState();
+	vector<UITState> EveryStates;
+	void UpdateEveryStates();
 };

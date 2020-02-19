@@ -8,6 +8,7 @@
 #include "res.h"
 #include "ZeroSeq_Protection.h"
 #include "CurrentDiff_Protection.h"
+#include "CDlgUIOne.h"
 
 // CDlgFour 对话框
 

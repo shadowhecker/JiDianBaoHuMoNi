@@ -28,6 +28,7 @@
 #include "Protection_Lib.h"
 #include "afxdialogex.h"
 #include "CDlgAttion.h"
+#include "UITState.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -237,7 +238,6 @@ BOOL CProtectSimulationDlg::OnInitDialog()
 	CPage1.MoveWindow(&rs);
 	CPage1.ShowWindow(TRUE);
 	m_TAB.SetCurSel(0);
-	m_Time = { 0,0,0,0 };
 	GetDlgItem(IDC_BUTTON3)->EnableWindow(FALSE);
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -330,9 +330,8 @@ void CProtectSimulationDlg::OnClickedButton1()
 		CPage1.UpdateUIInput();
 		TGW_Protect.InitializeUI(CPage1.m_U, CPage1.m_I);
 		UpdateFromSet(TGW_Protect);
-		DeviceGetTime();
 		SetTimer(TIME_DEVICE_COUNT, 1, NULL);
-		SetTimer(TIME_DEVICE_FIRST, m_Time[0]*1000, NULL);
+		SetTimer(TIME_DEVICE_FIRST, EveryStates[0].m_Time * 1000, NULL);
 		DeviceCurrentDiffAction();//装置动作行
 	}
 		break;
@@ -413,13 +412,23 @@ void CProtectSimulationDlg::OnClickedButton1()
 	case 2:
 	{
 		UpdateData(FALSE);
+		UpdateEveryStates();
 		StartTime = clock();
-		CPage1.UpdateUIInput();
-		TGW_Protect.InitializeUI(CPage1.m_U, CPage1.m_I);
-		UpdateFromSet(TGW_Protect);
+		TGW_Protect.InitializeUI(EveryStates[0].U, EveryStates[0].I);
 		DeviceGetTime();
+		UpdateFromSet(TGW_Protect);
 		SetTimer(TIME_DEVICE_COUNT, 1, NULL);
-		SetTimer(TIME_DEVICE_FIRST, m_Time[0] * 1000, NULL);
+		auto j = 0;
+		for (auto i = m_Time.begin(); i != m_Time.end(); ++i)
+		{
+			if ((i + 1) == m_Time.end())
+			{
+				SetTimer(TIME_DEVICE_END, m_Time[j] * 1000, NULL);
+				break;
+			}
+			SetTimer(TIME_DEVICE_FIRST + j, m_Time[j] * 1000, NULL);
+			++j;
+		}
 		DeviceDistanceAction();
 	}
 		break;
@@ -430,16 +439,14 @@ void CProtectSimulationDlg::OnClickedButton1()
 		CPage1.UpdateUIInput();
 		TGW_Protect.InitializeUI(CPage1.m_U, CPage1.m_I);
 		UpdateFromSet(TGW_Protect);
-		DeviceGetTime();
 		SetTimer(TIME_DEVICE_COUNT, 1, NULL);
-		SetTimer(TIME_DEVICE_FIRST, m_Time[0] * 1000, NULL);
+		SetTimer(TIME_DEVICE_FIRST, EveryStates[0].m_Time * 1000, NULL);
 		DeviceZeroSeqAction();
 	}
 		break;
 	default:
 		break;
 	}
-	
 }
 // //根据菜单所选的保护类型切换画面
 void CProtectSimulationDlg::FrameSwitch(int ChooseProtect)
@@ -836,6 +843,7 @@ void CProtectSimulationDlg::OnClickedButton2()
 	}
 	m_systime.SetWindowTextW(_T("00:000"));
 	seconds_v = 0;
+	m_Time.clear();
 	milliseconds_v = 0;
 	// TODO: 在此添加控件通知处理程序代码
 }
@@ -1210,15 +1218,23 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 		m_systime.SetWindowTextW(str);
 		UpdateData(FALSE);
 		break;
-	case TIME_DEVICE_FIRST:
+	case TIME_DEVICE_END:
+	{
 		TGW_Protect.ClearUI();
 		KillTimer(TIME_DEVICE_FIRST);
 		KillTimer(TIME_DEVICE_COUNT);
-		str.Format(_T("%02.0f:%03.0f"), floor(m_Time[0]), (m_Time[0] - floor(m_Time[0])) * 1000);
-		m_systime.SetWindowTextW(str); 
+		KillTimer(TIME_DEVICE_SECOND);
+		KillTimer(TIME_DEVICE_THIRD);
+		KillTimer(TIME_DEVICE_FORTH);
+		auto time_tmp = *(m_Time.end() - 1);
+		str.Format(_T("%02.0f:%03.0f"), floor(time_tmp), (time_tmp - floor(time_tmp)) * 1000);
+		m_systime.SetWindowTextW(str);
+		m_Time.clear();
 		UpdateData(FALSE);
 		GetDlgItem(IDC_BUTTON3)->EnableWindow(FALSE);
+		KillTimer(TIME_DEVICE_END);
 		break;
+	}
 	case TIME_DEVICE_CP_FIRST:
 		if (TGW_Protect.IsBKOffSuccess(TGW_Protect.CP.GetProtectAcionState()))
 		{
@@ -1781,6 +1797,24 @@ void CProtectSimulationDlg::OnTimer(UINT_PTR nIDEvent)
 		}
 		break;
 	}
+	case TIME_DEVICE_FIRST:
+	{
+		TGW_Protect.InitializeUI(EveryStates[1].U, EveryStates[1].I);
+		KillTimer(TIME_DEVICE_FIRST);
+		break;
+	}
+	case TIME_DEVICE_SECOND:
+	{
+		TGW_Protect.InitializeUI(EveryStates[2].U, EveryStates[2].I);
+		KillTimer(TIME_DEVICE_SECOND);
+		break;
+	}
+	case TIME_DEVICE_THIRD:
+	{
+		TGW_Protect.InitializeUI(EveryStates[3].U, EveryStates[3].I);
+		KillTimer(TIME_DEVICE_THIRD);
+		break;
+	}
 	}
 }
 
@@ -1873,7 +1907,13 @@ void CProtectSimulationDlg::DeviceCurrentDiffAction()
 
 void CProtectSimulationDlg::DeviceGetTime()
 {
-	m_Time[0]=CPage1.m_Time;
+	for (auto i = EveryStates.begin(); i != EveryStates.end(); ++i)
+	{
+		double temp_time = 0;
+		for (auto j = EveryStates.begin(); j <= i; ++j)
+			temp_time += (*j).m_Time;
+		m_Time.push_back(temp_time);
+	}
 }
 
 void CProtectSimulationDlg::DeviceDistanceAction()
@@ -2071,4 +2111,31 @@ void CProtectSimulationDlg::On_DeleteState()
 		
 	}
 	// TODO: 在此添加命令处理程序代码
+}
+
+void CProtectSimulationDlg::UpdateEveryStates()
+{
+	UITState Temp;
+	CPage1.UpdateUIInput();
+	Temp.GetPageState(CPage1.m_U, CPage1.m_I, CPage1.m_Time);
+	EveryStates.push_back(Temp);
+	if (CPage2.m_hWnd != NULL)
+	{
+		CPage2.UpdateUIInput();
+		Temp.GetPageState(CPage2.m_U,CPage2.m_I,CPage2.m_Time);
+		EveryStates.push_back(Temp);
+	}
+	if (CPage3.m_hWnd != NULL)
+	{
+		CPage3.UpdateUIInput();
+		Temp.GetPageState(CPage3.m_U, CPage3.m_I, CPage3.m_Time);
+		EveryStates.push_back(Temp);
+	}
+	if (CPage4.m_hWnd != NULL)
+	{
+		CPage4.UpdataUIInput();
+		Temp.GetPageState(CPage4.m_U, CPage4.m_I, CPage4.m_Time);
+		EveryStates.push_back(Temp);
+	}
+	// TODO: 在此处添加实现代码.
 }
